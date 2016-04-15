@@ -1,0 +1,119 @@
+\documentclass{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{authblk}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{subfiles}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{cite}
+\usepackage{mathtools}
+
+
+
+\geometry{
+ a4paper,
+ twoside,
+ left=50mm,
+ right=25mm,
+ top=2cm,
+ bottom=2cm,
+ heightrounded 
+ }
+ 
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+\begin{document}
+
+
+
+\begin{titlepage}
+	\title{\textbf{Exploration and Visualisation of full-waveform LiDAR data}}
+	\date {15/11/2016}
+	\author [1,2,3]{Milto Miltiadou\thanks{Corresponding author}}
+	\author [1]{Neil DF Campbell}
+	\author [1]{Matthew Brown}
+	\author [3]{Susana Gonzalez Aracil}
+	\author [2]{Mark Warren}
+	\author [1]{Darren Cosker}
+	\author [2]{ Daniel Clewley}
+	\author [2]{Michael Grant}
+	\affil[1]{The Centre for Digital Entertainment, University of Bath, UK}
+	\affil[2]{Remote Sensing Group,Plymouth Marine Laboratory, UK}
+	\affil[3]{Interpine Group Ltd, Rotorua, NZ}
+	\renewcommand\Authands{and}
+	\renewcommand{\floatpagefraction}{1}%
+
+
+ \maketitle
+  
+
+\end{titlepage}
+
+    
+\newpage
+	\setcounter{secnumdepth}{0}
+	\section{Abstract}\label{Abstract}
+		\subfile{tex/Abstract.tex}
+		\newpage
+	\section{Acknowledgements}\label{Acknowledgments}
+		\subfile{tex/Acknowledgements.tex}
+		\newpage
+    \tableofcontents	 
+		\newpage  
+	\setcounter{secnumdepth}{4}	
+	\section{Introduction} \label{Introduction}
+		% \subsection{Overview} \label{Overview}
+			\subfile{tex/Overview.tex}
+		\subsection{Motivation} \label{Motivation}
+			\subfile{tex/Motivation.tex}	
+			\subsection{Aims and Objectives}\label{Aims}
+			\subfile{tex/Aims.tex}
+		\subsection{Background}\label{Background}
+			\subfile{tex/Background.tex}
+			\newpage
+    \section{Pipeline}\label{Pipeline}
+	    \subfile{tex/Pipeline.tex}
+	    \newpage
+    \section{Acquire Data}\label{AcquireData}
+	    \subfile{tex/AcquireData.tex}
+	    \newpage
+    \section{Representations of Data}\label{Representations}
+	    \subfile{tex/Representations.tex}
+	    \newpage
+		 \subsection{Integral Volumes}\label{Rep_IntegralVolumes}
+		 	\subfile{tex/Representations/IntegralVolumes.tex}
+		 		\newpage
+		 		
+	\section{Visualisations}\label{Visualisations}
+		\subfile{tex/Visualisations.tex}
+		\newpage
+	\section{Alignment with Hyperspectral Imagery}\label{Alignment}
+		\subfile{tex/Alignment.tex}
+		\newpage		
+	\section{Classifications}\label{Classifications}
+		\subfile{tex/Classifications.tex}
+		\newpage
+	\section{Overall Results}\label{Results}
+		\subfile{tex/OverallResults.tex}
+		\newpage
+	\section{Conclusions and Future Directions}\label{Conclusions}
+		\subfile{tex/CoclusionsFutureWork.tex}
+		\newpage
+
+	    \bibliographystyle{plain}
+	    \bibliography{mybib}{}
+
+		\newpage
+	\section{Apendices}\label{Apendices}
+	
+		
+	
+    
+\end{document}
