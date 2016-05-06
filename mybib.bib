@@ -1,31 +1,60 @@
 %\begin{filecontents}{\mybib.bib}
+\usepackage{url}
 
-@booklet{Smith2012,
-author = {USA: MicroImages},
-title = {Introduction to Remote Sensing of the Environment},
-date = {2012}
+
+
+@book{LAStools,
+	author = "Isenburg, M",
+	title = "LAStools - efficient tools for LiDAR processing",
+	publisher = "rapidlasso",
+	url = "http://lastools.org"	
 }
 
+@comment{ ARSF tools. (computer software). Available at: https://github.com/pmlrsg/arsf_tools [Accessed 9th September 2013]. Plymouth.}
+
+@comment{ QGIS. (computer software). Available at: http://www.qgis.org/ 
+[Accessed 28th August 2014].
+
+
+@comment{ Smith, R. B. (2012). Introduction to Hyperspectral Imaging. 
+Available at: 
+http://www.microimages.com/documentation/html/Tutorials/hyprspec.htm 
+[Accessed 15 March 2014]. USA: MicroImages.  }
+@book{Smith2012,
+	author = "Smith, R. B.",
+	title = "Introduction to Hyperspectral Imaging",
+	publisher = "MicroImages",
+	year = 2014, 
+	url = "http://www.microimages.com/documentation/html/Tutorials/hyprspec.htm"
+}
+
+@comment{ Wanger, W., Ullrich, A., Melzer, T., Briese, C., & Kraus, K. 
+(2004). From single-pulse to ful-waveform airborne laser scanners. 
+ISPRS Journal of Photogrammetry and Remote Sensing, 60, 100-112.  }
 @article{Wanger2004,
-author = {Wanger, W. and Ullrich, A. and Melzer, T.and Briese, C. and Kraus, K},
-title = {From single-pulse to full-waveform airborne laser scanners: potential and practical challenges},
-journaltitle = {Photogrammetry and Remote Sensing},
-date = {2004}
-year = {2004}
+	author = "Wanger, W. and Ullrich, A. and Melzer, T. and Briese, C. and Kraus, K.",
+	title = "From single-pulse to ful-waveform airborne laser scanners",
+	journal = "ISPRS Journal of Photogrammetry and Remote Sensing",
+	volume = "60",
+	pages = "100--112",
+	year = 2004
 }
 
 @article{Wehr1999,
-author = {Wehr, A. and Lohr, U},
-title = {Airborne laser scanning - an introduction and overview},
-journaltitle = {ISPRS Journal of Photogrammerty and Remote Sensing},
-date = {1999}
+	author = "Wehr, A. and Lohr, U.",
+	title = "Airborne laser scanning - an introduction and overview",
+	journal = "ISPRS Journal of Photogrammerty and Remote Sensing",
+	volume = "54",
+	pages = "68--82",
+	year = 1999
 }
+
 
 @article{Anderson2015,
 	author = {Anderson, K and Hancock, S. and Disney, M. and Gaston, K.J.},
 	title = {Is waveform worth it? A comparison of LiDAR approaches for vegetation and landscape characterization},
 	journaltitle = {Remote Sensing in Ecology and Conservation},
-	date = {2015},
+	year = {2015},
 	OPTjournalsubtitle = {Interdisciplinary Perspectives}
 	OPTurl = {http://onlinelibrary.wiley.com/doi/10.1002/rse2.8/full}
 }
@@ -35,19 +64,14 @@ date = {1999}
 	author = {Cao, L and Coops, N.C and Innes, L.I. and Dai, J. and Ruan, H},
 	title = {Tree species classification in subtropical forests using small-footprint full-waveform LiDAR data},
 	journaltitle = {International Journal of Applied Earth Observation and Geoinformation},
-	date = {2016},
+	year = {2016},
 	OPTvolume = {49},
 	OPTpages = {39-51},
 	OPTurl = {http://www.sciencedirect.com/science/article/pii/S0303243416300071}
 }
 
 
-@reference{LAStools,
-	editor = {Isenburg, M},
-	title = {LAStools, efficient LiDAR processing software},
-	OPTurl = {http://rapidlasso.com/LAStools},
-	OPTurldate = {14/April/2016},
-}
+
 
 
 @online{ForestryCommision2014
@@ -70,16 +94,800 @@ date = {1999}
 }
 
 
-@booklet{Bunting2014,
-	ALTauthor = {Bunting, P.},
-	title = {Personal Communication},
-	date = {2014}
-}
-
 @reference{Bunting2014,
 	editor = {Bunting, P.},
 	title = {Personal Communication},
-	date = {2014}
+	year = {2014}
+}
+
+
+@comment{ Amanatides, J. (1984). Ray tracing with cones. ACM SIGGRAPH 
+Computer Graphics, vol. 18, no. 3, pp. 129-135.  }
+@article{Amanatides1984,
+author = {Amanatides, J.},
+title = {Ray tracing with cones},
+journal = {ACM {SIGGRAPH} Computer Graphics},
+volume = {18},
+number = {3},
+pages = {129-135},
+year = {1984}
+}
+
+
+
+
+
+@comment{  Baldridge, A. M., Hook, S. J., Grove, C. I., & Rivera, G. (2009). 
+The ASTER spectral library version 2.0. ScienceDirect: Remote 
+Sensing of the Environment, vol 113, Issue 4, pp. 711-715.  }
+@article{Baldridge2009,
+author = "Baldridge, A. M. and Hook, S. J. and Grove, C. I. and Rivera, G.",
+title = "The ASTER spectral library version 2",
+journal = "ScienceDirect: Remote Sensing of the Environment",
+volume = "113",
+pages = "711--715",
+year = 2009
+}
+
+@comment{ BBC Weather Centre. (2009). Climate Change: Phenology. Available 
+from: www.bbc.co.uk/climate/evidence/phenology.shtml. [Accessed 19 
+September 2014].  }
+@article{BBC2009,
+author = "BBC Weather Centre",
+title = "Climate Change: Phenology"
+publisher = "BBC",
+volume = "19",
+year = 2009
+url =  = "www.bbc.co.uk/climate/evidence/phenology.shtml. [Accessed 19 September 2014]",
+}
+
+
+
+
+@comment{ Beare, R. (2006). A Locally Constrained Watershed Transform. IEEE 
+Transactions of pattern analysis and machine intelligence, vol. 28, 
+no. 7.  }
+@article{Beare2006,
+author = "Beare, R.",
+title = "A Locally Constrained Watershed Transform",
+journal = "IEEE {Transactions} of pattern analysis and machine intelligence",
+volume = "28",
+number = "7",
+year = 2006
+}
+
+@comment{ Bentley, J. L. (1975, Septeber). Multidimensional Binary Search 
+Trees Used for Associative Searching. Communications of the ACM, 
+Volume 18, Number 9,, pp. 509-517.  }
+@article{Bentley1975,
+author = "Bentley, J. L.",
+title = " Multidimensional Binary Search Trees Used for Associative Searching",
+journal = "Communications of the ACM",
+volume = "18",
+pages = "509--517",
+year = 1975
+}
+
+@comment{ Beyer, J., Al-Awami, A., Kasthuri, N., Lichtman, J. W., Pfister, 
+H., & Hadwiger, M. (2013). ConnectomeExplorer: Query-Guided Visual 
+Analysis of Large Volumetric Neuroscience Data. IEEE Computer 
+Science.  }
+@book{Beyer2013,
+author = "Beyer, J. and Al-Awami, A. and Kasthuri, N. and Lichtman, J. W. and Pfister, H. and Hadwiger, M.",
+title = "ConnectomeExplorer: Query-Guided Visual Analysis of Large Volumetric Neuroscience Data",
+publisher = "IEEE Computer Science",
+year = 2013
+}
+
+@comment{ Blinn, J. F. (1982). A Generalization of Algebraic Surface Drawing. 
+ACM Trans.Graph, (pp. 235-256).  }
+@book{Blinn1982,
+author = "Blinn, J. F.",
+title = "A Generalization of Algebraic Surface Drawing",
+publisher = "ACM Transactions on Graphics (TOG)",
+pages = "235-256",
+volume = "1"
+number = "3"
+year = 1982
+}
+
+@comment{ Boser, B. E., Guyon, I. M., & Vapnik, V. N. (1992). A Training 
+Algorithm for Optimal Margin Classifiers. Proceedings of the fith 
+annual workshop on Comptational learning theory (pp. 144-152). ACM.  }
+@book{Boser1992,
+author = "Boser, B. E. and Guyon, I. M. and Vapnik, V. N.",
+title = "A Training Algorithm for Optimal Margin Classifiers",
+publisher = "Proceedings of the fifth annual workshop on Computational learning theory",
+pages = "144--152",
+year = 1992
+}
+
+@comment{ Buddenbaum, H., Seeling, S., & Hill, J. (2013). Fusion of 
+full-waveform lidar and imaging spectroscopy remote sensing data 
+for the characterization of forest stands. International Journal of 
+Remote Sensing, vol. 32, no. 13, pp. 4511-4524.  }
+@article{Buddenbaum2013,
+author = "Buddenbaum, H. and Seeling, S. and Hill, J.",
+title = "Fusion of full-waveform lidar and imaging spectroscopy remote sensing data for the characterization of forest stands",
+journal = "International Journal of Remote Sensing",
+volume = "32",
+number = "13",
+pages = "4511--4524",
+year = 2013
+}
+
+@comment{ Cant, R. J., & Shrubsole, P. A. (2000). Texture Potential MIP 
+Mapping, A New High-Quality Texture Antialiasing Algorithm. ACM 
+Transactions of Graphics 19.3, 164-184.  }
+@article{Cant2000,
+author = "Cant, R. J. and Shrubsole, P. A.",
+title = "Texture Potential MIP Mapping. A New High-Quality Texture Antialiasing Algorithm",
+journal = "ACM Transactions of Graphics",
+volume = "19",
+number = "3",
+pages = "164-184",
+year = 2000
+}
+
+
+@comment{ Carolan, E. (2010). Full-Waveform Upgrade, NERC ARSF wiki. 
+Available at: 
+http://arsf-dan.nerc.ac.uk/tac/wiki/Sensors/LeicaLiDAR [Accessed 9 
+December 2012].  }
+@article{Carolan2012,
+author = "Carolan, E.",
+title = "Full-Waveform Upgrade",
+journal = "NERC ARSF wiki."
+url = "http://arsf-dan.nerc.ac.uk/tac/wiki/Sensors/LeicaLiDAR [Accessed 9 December 2012]"
+
+}
+
+@comment{ Chauve , A., Mallet, C., Bretar, F., Durrieu, S., Deseilligny, M., 
+& Puech, W. (2007). Processing Full-Waveform LiDAR data: Modelling 
+raw signals. International Archives of Photogrammetry, Remote 
+Sensing and Spatial Information Sciences.  }
+@article{Chauve2007,
+author = "Chauve, A. and Mallet, C. and Bretar, F. and Durrieu, S. and Deseilligny, M. and Puech, W.",
+title = "Processing Full-Waveform LiDAR data: Modelling raw signals",
+journal = "International Archives of Photogrammetry, Remote Sensing and Spatial Information Sciences",
+year = 2007
+}
+
+@comment{ Chauve, A., Bretar, F., Durrieu, S., Pierrot-Deseilligny, M., & 
+Puech, W. (2009). FullAnalyze: A research tool for handling, 
+processing and analysing full-waveform LiDAR data. IEEE 
+International Geoscience & Remote Sensing Symposium.  }
+@article{Chauve2009,
+author = "Chauve, A. and Bretar, F. and Durrieu, S. and Pierrot-Deseilligny, M. and Puech, W.",
+title = "FullAnalyze: A research tool for handling, processing and analysing full-waveform LiDAR data",
+journal = "IEEE International Geoscience & Remote Sensing Symposium",
+year = 2009
+}
+
+@comment{ Chazelle, B., & Guibas, L. J. (1986). Fractional Cascading: I. A 
+Data Structuring Technique. Algorithmica, Springer-Verlag New York 
+Inc., pp. 133-162.  }
+@book{Chazelle1986,
+author = "Chazelle, B. and Guibas, L. J.",
+title = "Fractional Cascading: I. A Data Structuring Technique.",
+publisher =  Algorithmica, Springer-Verlag
+pages = "133--162",
+year = 1986
+}
+
+@comment{ Clark, M. L., Roberts, D. A., Ewel, J. J., & Clark, D. B. (2011). 
+Estimation of tropical rain forest aboveground biomas with 
+small-foorprint lidar and hyperspectral sensors. ScienceDirect, 
+Remote Sensing of Enviroment 115, 2931-2942.  }
+@article{Clark2011,
+author = "Clark, M. L. and Roberts, D. A. and Ewel, J. J. and Clark, D. B.",
+title = "Estimation of tropical rain forest aboveground biomas with small-foorprint lidar and hyperspectral sensors",
+journal = "ScienceDirect, Remote Sensing of Enviroment",
+volume = "115"
+number = "11"
+pages = "2931-2942",
+year = 2011
+}
+
+@comment{ Congalton, R. G. (1991). A Review of Assessing the Accuracy of 
+Classifications of Remotely Sensed Data. Remote Sensing of 
+Enviroment 37.1, 35-46.  }
+@article{Congalton1991,
+author = "Congalton, R. G.",
+title = "A Review of Assessing the Accuracy of Classifications of Remotely Sensed Data",
+journal = "Remote Sensing of Enviroment",
+volume = "37",
+number = "1"
+pages = "35-46",
+year = 1991
+}
+
+@comment{ Cook, R. L., Porter, T., & Carpenter, L. (1984). Distributed Ray 
+Tracing. ACM SIGGRAPH Computer Graphics, vol. 18, no. 3, pp. 
+137-145.  }
+@article{Cook1984,
+author = "Cook, R. L. and Porter, T. and Carpenter, L.",
+title = "Distributed Ray Tracing",
+journal = "ACM SIGGRAPH Computer Graphics",
+volume = "18",
+number = "3",
+pages = "137-145",
+year = 1984
+}
+
+@comment{ Crassin, C., Neyret, F., Lefebvre, S., & Eisemann, E. (2009). 
+GigaVoxels: Ray-Guided Streaming for Efficient and Detailed Voxel 
+Rendering. Proceedings of the 2009 symosium on Interactive 3D 
+graphics and games (pp. 15-22). ACM.  }
+
+@article{Crassin2009,
+author = "Crassin, C. and Neyret, F. and Lefebvre, S. and Eisemann, E.",
+title = "GigaVoxels: Ray-Guided Streaming for Efficient and Detailed Voxel Rendering",
+journal = "Proceedings of the 2009 symosium on Interactive 3D graphics and games",
+publisher = "ACM",
+pages = "15--22",
+year = 2009
+}
+
+@comment{ Crow, F. C. (1984, July). Summed-Area Tables for Texture Mapping. 
+ACM, Computer Graphics, pp. Volume 18, Number 3.  }
+@article{Crow18,
+author = "Crow, F. C.",
+title = "Summed-Area Tables for Texture Mapping",
+journal = "ACM Computer Graphics",
+volume = "18",
+number = "3"
+pages = "207-212",
+year = 1984
+}
+
+@comment{ Deering, M., Winner, S., Schediwy, B., Duffy, C., & Nunt, N. 
+(1988). The Triangle Processor and Normal Vector Shader: A VLSI 
+System for High Performance Graphics. ACM SIGGRAPH Compute Graphics 
+(pp. vol. 22, no.4). ACM.  }
+@article{Deering1988,
+author = "Deering, M. and Winner, S. and Schediwy, B. and Duffy, C. and Nunt, N.",
+title = "The Triangle Processor and Normal Vector Shader: A VLSI System for High Performance Graphics",
+journal = "ACM SIGGRAPH Compute Graphics",
+publisher = "ACM",
+volume = "22",
+number = "4"
+pages = "21-30",
+year = 1988
+}
+
+
+@comment{ Galbraith, C., MacMurchy, P., & Wyvill, B. (2004). BlobTree Trees. 
+IEEE Computer Graphics International, 2004. Proceedings, (pp. 
+78-85).  }
+@book{Galbraith2004,
+author = "Galbraith, C. and MacMurchy, P. and Wyvill, B.",
+title = "BlobTree Trees",
+publisher = "IEEE Computer Graphics International",
+pages = "78-85",
+year = 2004
+}
+
+@comment{ Global Forest Watch. (2014). Available from: 
+www.globalforestwatch.org/country/GBR. [Accessed 12th November 
+2014].  }
+@book{watch20142014,
+author = "Global Forest Watch",
+title = "(2014)",
+url = "www.globalforestwatch.org/country/GBR  [Accessed 12th November 2014]",
+month = nov,
+year = 2014
+}
+
+@comment{ Grant, M., & Carolan, E. (2014). Full Waveform Lidar. ARSF Data 
+Analysis Note Workshop. Plymouth Marine Laboratory.  }
+@book{Grant2014,
+author = "Grant, M. and Carolan, E.",
+title = "Full Waveform Lidar. ARSF Data Analysis Note Workshop",
+publisher = "Plymouth Marine Laboratory",
+year = 2014
+}
+
+@comment{ Hadwiger, M., Beyer, J., Jeong, W.-K., & Pfister, H. (2012). 
+Interactive Volume Exploration of Patascale Microscopy Data Streams 
+Using Visualizatin-Driven Virtual Memory Approach. IEEE 
+Transactions on Visualisation and Computer Graphics. IEEE.  }
+@article{Hadwiger2012,
+author = "Hadwiger, M. and Beyer, J. and Jeong, W. -K. and Pfister, H.",
+title = "Interactive Volume Exploration of Patascale Microscopy Data Streams Using Visualizatin-Driven Virtual Memory Approach",
+journal = "IEEE Transactions on Visualisation and Computer Graphics",
+publisher = "IEEE",
+year = 2012
+}
+
+@comment{ Hanrahan, P. (1983). Ray tracing algebraic surfaces. ACM SIGGRAPH 
+Computer Graphics, Volume 17, No. 3.  }
+@article{Hanrahan1983,
+author = "Hanrahan, P.",
+title = "Ray tracing algebraic surfaces",
+journal = "ACM SIGGRAPH Computer Graphics",
+volume = "17",
+number = "3.",
+year = 1983
+}
+
+@comment{ Hansen, C. D., & Hinker, P. (1992). Massively ParallelIsosurface 
+Extraction. Proceedings of the 3rd conference on Visualization '92. 
+IEEE Computer Society Press, (pp. 77-83).  }
+@article{Hansen1992,
+author = "Hansen, C. D. and Hinker, P.",
+title = "Massively Parallel Isosurface Extraction",
+journal = "Proceedings of the 3rd conference on Visualization '92",
+pages = "77-83",
+year = 1992
+}
+
+@comment{ Hartmann, E. (1998). A marching method for the triangulation of 
+surfaces. The Visual computer 14, no.3, (pp. 95-108).  }
+@article{Hartmann1998,
+author = "Hartmann, E.",
+title = "A marching method for the triangulation of surfaces",
+journal = "The Visual computer 14, no",
+volume = "14",
+number = "3",
+pages = "95-108",
+year = 1998
+}
+
+@comment{ Heinzel, J., & Koch, B. (2012). Investigating multiple data sources 
+for tree species classification in temperate forest and use for 
+single tree delineation. International Journal of Applied Earth 
+Observation and Geoinformation, vol. 18, pp. 101-110.  }
+@article{Heinzel2012,
+author = "Heinzel, J. and Koch, B.",
+title = "Investigating multiple data sources for tree species classification in temperate forest and use for single tree delineation",
+journal = "International Journal of Applied Earth Observation and Geoinformation",
+volume = "18",
+pages = "101-110",
+year = 2012
+}
+
+@comment{ Hosoi, F., Nakai, Y., & Omasa, K. (2013). Voxel Tree Modeling for 
+Estimating Leaf Area Density and Woody Material Volume using 3-D 
+LiDAR data. ISPRS Annals of the Photogrammetry, Remote Sensing and 
+Spatial Information Sciences.  }
+@article{Hosoi2013,
+author = "Hosoi, F. and Nakai, Y. and Omasa, K.",
+title = "Voxel Tree Modeling for Estimating Leaf Area Density and Woody Material",
+journal = "ISPRS Annals of the Photogrammetry, Remote Sensing and Spatial Information Sciences",
+year = 2013
+}
+
+@comment{ Jussof, H. K., Yussof, H. M., & Ali, N. H. (2010). Spectral 
+Signatures of Leaf Fall Diseases in Hevea Brasiliensis Using a 
+Handheld Spectrodiameter. Modern Applied Science, vol 4, no.2.   }
+@article{Jussof2010,
+author = "Jussof, H. K. and Yussof, H. M. and Ali, N. H.",
+title = "Spectral Signatures of Leaf Fall Diseases in Hevea Brasiliensis Using a Handheld Spectrodiameter",
+journal = "Modern Applied Science",
+volume = "4",
+number = "2"
+year = 2010
+}
+
+@comment{ LAS Specification . (2010). LAS Specification version 1.3-R11. 
+Bethesda, Maryland: American Society for Photogrammetry & Remote 
+Sensing. }
+@book{LAS1.3specifications,
+	title = "LAS Specification version 1.3-R1",
+	address = "Bethesda, Maryland",
+	publisher = "American Society for Photogrammetry & Remote Sensing",
+	year = 2010
+}
+
+
+@comment{ Lawrie, B. (2014, September 23). Beyond Angkor: How lasers revealed 
+a lost city. BBC News Magazine, pp. Available at 
+http://www.bbc.co.uk/news/magazine-29245289 [Accessed 9th September 
+2014].  }
+
+@book{Lawrie2014,
+author = "Lawrie, B.",
+title = "Beyond Angkor: How lasers revealed a lost city",
+publisher = "BBC News Magazine",
+year = 2014, 
+url = "http://www.bbc.co.uk/news/magazine-29245289"
+}
+
+@comment{ Lee, P. M. (2012). Bayesian Statistics: An introduction. West 
+Sussex, United Kingdom: John Wiley and Sons Ltd.  }
+@book{Lee2012,
+author = "Lee, P. M.",
+title = "Bayesian {Statistics}: {An} introduction",
+publisher = "West Sussex, United Kingdom: John Wiley and Sons Ltd",
+year = 2012
+}
+
+@comment{ Levoy, M. (1998). Volume Rendering: Display of Surfaces from Volume 
+Data. Computer Graphics and Applications (pp. 29-37). IEEE.  }
+@article{Levoy1998,
+author = "Levoy, M.",
+title = "Volume Rendering: Display of Surfaces from Volume Data",
+journal = "IEE Computer Graphics and Applications",
+volume = "8",
+number = "3",
+pages = "29--37",
+publisher = "IEEE",
+year = 1998
+}
+
+@comment{ Lewiner, T., Lopes, H., Viera, A. W., & Tavares, G. (2003). 
+Efficient implementation of Marching Cubes' cases with topological 
+guarantees. Journal of graphics tools 8.2 , 1-15.  }
+@article{Lewiner2003,
+author = "Lewiner, T. and Lopes, H. and Viera, A. W. and Tavares, G.",
+title = "Efficient implementation of Marching Cubes cases with topological guarantees",
+journal = "Journal of graphics tools 8. 2",
+volume = "8",
+number = "2",
+pages = "1-15",
+year = 2003
+}
+
+ @comment{ Lorensen, W. E., & Cline, H. E. (1987). Marching cubes: A high 
+ resolution 3D surface construction algorithm. ACM Siggraph Computer 
+ Graphics, Volume 21, Number 4 (pp. 163-169). ACM.  }
+ @article{Lorensen1987,
+ 	author = "Lorensen, W. E. and Cline, H. E.",
+ 	title = "Marching cubes: A high resolution 3D surface construction algorithm",
+ 	journal = "ACM Siggraph Computer Graphics",
+ 	volume = "21",
+ 	pages = "163-169",
+ 	year = 1987
+ }
+ 
+ @comment{ Mallet, C., & Bretar, F. (2009). Full-waveform topographic lidar: 
+ State-of-the-art. ISPRS Journal of Photogrametry and Remote 
+ Sensing, 64, 1-16.  }
+ @article{Mallet2009,
+ 	author = "Mallet, C. and Bretar, F.",
+ 	title = "Full-waveform topographic lidar: {State}-of-the-art",
+ 	journal = "ISPRS Journal of Photogrametry and Remote Sensing",
+ 	volume = "64",
+ 	pages = "1-16",
+ 	year = 2009
+ }
+ 
+ 
+@comment{ Miltiadou, M., Grant, M., Brown, M., Warren, M., & Carolan, E. 
+(2014). Reconstruction of a 3D Polygon Representation from 
+full-wavefrom LiDAR data. RSPSoc Annual Conference 2014, "New 
+Sensors for a Changing World". Aberystwyth: Available at: 
+http://rspsoc2014.co.uk/ [Accessed 1st October 2014].  }
+@article{Miltiadou2014,
+author = "Miltiadou, M. and Grant, M. and Brown, M. and Warren, M. and Carolan, E.",
+title = "Reconstruction of a 3D Polygon Representation from full-wavefrom LiDAR data",
+journal = "RSPSoc Annual Conference 2014, New Sensors for a Changing World",
+year = 2014
+}
+
+@comment{ Murphy, K. P. (2012). Machine Learning: A Probabilistic 
+Perspective. Cambridge, England: The MIT Press.  }
+@book{murphy2012machine,
+author = "Murphy, K. P.",
+title = "Machine Learning: A Probabilistic Perspective",
+publisher = "Cambridge, England: The MIT Press",
+year = 2012
+}
+
+@comment{ Næsset, E. (1997). Determination of mean tree height of forest 
+stands using airborne laser scanner data. ISPRS Journal of 
+Photogrammetry & Remote Sensing, vol. 52, p.49-57.  }
+@article{Naesset1997,
+author = "Næsset, E.",
+title = "Determination of mean tree height of forest stands using airborne laser scanner data",
+journal = "ISPRS Journal of Photogrammetry & Remote Sensing",
+volume = "52",
+pages = "49--57",
+year = 1997
+}
+
+@comment{ Neuenschwander, A., Magruder, L., & Tyler, M. (2009). Landcover 
+classification of small-footprint, full-waveform lidar data. Jounal 
+of Applied Remote Sensing, Vol. 3: 033544.  }
+@article{Neuenschwander2009,
+author = "Neuenschwander, A. and Magruder, L. and Tyler, M.",
+title = "Landcover classification of small-footprint full-waveform lidar data",
+journal = "Jounal 
+of Applied Remote Sensing",
+volume = "3",
+number = "1",
+pages = "033544-033544"
+year = 2009
+}
+
+
+@book{OpenVDB,
+title = "OpenVDB 2.3.0.",
+url = "http://www.openvdb.org/documentation/doxygen/classopenvdb_1_1v2__3__0_1_1tools_1_1VolumeToMesh.html#details (Accessed 19th August 2014)",
+volume = "VolumeToMeshClass"
+}
+
+
+@comment{  Pasko, A., & Savchenko, V. (1994). Blending operations for the 
+functionally based constructive geometry.  }
+@book{Pasko1994,
+author = "Pasko, A. and Savchenko, V.",
+title = "Blending operations for the functionally based constructive geometry",
+year = 1994
+}
+
+@comment{ Persson, A., Soderman, U., Topel, J., & Ahlberg, S. (2005). 
+Visualisation and Analysis of full-waveform airborne laser scanner 
+data. V/3 Workshop "Laser scanning 2005". Enschede, the 
+Netherlands.  }
+@book{Persson2005,
+author = "Persson, A. and Soderman, U. and Topel, J. and Ahlberg, S.",
+title = "Visualisation and Analysis of full-waveform airborne laser scanner data",
+publisher = "V/3 Workshop, Laser scanning 2005",
+year = 2005
+}
+
+
+
+@comment{ Reitberger, J., Krzystek, P., & Stilla, U. (2008). Analysis of full 
+waveform LiDAR data for tree species classification. International 
+Journal of Remote Sensing, Vol. 29, No. 5, pp. 1407-1431. }
+@article{Reitberger2008,
+ 	author = "Reitberger, J. and Krzystek, P. and Stilla, U.",
+ 	title = "Analysis of full waveform {LiDAR} data for tree species classification",
+ 	journal = "International Journal of Remote Sensing",
+ 	volume = "29",
+ 	number = "5",
+ 	pages = "1407--1431",
+ 	year = 2008
+}
+
+@comment{ Resinek, H., Noz, M. E., Maguire Jr, G. Q., Kalvin, A., Haddad, B., 
+Dean, D., et al. (1991). Quantitive and Qualitative Comparison of 
+Volumetric and Surface Rendering Techniques. IEEE Transactions on 
+Nuclear Science, vol. 38, No. 2.  }
+@article{Resinek1991,
+author = "Resinek, H. and Noz, M. E. and Maguire Jr and G. Q. and Kalvin, A. and Haddad, B. and Dean, D. and others",
+title = "Quantitive and Qualitative Comparison of Volumetric and Surface Rendering Techniques",
+journal =  IEEE Transactions on Nuclear Science",
+volume = "38",
+number = "2.",
+year = 1991
+}
+
+@comment{ Richards, J. A. (2013). Correcting and Registering Images. In 
+Remote Sensing of Digital Image Analysis. Australia: Springer.  }
+@incollection{Richards2013correcting,
+author = "Richards, J. A.",
+title = "Correcting and Registering Images",
+booktitle = "Remote Sensing of Digital Image Analysis",
+publisher = "Australia: Springer",
+year = 2013
+}
+
+@comment{ Rodrigues de Araujo, B., & Pires Jorge, J. A. (2005). Adaptive 
+polygonization of implicit surfaces. Science Direct, Computer & 
+Graphics 29, 686-696.  }
+@book{Araujo2005,
+author = "Rodrigues de Araujo and B. and Pires Jorge and J. A.",
+title = "Adaptive polygonization of implicit surfaces",
+publisher = "Science Direct, Computer & Graphics",
+volume = "29",
+pages = "686--696",
+year = 2005
+}
+
+@comment{ Sanchez, M., Fryazinov, O., & Pasko, A. (2013). Efficient 
+evaluation of continuous signed distance to a polygonal mesh. 
+Proceedings of the 28th Spring Conference on Computer Graphics (pp. 
+101-108). ACM.  }
+@article{Sanchez2013,
+author = "Sanchez, M. and Fryazinov, O. and Pasko, A.",
+title = "Efficient evaluation of continuous signed distance to a polygonal mesh",
+journal = "Proceedings of the 28th Spring Conference on Computer Graphics",
+pages = "101--108",
+publisher = "ACM",
+year = 2013
+}
+
+@comment{ Shahtahmassebi, A., Yang, N., Wang, K., Moore, N., & Shen, Z. 
+(2013). Review of shadow detection and de-shadowing methods in 
+remote sensing. Chinese Geographical Science, vol. 23, pp 403-420.  }
+@article{Shahtahmassebi2013,
+author = "Shahtahmassebi, A. and Yang, N. and Wang, K. and Moore, N. and Shen, Z.",
+title = "Review of shadow detection and de-shadowing methods in remote sensing",
+journal = "Chinese Geographical Science",
+volume = "23",
+pages = "403-420",
+year = 2013
+}
+
+@comment{ Shell, J. R. (2006). Bidirectional Reflectance: An Overview with 
+Remote Sensing Applications & Measurement Recommendations.  }
+@book{Shell2006,
+author = "Shell, J. R.",
+title = "Bidirectional Reflectance: An Overview with Remote Sensing Applications & Measurement Recommendations",
+year = 2006
+}
+
+@comment{ Shirley, P., & Marschner, S. (2010). Spatial-Field Visualization. 
+In Fundamentals of Computer Graphics, 3rd Edition (pp. 709-720). A 
+K Peters, Ltd.  }
+@incollection{Shirley2010,
+author = "Shirley, P. and Marschner, S.",
+title = "Spatial-Field Visualization",
+booktitle = "Fundamentals of Computer Graphics, 3rd Edition",
+pages = "709-720",
+year = 2010
+}
+
+
+@comment{ Smith, R. B. (2012). Introduction to Remote Sensing of Enviroment. 
+USA: MicroImages. }
+
+
+@book{Smith2014,
+author = "Smith, R. B.",
+title = "Introduction to Remote Sensing of Enviroment",
+publisher = "USA: MicroImages",
+year = 2014
+}
+
+@comment{SPDlib. (Computer Software). Available at: 
+http://www.spdlib.org/doku.php [Accessed 1st September 2014].  }
+@book{SPDlib,
+	author = "Bunting P.",
+	title = "SPDlib (Computer Software)",
+	url = "http://www.spdlib.org/doku.php [Accessed 1st September 2014]"
+}
+
+
+
+@comment{ Sumnall, M. (2013). Assessment of habitat condition and 
+conservation status for lowland British woodland using earth 
+observation techniques. Bournemouth University: Unpublished PhD 
+thesis.  }
+@book{Sumnall2013,
+author = "Sumnall, M.",
+title = "Assessment of habitat condition and conservation status for lowland {British} woodland using earth observation techniques",
+publisher = "Bournemouth University: Unpublished PhD thesis",
+year = 2013
+}
+
+@comment{ Sutter, H., & Alexandrescu, A. (2004). C++ Coding Standards: 101 
+Rules, Guidlines, and Best Practices. United States: 
+Addison-Wesley.  }
+@book{Sutter2004,
+author = "Sutter, H. and Alexandrescu, A.",
+title = "C++ Coding Standards: 101 Rules, Guidlines, and Best Practices",
+publisher = "United States: Addison-Wesley",
+year = 2004
+}
+
+@comment{ Tarabalka, Y., Chanussot, J., & Benediktsson, J. A. (2010). 
+Segmentation and classification of hyperspectral images using 
+watershed transformation. ScienceDirect: Pattern Recognition, 
+2367-23679.  }
+@book{Tarabalka2010,
+author = "Tarabalka, Y. and Chanussot, J. and Benediktsson, J. A.",
+title = "Segmentation and classification of hyperspectral images using watershed transformation",
+publisher = "ScienceDirect: Pattern Recognition",
+pages = "2367--23679",
+year = 2010
+}
+
+@comment{ Vain, A., Kaasalainen, S., Pyysalo, U., & Litkey, P. (2009). Use of 
+naturally available reference targets to calibrate airborne laser 
+scanning. Sensors 9, no. 4: 2780-2796.  }
+@article{Vain2009,
+author = "Vain, A. and Kaasalainen, S. and Pyysalo, U. and Litkey, P.",
+title = "Use of naturally available reference targets to calibrate airborne laser scanning",
+journal = "Sensors 9",
+number = "4",
+pages = "2780--2796",
+year = 2009
+}
+
+@comment{ Vergne, R., Pacanowski, R., Barla, P., Granier, X., & Schlick, C. 
+(2010). Radiance scaling for versatile surface enhancement. ACM 
+SIGGRAPH symposium on Interactive 3D Graphics and Games (pp. 
+143-150). ACM.  }
+@article{Vergne2010,
+author = "Vergne, R. and Pacanowski, R. and Barla, P. and Granier, X. and Schlick, C.",
+title = "Radiance scaling for versatile surface enhancement",
+journal = "ACM SIGGRAPH symposium on Interactive 3D Graphics and Games",
+pages = "143-150",
+year = 2010
+}
+
+@comment{ Vincent, L., & Soille, P. (1991). Watershed in Digital Spaces: An 
+Efficient Algorithm Based on Immersion Simulations. IEEE 
+Transactions on pattern analysis and machine intelligence, vol. 13, 
+no. 6.  }
+@article{Vincent1991,
+author = "Vincent, L. and Soille, P.",
+title = "Watershed in Digital Spaces: An Efficient Algorithm Based on Immersion Simulations",
+journal = "IEEE Transactions on pattern analysis and machine intelligence",
+volume = "13",
+number = "6",
+year = 1991
+}
+
+@comment{ Viola, P., & Jones, M. (2001). Rapid object detection using a 
+boosted cascade of simple features. Computer Vision and Pattern 
+Recognition, 2001. CVPR 2001. Proceedings of the 2001 IEEE Computer 
+Society Conference on, (p. Vol. 1. IEEE).  }
+@article{Viola2001,
+author = "Viola, P. and Jones, M.",
+title = "Rapid object detection using a boosted cascade of simple features",
+journal = "Computer Vision and Pattern Recognition",
+volume = "1",
+year = 2001
+}
+
+@comment{ Wanger, W., Ullrich, A., Ducic, V., Maizer, T., & Studnicka, N. 
+(2006). Gaussian decompositions and calibration of a novel 
+small-footprint full-waveform digitising airborne laser scanner. 
+ISPRS Journal of Photogrammetry and Remote Sensing, 60: 100-112.  }
+@article{Wanger2006,
+author = "Wanger, W. and Ullrich, A. and Ducic, V. and Maizer, T. and Studnicka, N.",
+title = "Gaussian decompositions and calibration of a novel small-footprint full-waveform digitising airborne laser scanner",
+journal = "ISPRS Journal of Photogrammetry and Remote Sensing",
+volume = "60",
+pages = "100-112",
+year = 2006
+}
+
+
+
+@comment{ Warren, M. (2010). Full Waveform Upgrade, NERC ARSF wiki. Avaialble at: 
+http://arsf-dan.nerc.ac.uk/trac/wiki/Sensors/LeicaLIDAR/FWMarksNotes 
+[Accessed 9th December 2012].  }
+@book{Warren2012,
+author = "Warren, M.",
+title = "Full Waveform Upgrade",
+publisher = "NERC ARSF wiki",
+year = 2012, 
+url = "http://arsf-dan.nerc.ac.uk/trac/wiki/Sensors/LeicaLIDAR/FWMarksNotes [Accessed 9th December 2012]"
+}
+
+@comment{ Warren, M., Taylor, B., Grant, M., & Shutler, J. D. (2014). Data 
+processing of remorely sensed airborne hyperspectral data using the 
+Airborne Processing Library (APL). ScienceDirect, Computers & 
+Geosciences, Volume 64, Pages 24-34.  }
+@article{Warren2014,
+author = "Warren, M. and Taylor, B. and Grant, M. and Shutler, J. D.",
+title = "Data processing of remorely sensed airborne hyperspectral data using the Airborne Processing Library (APL)",
+journal = "ScienceDirect, Computers & Geosciences",
+volume = "64",
+year = 2014
+}
+
+@comment{ Yu, X., Litkey, P., Holopainen, M., & Vastaranta, M. (2014). 
+Assessment of Low Density Full-Waveform Airborne Laser Scanning for 
+Individual Tree Detection and Tree Soecies Classification. Forests, 
+no.5: 1011-1031.  }
+@article{Yu2014,
+author = "Yu, X. and Litkey, P. and Holopainen, M. and Vastaranta, M.",
+title = "Assessment of Low Density Full-Waveform Airborne Laser Scanning for Individual Tree Detection and Tree Soecies Classification",
+journal = "Forests",
+number = "5",
+pages = "1011--1031",
+year = 2014
+}
+
+@comment{ Zhang, K., Chen, S.-C., Whitman, D., Shyu, M.-L., Yan, J., & Zhang, 
+C. (2003). A progressive Morphological Filter for Removing 
+Nonground Measurements From Airborne LiDAR data. IEEE Transactions 
+on Geoscience and Remote Sensing, Vol. 41, No. 4.  }
+@article{Zhang2003progressive,
+author = "Zhang, K. and Chen, S. -C. and Whitman, D. and Shyu, M. -L. and Yan, J. and Zhang, C.",
+title = "A progressive Morphological Filter for Removing Nonground Measurements From Airborne LiDAR data",
+journal = "IEEE Transactions on Geoscience and Remote Sensing",
+volume = "41",
+number = "4.",
+year = 2003
 }
 
 
