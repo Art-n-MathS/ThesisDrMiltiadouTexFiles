@@ -34,7 +34,7 @@
 
 
 %\begin{titlepage}
-	\title{\textbf{Detection of Dead Standing Eucalypt Trees using DASOS's new features}}
+	\title{\textbf{Detection of Dead Standing Eucalypt Trees in native Australian forest for managing biodiversity using full-waveform LiDAR data}}
 	\date{\vspace{-5ex}}
 	\author [1,2,3]{Milto Miltiadou\thanks{Corresponding author}}
 	\author [1]{Neil D.F. Campbell}
@@ -61,20 +61,17 @@
 keywords: full-waveform LiDAR, voxelisation, DASOS, dead standing trees
 
 
-This paper presents a new feature of DASOS, which is an open source software for managing full-waveform (FW) LiDAR data and that feature is used for detecting dead standing Eucalypt trees in native Australian forests.
+This paper presents a new feature of DASOS, which is an open source software for managing full-waveform (FW) LiDAR data and outlines how that feature is used for detecting dead standing Eucalypt trees in native Australian forests.
 
-The value of dead standing Eucalypt trees from a biodiversity management perspective is large. In Australia, many arboreal mammals and birds, which are close to extinct, inhabit hollows ~\cite{Gibbons2002}. Nevertheless, studies predict shortage of hollows in the near future due to tree harvesting and the decades required for a tree to be mature enough to develop a hollow ~\cite{Lindenmayer2010}~\cite{Goldingay2009}. Dead standing eucalypt trees are more likely to be aged and have hollows, therefore automated detection of them plays a significant role in protecting animals that rely on hollows. 
+The value of dead standing Eucalypt trees from a biodiversity management perspective is large. In Australia, many arboreal mammals and birds, which are close to extinct, inhabit hollows ~\cite{Gibbons2002}. Nevertheless, studies predict shortage of hollows in the near future due to tree harvesting and the decades required for a tree to develop a hollow ~\cite{Lindenmayer2010}~\cite{Goldingay2009}. Dead standing eucalypt trees are more likely to be aged and have hollows, therefore automated detection of them plays a significant role in protecting animals that rely on hollows. 
 
-The LiDAR data used for that project are provided by RPS Australia East Pty Ltd and they were collected in March 2015 using the Riegl ( LMS-Q780 or LMS-Q680i?) sensor at an Australian native Forest with eucalyptus. The Riegl LMS-Q??? is a native full-waveform sensor and the LiDAR point clouds were generated from the waveform instrument data during post processing. In addition, the field plots used for the classifications are provided by (Interprine Group Ltd or Forest Corporation?) and contain around 1000 eucalyptus trees with diameter breast height greater than 20cm while 10\verb|%| of them are dead. 
+The LiDAR data used for this project are provided by RPS Australia East Pty Ltd and they were collected in March 2015 using the Riegl ( LMS-Q780 or LMS-Q680i?) sensor. The Riegl LMS-Q??? is a native full-waveform sensor and the LiDAR point clouds were generated from the waveform instrument data during post processing. In addition, the field plots used for the classifications are provided by (Interprine Group Ltd or Forest Corporation?) and contain around 1000 Eucalypt trees of which 10\verb|%| are dead. 
 
-The new feature of DASOS calculates forestry metrics within a radius relevant to canopy height and exports all metrics into a single vector for fast interpretation in advanced statistical tools.  Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009}~\cite{Reitberger2008}, but as mentioned before with the Riegl system this is done at post processing. Nevertheless DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}, but DASOS also uses it for generating metrics. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. Further, recent publication on tree species classification showed that voxelisation could confer good results while interpreting FW LiDAR data ~\cite{Cao2016}. 
+The new feature of DASOS calculates forestry metrics within a radius relevant to canopy height and exports all metrics into a single vector for fast interpretation in advanced statistical tools.  Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud ~\cite{Neuenschwander2009}~\cite{Reitberger2008}, but as mentioned before with the Riegl system this is done at post processing. Nevertheless DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}, but DASOS also uses it for generating metrics. Further, recent publication on tree species classification showed that voxelisation confers good results while interpreting FW LiDAR data ~\cite{Cao2016}. 
 
-Previous work on dead standing trees detection, Gaussian decomposition, single tree detection with watershed algorithm, which in our case won't work due to the irregular structure of the Eucalypt trees.  ~\cite{Yao2012} 
+Previous work on dead standing trees detection, suggests single tree segmentation before dead trees identification ~\cite{Yao2012}~\cite{Polewski2015} but in case of Eucalypt trees, single tree segmentation is a challenge on its own due to their irregular structure and the multiple trunk splits. 
 
-~\cite{Polewski2015}
-
-
-In this project, the new feature of DASOS is used for generating 3D signatures characterising dead standing trees and a comparison between the LiDAR points clouds and FW LiDAR data is performed using Random Forest.
+In this project, the new feature of DASOS is used for generating 3D signatures characterising dead standing Eucalypt trees and a comparison between the LiDAR point cloud and voxelised FW LiDAR data is performed using Random Forest to demonstrate the increased survey accuracy obtained with voxelisation.
 
 
 
