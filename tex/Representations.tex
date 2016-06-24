@@ -7,7 +7,7 @@ Aim - > move forward and manipulate FW LiDAR into a more native format instead o
 In this thesis, I showed that FW LiDAR data can be used for both visualising and extracting information after voxelisation. 
 TODO::END:\newline
 
-\subsection{3D Volume}
+\section{3D Volume}
 TODO::START:\newline
 rewrite the following:
 - Voxels - how are they generate
@@ -22,7 +22,7 @@ Where 	n = number of samples of a voxel,
 	Iv is the accumulated intensity of the voxel.  
 The main issue of that approach is that the intensities of the LiDAR data haven’t been calibrated. Non calibrated intensities do not significantly affect the creation of polygon meshes, because during polygonisation, the system treats the intensities as Booleans; is that voxel empty or not? Nevertheless, the noise level could be set lower if the intensities were calibrated and more details would be preserved on the polygon meshes. For that reason, calibrating the intensities of the return is a task needing to be performed in order to enable the use of intensities in future classifications. 
 
-\subsection{Implicit Object}
+\section{Implicit Object}
 Once the 3D discrete density volume is generated, numerical implicitization of objects is used to represent the scanned area. Numerical implicitization was introduced by Blinn in 1982; A function $ \mathit{f(X)} $ defines an object, when for every n-dimensional point $ \mathit{X} $  that lies on the surface of the object, satisfied the condition$ \mathit{X=\alpha }  $. Numerical implicitization allows definition of complex object, which can easily been modified, without saving large amounts of triangles. \newline
 The 3D volume, generated as explained in the previous section, is used as a discrete density function $\mathit{f(X), \alpha }$ to represent an object (Pasko and Savchenko, 1994): \newline
 $	\mathrm{f(X) = \alpha }$ , when $X$ lies on the surface of the object\newline

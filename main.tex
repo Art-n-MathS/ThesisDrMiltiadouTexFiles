@@ -1,4 +1,4 @@
-\documentclass{article}
+\documentclass[11pt]{report}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{authblk}
@@ -13,51 +13,30 @@
 \usepackage[utf8]{inputenc}
 \usepackage{cite}
 \usepackage{mathtools}
+\usepackage{baththesis}
 
 
 
-\geometry{
- a4paper,
- twoside,
- left=50mm,
- right=25mm,
- top=2cm,
- bottom=2cm,
- heightrounded 
- }
- 
-\setlength{\parindent}{0em}
-\setlength{\parskip}{1em}
+
+
+\title{Exploration and Visualisation of Full-Waveform LiDAR Data for Forest Monitoring}
+\author{Milto Miltiadou}
+\degree{Doctor of Engineering}
+\department{Centre for Digital Entertainment \\Computer Science}
+\degreemonthyear{November 2016}
+\norestrictions
+
 
 \begin{document}
-
-
-
-\begin{titlepage}
-	\title{\textbf{Exploration and Visualisation of Full-Waveform LiDAR Data for Monitoring Forests}}
-	\date {15/11/2016}
-	\author [1,2,3]{Milto Miltiadou\thanks{Corresponding author}}
-	\author [1]{Neil DF Campbell}
-	\author [1]{Matthew Brown}
-	\author [3]{Susana Gonzalez Aracil}
-	\author [2]{Mark Warren}
-	\author [1]{Darren Cosker}
-	\author [2]{ Daniel Clewley}
-	\author [2]{Michael Grant}
-	\affil[1]{The Centre for Digital Entertainment, University of Bath, UK}
-	\affil[2]{Remote Sensing Group,Plymouth Marine Laboratory, UK}
-	\affil[3]{Interpine Group Ltd, Rotorua, NZ}
-	\renewcommand\Authands{and}
-	\renewcommand{\floatpagefraction}{1}%
-
-
- \maketitle
-  
-
-\end{titlepage}
+	\maketitle
+ 		
+\begin{abstract}	
+     hello world - no more than 300 words
+\end{abstract}
 
 \newpage
 	\setcounter{secnumdepth}{0}
+	To be added on top
 	\section{Abstract}\label{Abstract}
 		\subfile{tex/Abstract.tex}
 		\newpage
@@ -67,56 +46,52 @@
     \tableofcontents	 
 		\newpage  
 	\setcounter{secnumdepth}{4}	
-	\section{Introduction} \label{Introduction}
-		\subsection{Forest Monitoring}
+	\chapter{Introduction} \label{Introduction}
+		\section{Forest Monitoring: Importance and Applications}
 			\subfile{tex/ForestMonitoring.tex}
-		\subsection{Remote Sensing and Full-waveform LiDAR data}
+		\section{Remote Sensing and Full-waveform LiDAR data}
 			\subfile{tex/Background.tex}
 			\newpage
 		
-		\subsection{Overview} \label{Overview}
+		\section{Overview and Pipeline of Thesis} \label{Overview}
 		\subfile{tex/Overview.tex}
-			
-		\subsection{Motivation} \label{Motivation}
-			\subfile{tex/Motivation.tex}	
-		\subsection{Aims and Objectives}\label{Aims}
+				
+		\section{Objectives}\label{Aims}
 			\subfile{tex/Aims.tex}
-			
-    \section{Pipeline}\label{Pipeline}
-	    \subfile{tex/Pipeline.tex}
-	    \newpage
-    \section{Acquire Data}\label{AcquireData}
+		\section{Contributions}\label{Contributions}
+			\subfile{tex/Contributions.tex}
+    \chapter{Acquire Data}\label{AcquireData}
 	    \subfile{tex/AcquireData.tex}
 	    \newpage
-    \section{Representations of Data}\label{Representations}
+    \chapter{Representations of Data}\label{Representations}
 	    \subfile{tex/Representations.tex}
 	    \newpage
-		 \subsection{Integral Volumes}\label{Rep_IntegralVolumes}
+		 \section{Integral Volumes}\label{Rep_IntegralVolumes}
 		 	\subfile{tex/Representations/IntegralVolumes.tex}
 		 		\newpage
 		 		
-	\section{Visualisations}\label{Visualisations}
+	\chapter{Visualisations}\label{Visualisations}
 		\subfile{tex/Visualisations.tex}
 		\newpage
-	\section{Alignment with Hyperspectral Imagery}\label{Alignment}
+	\chapter{Alignment with Hyperspectral Imagery}\label{Alignment}
 		\subfile{tex/Alignment.tex}
 		\newpage		
-	\section{Classifications}\label{Classifications}
-		\subfile{tex/Classifications.tex}
-		\newpage
-	\section{Overall Results}\label{Results}
+		\section{Classifications}\label{Classifications}
+			\subfile{tex/Classifications.tex}
+			\newpage
+	\chapter{Overall Results}\label{Results}
 		\subfile{tex/OverallResults.tex}
 		\newpage
-	\section{Conclusions and Future Directions}\label{Conclusions}
+	\chapter{Conclusions}\label{Conclusions}
 		\subfile{tex/CoclusionsFutureWork.tex}
 		\newpage
 
-	    \bibliographystyle{IEEEtran}
+	    \bibliographystyle{ieeetr}
 	    \bibliography{mybib}{}
 
 		\newpage
-	\section{Appendices}\label{Apendices}
-		\subsection{Birds and Mammals Catalogue} 
+	\chapter{Appendices}\label{Apendices}
+		\section{Birds and Mammals Catalogue} 
 		\subfile{tex/AppendixBirds.tex}\label{AppendixBirds}
 		\newpage
 	
