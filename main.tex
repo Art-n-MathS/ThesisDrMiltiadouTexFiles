@@ -1,4 +1,4 @@
-\documentclass[11pt]{report}
+\documentclass[11pt,nofootinbib]{report}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{authblk}
@@ -14,8 +14,9 @@
 \usepackage{cite}
 \usepackage{mathtools}
 \usepackage{baththesis}
-
-
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage{booktabs,makecell}
 
 
 
@@ -32,24 +33,45 @@
  		
 \begin{abstract}	
      hello world - no more than 300 words
+     \thispagestyle{empty}
 \end{abstract}
 
 \newpage
+\thispagestyle{empty}
 	\setcounter{secnumdepth}{0}
+
 	To be added on top
 	\section{Abstract}\label{Abstract}
 		\subfile{tex/Abstract.tex}
+		\thispagestyle{empty}
 		\newpage
 	\section{Acknowledgements}\label{Acknowledgments}
 		\subfile{tex/Acknowledgements.tex}
+		\thispagestyle{empty}
 		\newpage
+	
+	\newpage
+	\addcontentsline{toc}{chapter}{Abbreviations Glossary}
+	\section {Abbreviations and Glossary}\label{Abbreviations}
+	\subfile{tex/Abbreviations.tex}
+	
+	\pagenumbering{roman}
     \tableofcontents	 
 		\newpage  
-	\setcounter{secnumdepth}{4}	
+	\cleardoublepage
+	% \phantomsection
+	\addcontentsline{toc}{chapter}{\listfigurename}
+	\listoffigures
+	
+	
+		
+		
+	\setcounter{secnumdepth}{4}		
+	\pagenumbering{arabic}
 	\chapter{Introduction} \label{Introduction}
 		\section{Forest Monitoring: Importance and Applications}
 			\subfile{tex/ForestMonitoring.tex}
-		\section{Remote Sensing and Full-waveform LiDAR data}
+		\section{Background Information about Remote Sensing and Airborne Laser Scanning Systems}\label{Background}
 			\subfile{tex/Background.tex}
 			\newpage
 		
@@ -86,6 +108,7 @@
 		\subfile{tex/CoclusionsFutureWork.tex}
 		\newpage
 
+		\addcontentsline{toc}{chapter}{Bibliography}
 	    \bibliographystyle{ieeetr}
 	    \bibliography{mybib}{}
 
