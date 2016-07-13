@@ -18,7 +18,7 @@
 \usepackage{array}
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \usepackage{booktabs,makecell}
-
+\usepackage{color}     
 
 
 \title{Exploration and Visualisation of Full-Waveform LiDAR Data for Forest Monitoring}
@@ -34,13 +34,15 @@
  		
 \begin{abstract}	
      hello world - no more than 300 words
+     {\color{blue}{We can change colors for emphasis}},
+     {\color{green}{but}} {\color{cyan}{who is going pay for the ink?}}
      \thispagestyle{empty}
 \end{abstract}
 
 \newpage
 \thispagestyle{empty}
 	\setcounter{secnumdepth}{0}
-
+	\pagenumbering{roman}
 	To be added on top
 	\section{Abstract}\label{Abstract}
 		\subfile{tex/Abstract.tex}
@@ -74,7 +76,7 @@
 	
 	
 	
-	\pagenumbering{roman}
+
     \tableofcontents	 
 		\newpage  
 	\cleardoublepage
@@ -86,25 +88,26 @@
 		
 		
 	\setcounter{secnumdepth}{4}		
-	\pagenumbering{arabic}
-	\chapter{Introduction} \label{Introduction}
+
+	\chapter{Introduction} \label{Introduction} 	\pagenumbering{arabic}
 		\section{Forest Monitoring: Importance and Applications}
 			\subfile{tex/ForestMonitoring.tex}
 		\section{Background Information about Remote Sensing and Airborne Laser Scanning Systems}\label{Background}
 			\subfile{tex/Background.tex}
 			\newpage
 		
-		\section{Overview and Pipeline of Thesis} \label{Overview}
-		\subfile{tex/Overview.tex}
-				
-		\section{Objectives}\label{Aims}
-			\subfile{tex/Aims.tex}
-		\section{Contributions}\label{Contributions}
-			\subfile{tex/Contributions.tex}
     \chapter{Acquire Data}\label{AcquireData}
 	    \subfile{tex/AcquireData.tex}
 	    \newpage
-    \chapter{Representations of Data}\label{Representations}
+	\chapter{Pipeline}
+		\section{Overview of Thesis} \label{Overview}
+		\subfile{tex/Overview.tex}
+		
+		\section{Objectives}\label{Aims}
+		\subfile{tex/Aims.tex}
+		\section{Contributions}\label{Contributions}
+		\subfile{tex/Contributions.tex}
+    \chapter{Introducing Voxelisation of FW LiDAR and DASOS}\label{Representations}
 	    \subfile{tex/Representations.tex}
 	    \newpage
 		 \section{Integral Volumes}\label{Rep_IntegralVolumes}
