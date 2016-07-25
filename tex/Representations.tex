@@ -7,7 +7,7 @@
 		
 		\par The most common approach of interpreting the FW LiDAR is the Gaussian decomposition of the waveforms and extraction of peak points ~\cite{Wanger2006}. Neunschwander et al used this approach for Landcover classification while Reitberger et al applied it for distinguishing deciduous trees from coniferous trees ~\cite{Neuenschwander2009}~\cite{Reitberger2008}. Chauve et al further proposed an approach of improving the Gaussian model in order to increase the density of the points extracted from the data and consequently improve point based classifications applied on FW LiDAR data ~\cite{Chauve2007}. 
 		
-		\par While echo decomposition identifies significant features as points, the FW LiDAR data also contains information in single shots that may be below the significance threshold. The waveform samples data can be accumulated from multiple shots into {\color{blue} into a voxel array, building up a 3D density volume. The correlation between multiple pulses into a voxel representation produces a more accurate representation, which confers greater noise resistance and it further opens up possibilities of vertical interpretation of the data.} Voxelisation was firstly introduced by Persson et al, who used voxelisation to visualise the waveforms using different transparencies \cite{Persson2005} and it seems to be the future of FW LiDAR data with the literature to moving toward that direction. In 2016, Cao et al used it for tree species identification \cite{Cao2016} and Sunmall et al characterised forest canopy from a voxelised vertical profile \cite{Sumnall2016}. This innovative approach is an integral part of this thesis and it is used for both visualisations and classifications \cite{Miltiadou2014}\cite{Miltiadou2015}. 
+		\par While echo decomposition identifies significant features as points, the FW LiDAR data also contains information in single shots that may be below the significance threshold. The waveform samples data can be accumulated from multiple shots into {\color{blue} into a voxel array, building up a 3D density volume. The correlation between multiple pulses into a voxel representation produces a more accurate representation, which confers greater noise resistance and it further opens up possibilities of vertical interpretation of the data.} Voxelisation {\color{blue} of FW LiDAR data} was firstly introduced by Persson et al, who used it to visualise the waveforms using different transparencies \cite{Persson2005} and it seems to be the future of FW LiDAR data with the literature to moving toward that direction. In 2016, Cao et al used it for tree species identification \cite{Cao2016} and Sunmall et al characterised forest canopy from a voxelised vertical profile \cite{Sumnall2016}. This innovative approach is an integral part of this thesis and it is used for both visualisations and classifications \cite{Miltiadou2014}\cite{Miltiadou2015}. 
 		\par {\color{red} *** end of moved paragraphs *** }
 		
 
@@ -15,32 +15,31 @@
 \section{3D Discrete Density Volume}
 
 
-Similar to Person et al, the waveforms are converted into voxels by inserting the waves into a 3D discrete density volume. But in this approach the noise is removed by a threshold first. When a pulse doesn’t hit any objects, the system captures low signals which are noise. For that reason, the samples with amplitude lower than the noise level are discarded. Further, to overcome the uneven number of samples per voxel, the average amplitude of the samples that lie inside each voxel is taken, instead of selecting the sample with the highest amplitude ~\cite{Persson2005}:
+Similar to Person et al ~\cite{Persson2005}, the waveforms are converted into voxels by inserting the wave samples into a 3D discrete density volume. But in this approach the noise is removed by a threshold first. When a pulse doesn’t hit any objects, the system captures low signals which are noise. For that reason, the samples with amplitude lower than the noise level are discarded. Further, to overcome the uneven number of samples per voxel, the average amplitude of the samples that lie inside each voxel is taken, instead of selecting the sample with the highest amplitude. Each sample's intensity represents the amount of radiation return during the corresponding time interval. Therefore to normalise the intensities across the voxels the average of the number of samples added to the voxels is taken. Example if 5 samples are inside a voxels and the waveform is digitised at 2ns,then 10ns internal of waveform is saved into that voxels. To keep it consistent the length of waveform across the voxels the average intensity of the number of samples inserted into each voxel is taken: 
+
 	\begin{eqnarray}
 		I_{v} = \dfrac{\sum_{i=1}^{n}I_{i}}{n}
 	\end{eqnarray} 
-Where 	n = number of samples of a voxel, 
-	Ii = the intensity of the sample i, 
-	Iv is the accumulated intensity of the voxel.  
-The main issue of that approach is that the intensities of the LiDAR data haven’t been calibrated. Non calibrated intensities do not significantly affect the creation of polygon meshes, because during polygonisation, the system treats the intensities as Booleans; is that voxel empty or not? Nevertheless, the noise level could be set lower if the intensities were calibrated and more details would be preserved on the polygon meshes. For that reason, calibrating the intensities of the return is a task needing to be performed in order to enable the use of intensities in future classifications. 
+Where 	$n$ is number of samples of a voxel, 
+	$I_{i}$ is the intensity of the sample i, 
+	$I_{v}$ is the accumulated intensity of the voxel.  
+The main issue of that approach is that the intensities of the LiDAR data haven’t been calibrated. 
+
 
 \section{Implicit Object}
-Once the 3D discrete density volume is generated, numerical implicitization of objects is used to represent the scanned area. Numerical implicitization was introduced by Blinn in 1982 \cite{Blinn1982}. A function $ \mathit{f(X)} $ defines an object, when for every n-dimensional point $ \mathit{X} $  that lies on the surface of the object, satisfied the condition$ \mathit{X=\alpha }  $. Numerical implicitization enables definition of complex object without saving large amounts of triangles. \newline
-The 3D volume, generated as explained in the previous section, is used as a discrete density function $\mathit{f(X), \alpha }$ to represent an object (Pasko and Savchenko, 1994): \newline
-$	\mathrm{f(X) = \alpha }$ , when $X$ lies on the surface of the object\newline
-$	\mathrm{f(X) > \alpha }$ , when $X$ lies inside the object and\newline
-$	\mathrm{f(X) < \alpha }$ , when $X$ lies outside the object	 \newline
-where	\newline 
-$	\mathrm{X 	=}$  a 3D point $\mathit{(x, y, z) }$ representing the longitude, latitude and height respectively  \newline
-$	\mathrm{f(X) 	= }$the discrete density function that takes  $\mathit{X}$ as input and returns the accumulated intensity value of the voxel that  $\mathit{X}$ lies in \newline
-$	\mathrm{	\alpha 	= }$ the isolevel of the object and defines the boundary of the object. \newline
-$	\mathrm{	f(X)}$ is equal to $\mathit{\alpha }$ iff  $\mathit{X}$ lies on the surface of the object. The isolevel $\mathit{\alpha }$ is a user defined parameter and varies depending on the amount of noise in the data.  \newline
+
+\par Once the 3D discrete density volume is generated, an implicit object is defined to represent the scanned area. Implicit objects were introduced by Blinn in 1982 \cite{Blinn1982} and enable the definition of complex objects without saving a large amount of triangles. Each one is defined by a function $ \mathit{f(X)} $ and the iso-surface value $\alpha$. The iso-surface value defines the boundaries of the object; for an object $ [f(x),a]$ every n-dimensional point $ \mathit{X} $  that lies on the surface of the object satisfies the condition $ \mathit{f(X)=\alpha }  $. To be more specific all the following rules apply \cite{Pasko1994}: 
+\begin{itemize}
+	\item $	\mathrm{f(X) = \alpha }$ , when $X$ lies on the surface of the object
+	\item $	\mathrm{f(X) > \alpha }$ , when $X$ lies inside the object and
+	\item $	\mathrm{f(X) < \alpha }$ , when $X$ lies outside the object	 
+\end{itemize}
 
 
+\par Regarding the implicit representation of the 3D discrete density volume, X is a three dimensional point $\mathit{(x, y, z) }$ representing the longitude, latitude and height respectively and ${f(X)}$ is a function that takes  $\mathit{X}$ as input and returns the accumulated intensity value of the voxel that  $\mathit{X}$ lies inside. Also, the iso-surface value $\mathit{\alpha }$ is a user defined parameter and it is noise dependant. 
 
-\section{Normalisation}
-- Normalisation: each sample intensity represents the amount of radiation return into a constant time interval. Therefore to normalise the intensities across the voxels the average of the number of samples added to the voxels is taken. Example if 5 samples are inside a voxels and the waveform is digitised at 2ns, therefore 10ns internal of waveform is saved into that voxels. To keep it consistent the length of waveform across the voxels the average intensity of the number of samples inserted into each voxel is taken. 
 
+\section{Conclusions}
 
 
 \end{document}

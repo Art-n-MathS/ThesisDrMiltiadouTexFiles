@@ -1,11 +1,15 @@
 \documentclass{subfiles}
 
 \begin{document}
-Even though numerical implicitization is beneficial in reducing storage memory and for various resolution renderings of the same object, visualising numerical/algebraic objects is not straight forward, since they contain no discrete values. More information about visualisations are given at Section \ref{Visualisations}. 
 
-A big part of this thesis is the way of handing data and how algorithmic approaches can speed up accessing of FW LiDAR data while keeping memory allocation low. The next sections explains the data structures implemented and the new ones proposed during this studies. The functionalities are explained here while their performance is discussed at section \ref{Visualisations}. 
+\par Non calibrated intensities do not significantly affect the creation of polygon meshes, because during polygonisation, the system treats the intensities as Booleans; is that voxel empty or not? Nevertheless, the noise level could be set lower if the intensities were calibrated and more details would be preserved on the polygon meshes. For that reason, calibrating the intensities of the return is a task needing to be performed in order to enable the use of intensities in future classifications. 
 
-The names of the data structures are the given below. Some names are from standard data structures and the new ones proposed have 
+	
+\par Even though numerical implicitization is beneficial in reducing storage memory and for various resolution renderings of the same object, visualising numerical/algebraic objects is not straight forward, since they contain no discrete values. More information about visualisations are given at Section \ref{Visualisations}. 
+
+\par A big part of this thesis is the way of handing data and how algorithmic approaches can speed up accessing of FW LiDAR data while keeping memory allocation low. The next sections explains the data structures implemented and the new ones proposed during this studies. The functionalities are explained here while their performance is discussed at section \ref{Visualisations}. 
+
+\par The names of the data structures are the given below. Some names are from standard data structures and the new ones proposed have 
 \begin{enumerate}[noitemsep]
 	\item 1D array
 	\item 1D hashed array
