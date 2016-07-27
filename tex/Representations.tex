@@ -12,18 +12,23 @@
 		
 
 	
-\section{3D Discrete Density Volume}
+\section{Explanation of Voxelisation}
 
 
-Similar to Person et al ~\cite{Persson2005}, the waveforms are converted into voxels by inserting the wave samples into a 3D discrete density volume. But in this approach the noise is removed by a threshold first. When a pulse doesn’t hit any objects, the system captures low signals which are noise. For that reason, the samples with amplitude lower than the noise level are discarded. Further, to overcome the uneven number of samples per voxel, the average amplitude of the samples that lie inside each voxel is taken, instead of selecting the sample with the highest amplitude. Each sample's intensity represents the amount of radiation return during the corresponding time interval. Therefore to normalise the intensities across the voxels the average of the number of samples added to the voxels is taken. Example if 5 samples are inside a voxels and the waveform is digitised at 2ns,then 10ns internal of waveform is saved into that voxels. To keep it consistent the length of waveform across the voxels the average intensity of the number of samples inserted into each voxel is taken: 
+\par The FW LiDAR data are voxelised by inserting the wave samples into a 3D regular grid and constructing a 3D discrete density volume. According to Person et al, each wave sample is associated with the 3D cell, named voxel, that it lies inside. If multiple samples lie inside a voxel then the sample with the highest intensity is chosen ~\cite{Persson2005}. In order to reduce noise, there are two differences between this approach and the way FW LiDAR data are voxelised in DASOS. 
 
+\par At first a threshold is used to remove low level noise, because when the width of recorded waveform is longer that the distance between the first hit point and the ground, the system captures low signals which are pure noise. For that reason, the samples with intensity lower than the user-defined noise level/threshold are discarded. 
+
+\par Then each wave sample is associated with the voxel that it lies inside and the second difference is how DASOS overcomes the uneven number of samples per voxels. The intensity of each sample is the amount of laser intensity returned during the corresponding time interval. For example, if 5 samples are inside a voxel and the waveform is digitised at 2ns, then the laser intensity associated with that voxel corresponds to 10ns waveform width. For comparison purposes, it's essential to keep the waveform width saved across the voxels consistent. In DASOS, to overcome this the average intensity of the samples that lie inside each voxel is taken, instead of choosing the one with the highest intensity ~\cite{Persson2005}. This way the likelihood of the 3D volume to be affected by outliers and high noise is reduced. The following equation shows how the intensity value of a voxel is calculated:
+ 
 	\begin{eqnarray}
-		I_{v} = \dfrac{\sum_{i=1}^{n}I_{i}}{n}
+	I_{v} = \dfrac{\sum_{i=1}^{n}I_{i}}{n}
 	\end{eqnarray} 
-Where 	$n$ is number of samples of a voxel, 
+	where 		$I_{v}$ is the accumulated intensity of voxel $v$. 
+	$n$ is number of samples associated with that voxel, 
 	$I_{i}$ is the intensity of the sample i, 
-	$I_{v}$ is the accumulated intensity of the voxel.  
-The main issue of that approach is that the intensities of the LiDAR data haven’t been calibrated. 
+
+To sum up, during voxelisation the area of interest is divided into voxels, which are 3D cells with identical size. The samples of the FW LiDAR data are inserted inside this 3D discrete density volume and normalised so that equally sized waveform width as saved inside each voxel. 
 
 
 \section{Implicit Object}
@@ -36,7 +41,7 @@ The main issue of that approach is that the intensities of the LiDAR data haven�
 \end{itemize}
 
 
-\par Regarding the implicit representation of the 3D discrete density volume, X is a three dimensional point $\mathit{(x, y, z) }$ representing the longitude, latitude and height respectively and ${f(X)}$ is a function that takes  $\mathit{X}$ as input and returns the accumulated intensity value of the voxel that  $\mathit{X}$ lies inside. Also, the iso-surface value $\mathit{\alpha }$ is a user defined parameter and it is noise dependant. 
+\par Regarding the implicit representation of the 3D voxelised FW LiDAR, X is a three dimensional point $\mathit{(x, y, z) }$ representing the longitude, latitude and height respectively and ${f(X)}$ is a function that takes  $\mathit{X}$ as input and returns the accumulated intensity value of the voxel that  $\mathit{X}$ lies inside. Also, the iso-surface value $\mathit{\alpha }$ is a user defined parameter and it is noise dependant (Please look at figure *** to understand how the iso-surface value affects the visualisations). 
 
 
 \section{Conclusions}
