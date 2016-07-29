@@ -2,34 +2,32 @@
 
 \begin{document}
 
-\par Non calibrated intensities do not significantly affect the creation of polygon meshes, because during polygonisation, the system treats the intensities as Booleans; is that voxel empty or not? Nevertheless, the noise level could be set lower if the intensities were calibrated and more details would be preserved on the polygon meshes. For that reason, calibrating the intensities of the return is a task needing to be performed in order to enable the use of intensities in future classifications. 
-
 	
-\par Even though numerical implicitization is beneficial in reducing storage memory and for various resolution renderings of the same object, visualising numerical/algebraic objects is not straight forward, since they contain no discrete values. More information about visualisations are given at Section \ref{Visualisations}. 
 
-\par A big part of this thesis is the way of handing data and how algorithmic approaches can speed up accessing of FW LiDAR data while keeping memory allocation low. The next sections explains the data structures implemented and the new ones proposed during this studies. The functionalities are explained here while their performance is discussed at section \ref{Visualisations}. 
+\par This chapter focuses on the visualisations of voxelised FW LiDAR data and their management in memory.
 
-\par The names of the data structures are the given below. Some names are from standard data structures and the new ones proposed have 
-\begin{enumerate}[noitemsep]
-	\item 1D array
-	\item 1D hashed array
-	\item Octree
-	\item Integral Volumes
-	\item Integral Tree
-	\item Hashed OCtree
-	\item Series of Hashed Octrees
-\end{enumerate} 
-	
-	
-Even though numerical implicitisation is beneficial in reducing storage memory and for various resolution renderings of the same object, visualising numerical/algebraic objects is not straight forward, since they contain no discrete values. This problem can either be address either by ray-tracing or polygonisation. In 1983, Hanraham suggested a ray-tracing approach, where an equation is derived from the ray and surface intersection \cite{Hanrahan1983}.  The Marching Cubes algorithm was later introduced for polygonising implicit objects. The algorithm first divides the space into cube and then creates consistent triangle using look up table \cite{Lorensen1987}. \newline\newline
+*** Previous Work *** 
 
-The Marching cubes algorithm constructs surfaces from implicit objects using a search table. Let’s assume that f(X) defines an implicit object. At first the space is divided into cubes, named voxels. Each voxel is defined by eight corner points, which lie either inside or outside the object. By enumerating all the possible cases and linearly interpolating the intersections along the edges, the surface of the implicit object is constructed \cite{Lorensen1987}.\newline\newline
+\par So far, the concepts of FW LiDAR data (Section \ref{AcquireData}) and voxelisation (Section \ref{Voxelisation}) has been explained, as well as how the implicit object $[f(X),\alpha]$ is represented. This sections explains how the data are visualised in 3D, as well as the new data structures implemented and introduced for speeding up the surface reconstruction process. 
 
-According to Lorensen and Cline, the normal of each vertex is calculated by measuring the gradient change. But in our case, due to the high gradient changes inside the volume, calculating the normal in that way leads to a non-smooth visualisation. For that reason, in this research the normal of each vertex is equal to the average normal of its adjacent triangles. \newline\newline
 
-Further the sampling of the Marching cubes is independent from the sampling of the 3D density volume. Therefore consistency between the two is required and more information about that is given at the results section 4.5.5. 
+\section {Surface Reconstruction}\label{sec:SurfaceReconstruction}
+\par Even though numerical implicitisation is beneficial in reducing storage memory and for various resolution renderings of the same object, visualising numerical/algebraic objects is not straight forward, since they contain no discrete values. This problem can either be address either by ray-tracing or polygonisation. In 1983, Hanraham suggested a ray-tracing approach, where an equation is derived from the ray and surface intersection \cite{Hanrahan1983}.  
 
-\subsection{Optimising Marching Cubes}
+\par The Marching Cubes algorithm was later introduced for polygonising implicit objects, using a look up table. Let’s assume that $f(X)$ defines an implicit object. At first the space is divided into cubes. Each cube is defined by eight corner points, which lie either inside or outside the object. By enumerating all the possible cases and linearly interpolating the intersections along the edges, the surface of the implicit object is constructed \cite{Lorensen1987}. According to Lorensen and Cline, the normal of each vertex is calculated by measuring the gradient change. But in this case, due to the high gradient changes inside the volume, this approach of calculating the normal leads to a non-smooth visualisation. For that reason, the normal of each vertex is derived by the average of its adjacent triangles. 
+
+\par Further the sampling of the Marching cubes is independent from the sampling of the 3D density volume. Therefore consistency between the two is required and more information about that is given at the results section 4.5.5. 
+
+
+\subsection{Results}
+
+ modifying iso-surface, noise level, \&
+ selecting region of interest \&
+ various flightlines
+
+
+
+\section{Optimising Surface Reconstruction}\label{sec:OptimisationSurfaceReconstruction}
 The original Marching Cubes algorithm uses a scan line approach and processes all the cubes sequentially. The scan line approach sometimes implies looping through large amounts of empty cubes. To optimise the process, in this research, it is proposed an algorithm that repeatedly divides the volume and utilities Integral Volumes to discard empty volumes during the polygonisation. Using this optimisation algorithm it was achieved an up to 51% speed-up. 
 This optimisation algorithm is explained in the following sections, which are structured as follow:
 -	Background information, including previous related work. 
