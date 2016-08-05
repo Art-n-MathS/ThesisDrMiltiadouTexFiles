@@ -18,14 +18,18 @@
 \usepackage{array}
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \usepackage{booktabs,makecell}
-\usepackage{color}     
+\usepackage{color} 
+\usepackage[dvipsnames]{xcolor}
+    
 
 
-\title{Exploration and Visualisation of Full-Waveform LiDAR Data for Forest Monitoring}
+\title{Accessible Full-Waveform LiDAR Data for Forest Monitoring}
 \author{Milto Miltiadou}
 \degree{Doctor of Engineering}
-\department{Centre for Digital Entertainment \\Computer Science}
+\department{Centre for Digital Entertainment}
+\departmentPML{\\NERC Airborne Research Facility}
 \degreemonthyear{November 2016}
+
 \norestrictions
 
 
@@ -33,9 +37,13 @@
 	\maketitle
  		
 \begin{abstract}	
-     hello world - no more than 300 words
-     {\color{blue}{We can change colors for emphasis}},
-     {\color{green}{but}} {\color{cyan}{who is going pay for the ink?}}
+     no more than 300 words
+     
+     NOTES:
+     \par {\color{blue}{Blue colour: additions according to Neill's feedback}},
+     \par {\color{red}{Red colour: notes}}
+     \par {\color{gray}{Gray colour: text that is going to be modified }}
+     
      \thispagestyle{empty}
 \end{abstract}
 
@@ -70,7 +78,7 @@
 	
 	\section{Conference Presentations}
 		\textbf{ForestSAT Conference}, Santiago, Chile, 2016 - Oral and Poster Presentation \newline
-		\textbf{Computer Graphics \& Visual Computing (CGVC)}, Bournemouth, United Kingdom, 2016 - Oral Presentation \newline
+		\textbf{Computer Graphics \& Visual Computing (CGVC)}, Bournemouth, United Kingdom, 2016 - Poster Presentation \newline
 		\textbf{Silvilaser}, La Grant Motte, France, 2015 - Poster Presentation \newline
 		\textbf{International Symposium of Remote Sensing of the Environment 	(ISRSE)}, 2015 - Oral Presentation\newline
 		\textbf{RSPSoc Conference}, New Sensors for a Changing world, Aberystwyth, United Kingdom, 2014 - Oral Presentation \newline
@@ -91,14 +99,14 @@
 	\setcounter{secnumdepth}{4}		
 
 	\chapter{Introduction} \label{Introduction} 	\pagenumbering{arabic}
-		\section{Forest Monitoring: Importance and Applications}
+		\section{Forest Monitoring: Importance and Applications}\label{sec:forestMonitoring}
 			\subfile{tex/ForestMonitoring.tex}
 		\section{Background Information about Remote Sensing and Airborne Laser Scanning Systems}\label{Background}
 			\subfile{tex/Background.tex}
 			\newpage
 		
     \chapter{Acquire Data}\label{AcquireData}
-	    \subfile{tex/AcquireData.tex}
+	    \subfile{tex/AcquireData-mike.1.tex}
 	    \newpage
 	\chapter{Overview of Thesis}\label{PipeLine}
 		\subfile{tex/Overview.tex}
@@ -120,9 +128,12 @@
 	\chapter{Alignment with Hyperspectral Imagery}\label{Alignment}
 		\subfile{tex/Alignment.tex}
 		\newpage		
-		\section{Classifications}\label{Classifications}
-			\subfile{tex/Classifications.tex}
-			\newpage
+	\chapter{Classifications}\label{Classifications}
+		\subfile{tex/Classifications.tex}
+		\newpage
+	\chapter{Comparison with Discrete Data}\label{ComparisonDiscreteVsFW}
+	    \subfile{tex/Comparison.tex}
+	    \newpage
 	\chapter{Overall Results}\label{Results}
 		\subfile{tex/OverallResults.tex}
 		\newpage
