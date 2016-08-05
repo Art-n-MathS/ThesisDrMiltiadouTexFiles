@@ -1,0 +1,23 @@
+\documentclass{subfiles}
+
+\begin{document}
+
+Furthermore, DASOS allows the user to choose whether the waveform samples or the discrete returns are inserted into the 3D density volume. Each sample or each return has a hit point and an intensity value. So, in both case the space is divided into 3D voxels and the intensity of each return or sample is inserted into the voxel it lies inside.
+
+In general the results of discrete returns contain less information compared to the results from the FW LiDAR, even though the FW LiDAR contain information from about half of the emitted pulses (Section 3). As shown on the 1st example of table 3 the polygon mesh generated from the FW LiDAR contains more details comparing to the one created from the discrete LiDAR. The forest on the top is more detailed, the warehouses in the middle have a clearer shape and the fence on the right lower corner is continuous while in the discrete data it is disconnected and merged with the aliasing.
+
+FW LiDAR polygons, compared to the discrete LiDAR ones, contain more geometry below the outlined surface of the trees. On the one hand this is positive because they include much information about the tree branches but on the other hand the complexity of the objects generated is high. A potential use of the polygon representations is in movie productions: instead of creating a 3D virtual city or forest from scratch, the area of interest can be scanned and then polygonised using our system. 
+
+But for efficiency purposes in both animation and rendering, polygonal objects should be closed and their faces should be connected. Hence, in movie productions, polygons generated from the FW LiDAR will require more post-processing in comparison with object generated from the discrete LiDAR.
+
+Example 2 in table 3 shows the differences in the geometry complexity of the discrete and FW polygons using the x-ray shader of Meshlab. The brighter the surface appears the more geometry exists below the top surface. The brightness difference between area 1 and area 2 appears less in the discrete polygon.
+
+Nevertheless, the trees in area 2 are much taller than in area 1, therefore more geometry should have existed in area 2 and sequentially be brighter. But the two areas are only well-distinguished in the FW LiDAR. On average the FW polygon is brighter than the discrete polygon, which implies higher geometry complexity in the FW polygon.
+
+The comparison example 3 is rendered using the Radiance Scaling shader of Meshlab (Vergne et al, 2010). The shader highlights the details of the mesh, making the comparison easier. Not only the FW polygons are more detailed but also holes appear on the discrete polygons. The resolution of the voxels of those examples is 1.7m3 is, the bigger the holes are, while the full-waveform can be polygonised at a resolution of 1m3 without any significant holes. Figure 4 shows an example of rendering the same flightline of examples 3 at the resolution of 1m3 LiDAR data.
+
+The last two examples (4 and 5) compare the side views of small regions. On the one hand the top of the trees are better-shaped in the discrete data. This may occur either because the discrete data contain information from double pulses than the FW data (Section 3) or because the noise threshold of the waveforms is not accurate and the top of the trees appear noisier on the FW LiDAR data. On the other hand more details appear close to the ground on the FW LiDAR data.
+
+*** left during copying :s ( and the higher the resolution, using FW)
+
+\end{document}
