@@ -3,22 +3,20 @@
 
 \begin{document}
 
-\section{Background Information}
+\section{Introduction}
 	\par {\color{red} *** Neill: the following paragraphs were moved here from the Background Chapter 1.2}
 		
 	\par The most common approach of interpreting the FW LiDAR is the Gaussian decomposition of the waveforms and extraction of peak points ~\cite{Wanger2006}. Neunschwander et al used this approach for Landcover classification ~\cite{Neuenschwander2009} while Reitberger et al applied it for distinguishing deciduous trees from coniferous trees ~\cite{Reitberger2008}. Chauve et al further proposed an approach of improving the Gaussian model in order to increase the density of the points extracted from the data and consequently improve point based classifications of FW LiDAR data ~\cite{Chauve2007}. 
 
 
-	\par While echo decomposition identifies significant features as points, the FW LiDAR data also contains information in single shots that may be below the significance threshold. The waveform samples data can be accumulated from multiple shots into {\color{blue} into a voxel array, building up a 3D density volume. The correlation between multiple pulses into a voxel representation produces a more accurate and complete representation, which confers greater noise resistance and it further opens up possibilities of vertical interpretation of the data.} Voxelisation {\color{blue} of FW LiDAR data} was firstly introduced by Persson et al, who used it to visualise the waveforms using different transparencies \cite{Persson2005} and it seems to be the future of FW LiDAR data with the literature moving toward that direction. In 2016, Cao et al used it for tree species identification \cite{Cao2016} and Sunmall et al characterised forest canopy from a voxelised vertical profile \cite{Sumnall2016}. This innovative approach is an integral part of this thesis and it is used for both visualisations and classifications \cite{Miltiadou2014}\cite{Miltiadou2015}. 
+	\par While echo decomposition identifies significant features as points, the FW LiDAR data also contains information in single shots that may be below the significance threshold. The waveform samples data can be accumulated from multiple shots into {\color{blue} into a voxel array, building up a 3D density volume. The correlation between multiple pulses into a voxel representation produces a more accurate and complete representation, which confers greater noise resistance and it further opens up possibilities of vertical interpretation of the data. Voxelisation (explained at Section \ref{sec:Vox:Approach}) of FW LiDAR data} was firstly introduced by Persson et al, who used it to visualise the waveforms using different transparencies \cite{Persson2005} and it seems to be the future of FW LiDAR data with the literature moving toward that direction. In 2016, Cao et al used it for tree species identification \cite{Cao2016} and Sunmall et al characterised forest canopy from a voxelised vertical profile \cite{Sumnall2016}. This innovative approach is an integral part of this thesis and it is used for both visualisations and classifications \cite{Miltiadou2014}\cite{Miltiadou2015}. 
 
 	\par {\color{red} *** end of moved paragraphs *** }
 		
 		
 
 	
-\section{Approach}
-
-
+\section{Approach}\label{sec:Vox:Approach}
 
 \par The FW LiDAR data are voxelised by inserting the wave samples into a 3D regular grid and constructing a 3D discrete density volume. According to Person et al, each wave sample is associated with the 3D cell, named voxel, that it lies inside. If multiple samples lie inside a voxel then the sample with the highest intensity is chosen ~\cite{Persson2005}. In order to reduce noise, there are two differences between this approach and the way FW LiDAR data are voxelised in DASOS. 
 
@@ -65,26 +63,9 @@ To sum up, during voxelisation the area of interest is divided into voxels. The 
 \end{figure}
 
 
-\section{Implicit Representation of the Volume}
-
-\par Implicit objects were introduced by Blinn in 1982 \cite{Blinn1982} and enable the definition of complex objects without saving a large amount of triangles. Each one is defined by a function $ \mathit{f(X)} $ and the iso-surface value $\alpha$. The iso-surface value defines the boundaries of the object; for an object $ [f(x),a]$ every n-dimensional point $ \mathit{X} $  that lies on the surface of the object satisfies the condition $ \mathit{f(X)=\alpha }  $. To be more specific, all the following rules apply according to Pasko et al \cite{Pasko1994}: 
-\begin{itemize}
-	\item $	\mathrm{f(X) = \alpha }$ , when $X$ lies on the surface of the implicit object
-	\item $	\mathrm{f(X) > \alpha }$ , when $X$ lies inside the implicit object and
-	\item $	\mathrm{f(X) < \alpha }$ , when $X$ lies outside the implicit object	 
-\end{itemize}
-
-\par Once the discrete density volume is generated, an implicit object is defined to represent the scanned area. 
-
-\par Regarding the implicit representation of the 3D voxelised FW LiDAR data, X is a three dimensional point $\mathit{(x, y, z) }$ representing the longitude, latitude and height respectively and ${f(X)}$ is a function that takes  $\mathit{X}$ as input and returns the accumulated intensity value of the voxel that  $\mathit{X}$ lies inside. Also, the iso-surface value $\mathit{\alpha }$ is a user defined parameter and it is noise dependant (Please look at figure *** to understand how the iso-surface value affects the implicit representation of voxelised FW LiDAR data). 
-
-
 \section{Summary}
 
-This thesis strongly supports voxelisation of FW LiDAR data. Voxelisation preserves an extra parameters in comparison to point extraction algorithms, the pulse width \cite{Sumnall2016}. It also accumulates intensity values from multiple shots and stores them into a 3D regular grid, resolving this way the sinusoidal footprints pattern of the Leica system; all the voxel values are normalised and contain an intensity value that corresponds to equal waveform width. Voxelisation is further supported by the recent literature \cite{Cao2016} \cite{Sumnall2016}. 
-
-
-In a few words, the FW LiDAR data are voxelised by inserting the wave samples into a 3D discrete density volume. Then an implicit representation of that volume is defined by the function $f(X)$ and the iso-surface value $\alpha$. The function $f(X)$ takes as input a point $X$ and returns the associated intensity of the voxel that $X$ lies inside. If the returned intensity is greater than the value $\alpha$ then $X$ lies inside the implicit object, if it is is equal to $\alpha$ then it is on the boundary otherwise it lies outside. 
+In a few words, the FW LiDAR data are voxelised by inserting the wave samples into a 3D discrete density volume. This thesis strongly supports voxelisation of FW LiDAR data and it is used for both visualisations and classifications. Voxelisation is also supported by recent literature \cite{Cao2016} \cite{Sumnall2016} because it preserves an extra parameter in comparison to point extraction algorithms, the pulse width. It also accumulates intensity values from multiple shots and stores them into a 3D regular grid, resolving this way the problem with the sinusoidal footprints pattern of the Leica system. 
 
 
 

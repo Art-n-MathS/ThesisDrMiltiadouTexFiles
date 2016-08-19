@@ -11,6 +11,29 @@
 \par So far, the concepts of FW LiDAR data (Section \ref{AcquireData}) and voxelisation (Section \ref{Voxelisation}) has been explained, as well as how the implicit object $[f(X),\alpha]$ is represented. This sections explains how the data are visualised in 3D, as well as the new data structures implemented and introduced for speeding up the surface reconstruction process. 
 
 
+\section{Computer Graphics Intro}
+Explain basic Computer Graphics (CG) concepts. 
+
+\section{Algebraic Representation of the Volume}
+
+Give a mathematical definition of the 
+
+algebraic objects - implicit and functional are the same 
+
+\par Algebraic objects were introduced by Blinn in 1982 \cite{Blinn1982} and enable the definition of complex objects without saving a large amount of triangles. Each one is defined by a function $ \mathit{f(X)} $ and the iso-surface value $\alpha$. The iso-surface value defines the boundaries of the object; for an object $ [f(x),a]$ every n-dimensional point $ \mathit{X} $  that lies on the surface of the object satisfies the condition $ \mathit{f(X)=\alpha }  $. To be more specific, all the following rules apply according to Pasko et al \cite{Pasko1994}: 
+\begin{itemize}
+	\item $	\mathrm{f(X) = \alpha }$ , when $X$ lies on the surface of the algebraic object
+	\item $	\mathrm{f(X) > \alpha }$ , when $X$ lies inside the algebraic object and
+	\item $	\mathrm{f(X) < \alpha }$ , when $X$ lies outside the algebraic object	 
+\end{itemize}
+
+\par Once the discrete density volume is generated, an algebraic object is defined to represent the scanned area. 
+
+\par Regarding the algebraic representation of the 3D voxelised FW LiDAR data, X is a three dimensional point $\mathit{(x, y, z) }$ representing the longitude, latitude and height respectively and ${f(X)}$ is a function that takes  $\mathit{X}$ as input and returns the accumulated intensity value of the voxel that  $\mathit{X}$ lies inside. Also, the iso-surface value $\mathit{\alpha }$ is a user defined parameter and it is noise dependant (Please look at figure *** to understand how the iso-surface value affects the algebraic representation of voxelised FW LiDAR data). 
+
+
+
+
 \section {Surface Reconstruction}\label{sec:SurfaceReconstruction}
 \par Even though numerical implicitisation is beneficial in reducing storage memory and for various resolution renderings of the same object, visualising numerical/algebraic objects is not straight forward, since they contain no discrete values. This problem can either be address either by ray-tracing or polygonisation. In 1983, Hanraham suggested a ray-tracing approach, where an equation is derived from the ray and surface intersection \cite{Hanrahan1983}.  
 
@@ -46,5 +69,8 @@ In 1992, Hansen and Hinker proposed parallelising the polygonisation process of 
 OpenVDB library manages volumetric data with octrees. My program uses 1D arrays allowing constant time access of voxel values and by importing OpenVDB library, its speed was significantly decreased; while the number of voxels is increasing the time required to get the value of a voxel is also increasing. Further according to the documentation, the VolumeToMesh class “meshes any scalar grid that has a continuous isosurface”, while the surface of the FW LiDAR volumes is not continuous; there are triangles that represent leafs inside the trees and some of the trees may be disconnected from the ground because the last return do not always reach the earth  (OpenVDB 2.3.0). \newline\newline
 In this report, it is introduced a new method of optimising the marching cubes algorithm. This method utilises Integral Volumes (an extension of Integral Images) to discard chunks of empty cubes during polygonisation. Its effectiveness stands at the ability of integral volumes to find the sum of any sub-volume into constant time and it is important because it works effectively non-manifold or non-closed objects. \newline\newline
 
+\section {? Summary}
+
+Then an algebraic representation of that volume is defined by the function $f(X)$ and the iso-surface value $\alpha$. The function $f(X)$ takes as input a point $X$ and returns the associated intensity of the voxel that $X$ lies inside. If the returned intensity is greater than the value $\alpha$ then $X$ lies inside the algebraic object, if it is is equal to $\alpha$ then it is on the boundary otherwise it lies outside. 
 
 \end{document}
