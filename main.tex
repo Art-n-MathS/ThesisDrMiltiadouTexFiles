@@ -6,7 +6,10 @@
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{geometry}
-\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{graphicx}% delete the demo option in your actual code
+\usepackage{enumitem}
+\usepackage{booktabs}
 \usepackage{subfiles}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
@@ -20,6 +23,7 @@
 \usepackage{booktabs,makecell}
 \usepackage{color} 
 \usepackage[dvipsnames]{xcolor}
+\usepackage[export]{adjustbox}
     
 
 
@@ -79,7 +83,7 @@
 	\section{Conference Presentations}
 		\textbf{ForestSAT Conference}, Santiago, Chile, 2016 - Oral and Poster Presentation \newline
 		\textbf{Computer Graphics \& Visual Computing (CGVC)}, Bournemouth, United Kingdom, 2016 - Poster Presentation \newline
-		\textbf{Silvilaser}, La Grant Motte, France, 2015 - Poster Presentation \newline
+		\textbf{Silvilaser}, La Grant Motte, France, 2015 - Oral Presentation \newline
 		\textbf{International Symposium of Remote Sensing of the Environment 	(ISRSE)}, 2015 - Oral Presentation\newline
 		\textbf{RSPSoc Conference}, New Sensors for a Changing world, Aberystwyth, United Kingdom, 2014 - Oral Presentation \newline
 	
@@ -111,12 +115,10 @@
 	\chapter{Overview of Thesis}\label{PipeLine}
 		\subfile{tex/Overview.tex}
 
-	\chapter{Voxelisation}\label{Voxelisation}
-	    \subfile{tex/Representations.tex}
-	    \newpage
-	\chapter{DASOS}\label{DASOS}
+	\chapter{The open source software DASOS and its Voxelisation Approach}\label{DASOS_Voxelisation}
 	  	\subfile{tex/DASOS.tex}	
-	
+	\newpage
+
 
 		 		
 	\chapter{Visualisations}\label{Visualisations}
@@ -128,7 +130,7 @@
 	\chapter{Alignment with Hyperspectral Imagery}\label{Alignment}
 		\subfile{tex/Alignment.tex}
 		\newpage		
-	\chapter{Classifications}\label{Classifications}
+	\chapter{Classifications using 3D Prior Models}\label{Classifications}
 		\subfile{tex/Classifications.tex}
 		\newpage
 	\chapter{Comparison with Discrete Data}\label{ComparisonDiscreteVsFW}
