@@ -4,15 +4,23 @@
 
 	
 
+\section{Introduction}
+
+\par So far, the concepts of FW LiDAR data (Section \ref{AcquireData}), Voxelisation (Section \ref{Voxelisation}) and DASOS's functionalities (Section \ref{DASOS}) has been explained. This sections explains how the data are visualised in 3D,
+
+
+
 \par This chapter focuses on the visualisations of voxelised FW LiDAR data and their management in memory.
 
-*** Previous Work *** 
+Find the surface of the Voxelised FW LiDAR and construct a polygon mesh, which is defined by vertices, edges and faces (triangles). 
 
-\par So far, the concepts of FW LiDAR data (Section \ref{AcquireData}) and voxelisation (Section \ref{Voxelisation}) has been explained, as well as how the implicit object $[f(X),\alpha]$ is represented. This sections explains how the data are visualised in 3D, as well as the new data structures implemented and introduced for speeding up the surface reconstruction process. 
+Standard rendering format of GPUs 
+
+Direct visualisation of volumetric data is also possible but more difficult to interact at real time 
 
 
-\section{Computer Graphics Intro}
-Explain basic Computer Graphics (CG) concepts. 
+
+
 
 \section{Algebraic Representation of the Volume}
 
@@ -39,19 +47,73 @@ algebraic objects - implicit and functional are the same
 
 \par The Marching Cubes algorithm was later introduced for polygonising implicit objects, using a look up table. Let’s assume that $f(X)$ defines an implicit object. At first the space is divided into cubes. Each cube is defined by eight corner points, which lie either inside or outside the object. By enumerating all the possible cases and linearly interpolating the intersections along the edges, the surface of the implicit object is constructed \cite{Lorensen1987}. According to Lorensen and Cline, the normal of each vertex is calculated by measuring the gradient change. But in this case, due to the high gradient changes inside the volume, this approach of calculating the normal leads to a non-smooth visualisation. For that reason, the normal of each vertex is derived by the average of its adjacent triangles. 
 
-\par Further the sampling of the Marching cubes is independent from the sampling of the 3D density volume, but consistency between the two is required. Let’s assume the discrete volume has (n * m * k) voxels. The volume can be sampled into cubes at any rate but to reduce aliasing a ((n+1) *(m+1) * (k+1)) dimensional sampling is suggested. Please note that every point that lies outside the volume is considered to be below the boundary threshold and set to a value lower than the isosurface value. An example of the corresponding sampling in 2D is shown on Figure 1, where the black grid represents a 2D density table and the blue grid represents the sampling used in during polygonisation.
+\par Further the sampling of the Marching cubes is independent from the sampling of the 3D density volume, but consistency between the two is required (Figure \ref{fig:MCSampling}). Let’s assume the discrete volume has (n * m * k) voxels. The volume can be sampled into cubes at any rate but to reduce aliasing a ((n+1) *(m+1) * (k+1)) dimensional sampling is suggested. Please note that every point that lies outside the volume is considered to be below the boundary threshold and set to a value lower than the isosurface value. An example of the corresponding sampling in 2D is shown on Figure 1, where the black grid represents a 2D density table and the blue grid represents the sampling used in during polygonisation.
 
-\par The following table shows the effects of oversampling during polygonisation. The right image was oversampled and the second one was sampled as explained above.
+\par The following Figura \ref{fig:SamplingArtifacts} shows the effects of oversampling during polygonisation. The right image was oversampled and the second one was sampled as explained above.
 
-
+    %% Sampling
+    \begin{figure} [h!]
+    	\begin{subfigure}[t]{.49\textwidth}
+    		
+    		\centering
+    		\includegraphics[width=.9\textwidth]{img/Sampling}
+    		\caption{Suggested Sampling of the Marching Cubes Algorithm}
+    		\label{fig:ExpectedSampling}
+    	\end{subfigure} \hfill
+    	\begin{subfigure}[t]{.49\textwidth}
+    		\centering
+    		\includegraphics[width=.9\textwidth]{img/OversamplingVsSuggestedSampling}
+    		\caption{Artifacts of Oversampling the Marching Cubes Algorithm} 
+    		\label{fig:SamplingArtifacts}
+    	\end{subfigure} \hfill
+    	\caption{Marching Cubes Suggested Sampling}
+    	\label{fig:MCSampling}
+    \end{figure}
 
 
 \subsection{Results}
 
- modifying iso-surface, noise level, \&
+ 
  selecting region of interest \&
- various flightlines
+ 
 
+ \begin{figure} [h!]
+ 	\centering
+ 	\includegraphics[width=.8\textwidth]{img/SelectingRegionOfInterest}
+ 	\caption[Selecting Region of Interest]{Selecting Region of Interest}
+ 	\label{fig:SelectingRegionOfInterest}
+ \end{figure}
+ 
+ 
+  \begin{figure} [h!]
+  	\centering
+  	\includegraphics[width=.8\textwidth]{img/VariousFlightlines}
+  	\caption[Various Flightlines Visualisation]{Polygonising NERC-ARF FW LiDAR data captured at different areas (New Forest, Milton Keynes and Eaves Wood)}
+  	\label{fig:VariousFlightlines}
+  \end{figure}
+  
+
+  
+  \begin{figure} [h!]
+  	\centering
+  	\includegraphics[width=0.95\textwidth]{img/SwitchingParameters}
+  	\caption[Polygonisation Parameters]{How the output polygon mesh is affected by modifying the user-defined parameters}
+  	\label{fig:SwitchingVisParameters}
+  \end{figure}
+  
+   \begin{figure} [h!]
+	   	\centering
+    	\includegraphics[width=0.9\textwidth]{img/AimationPackages.png}
+     	\caption[Animation Packages]{Visualising the output of DASOS into animation software packages (Maya and Meshlab)}
+     	\label{fig:AnimationPackages}
+    \end{figure}
+  
+   \begin{figure} [h!]
+   	\centering
+   	\includegraphics[width=0.9\textwidth]{img/NF-3Dprint}
+   	\caption[3D printing]{3D printing of New Forest FW LiDAR data}
+   	\label{fig:3Dprinting}
+   \end{figure}
 
  
 
