@@ -6,11 +6,13 @@
 
 \section{Introduction}
 
-\par So far, the concepts of FW LiDAR data (Section \ref{AcquireData}), Voxelisation (Section \ref{Voxelisation}) and DASOS's functionalities (Section \ref{DASOS}) has been explained. This sections explains how the data are visualised in 3D,
+\par To briefly sum up the previous sections, FW LiDAR data (Section \ref{AcquireData}) are laser scanning data particularly useful in Forestry and inthis thesis they voxelised (Section \ref{Voxelisation}) using the open source software DASOS (Section \ref{DASOS}).  
 
+\par This chapter focuses on constructing the surface of the scanned area from the voxelised FW LiDAR in 3D. On the one hand, the voxelised space can be directly rendered using ray-tracing \cite{Hanrahan1983}, but ray-tracing continouesly produces 2D images and even though near real time visualisation has been achieved ***cite ***, GPU processing and hyperformance computing is used. On the other hand, polygonisation (or isosurface extraction or surface reconstruction) it takes longer to generate but once generated it can be faster rendered using rasterisation. 
 
+with commotity *** and the user can easily interact with the mesh in real time. For example, selecting a tree and measuring the distance between two locations, useful tasks in forestry. For that reason the polygonisation direction is taken.
 
-\par This chapter focuses on the visualisations of voxelised FW LiDAR data and their management in memory.
+\par The output is a 3D triangular polygon mesh. The standard rasterati
 
 Find the surface of the Voxelised FW LiDAR and construct a polygon mesh, which is defined by vertices, edges and faces (triangles). 
 
@@ -37,7 +39,7 @@ algebraic objects - implicit and functional are the same
 
 \par Once the discrete density volume is generated, an algebraic object is defined to represent the scanned area. 
 
-\par Regarding the algebraic representation of the 3D voxelised FW LiDAR data, X is a three dimensional point $\mathit{(x, y, z) }$ representing the longitude, latitude and height respectively and ${f(X)}$ is a function that takes  $\mathit{X}$ as input and returns the accumulated intensity value of the voxel that  $\mathit{X}$ lies inside. Also, the iso-surface value $\mathit{\alpha }$ is a user defined parameter and it is noise dependant (Please look at figure *** to understand how the iso-surface value affects the algebraic representation of voxelised FW LiDAR data). 
+\par Regarding the algebraic representation of the 3D voxelised FW LiDAR data, X is a three dimensional point $\mathit{(x, y, z) }$ representing the longitude, latitude and height respectively and ${f(X)}$ is a function that takes  $\mathit{X}$ as input and returns the accumulated intensity value of the voxel that  $\mathit{X}$ lies inside. Also, the iso-surface value $\mathit{\alpha }$ is a user defined parameter and it is noise dependant (Please look at figure \ref{fig:SwitchingVisParameters} to understand how the iso-surface value affects the algebraic representation of voxelised FW LiDAR data). 
 
 
 
