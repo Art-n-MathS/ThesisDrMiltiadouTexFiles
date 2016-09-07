@@ -6,23 +6,15 @@
 
 \section{Introduction}
 
-\par To briefly sum up the previous sections, FW LiDAR data (Section \ref{AcquireData}) are laser scanning data particularly useful in Forestry and inthis thesis they voxelised (Section \ref{Voxelisation}) using the open source software DASOS (Section \ref{DASOS}).  
+\par To briefly sum up the previous sections, FW LiDAR data (Section \ref{AcquireData}) are laser scanning data particularly useful in Forestry, but the huge amount of information recorded make handling of data difficult. The open source software DASOS (Section \ref{DASOS}) was developed to ease the usage of the data. DASOS voxelises (Section \ref{Voxelisation}) the data before interpretation and this approach is fundamentally different from the related and state-of-art software packages. The output of the voxelisation is a 3D discrete density Volume. 
 
-\par This chapter focuses on constructing the surface of the scanned area from the voxelised FW LiDAR in 3D. On the one hand, the voxelised space can be directly rendered using ray-tracing \cite{Hanrahan1983}, but ray-tracing continouesly produces 2D images and even though near real time visualisation has been achieved ***cite ***, GPU processing and hyperformance computing is used. On the other hand, polygonisation (or isosurface extraction or surface reconstruction) it takes longer to generate but once generated it can be faster rendered using rasterisation. 
+\par Even though the concept of Volumetric Visualisations is new in forestry and remote sensing, it has been widely research in medical imaging and visual effects. There are two approaches of visualising volumetric data.
 
-with commotity *** and the user can easily interact with the mesh in real time. For example, selecting a tree and measuring the distance between two locations, useful tasks in forestry. For that reason the polygonisation direction is taken.
+\par The first approach is direct Rendering, which repeatedly generates 2D images according to the view point (the camera). It is like "taking photos" from a camera and visualising them in a sequence to produce an interactive video. An example of direct rendering approach is ray-tracing. Ray-tracing generates images by "taking photos"; rays are casted from the view point passing through each pixel and intensity values are assigned to the pixels according to the nearest intersections. Ray-tracing can be time expensive depending on the complexity of the scene and considering that a high definition video has 24-25 frames (images) per second. Consequently, most of the direct rendering literature focuses on parallellising the ray-casting process. By introducing parallelisation, real time rendering of small volumetric data ($256^3$) was achieved by Pfister et al in 1999 \cite{Pfister1999} and after the release of the CUDA hardware (which is a parallel computing platform on recent nvidia graphics cards), in 2009 Crassin et al achieved real-time rendering of billions of voxels \cite{Crassin2009}. 
+	
+\par Even though it is possible to implement real-time interactive environments using direct rendering of the big voxel data, volumetric visualisations of FW LiDAR data is a new concept in remote sensing and for simplicity this thesis experiments surface reconstruction (the second approach). Surface reconstruction refers to the extraction of a polygonal mesh, which is a set of primitives like triangles. Constructing the surfaces may take several minutes, but the main advantage of this approach is that real time visualisations of the computed set of primitives is guarantee and it works on commodity hardware. This is achieved with rasterisation, which is a rendering method that maps the primitives to pixels, it is widely used in computer games and it is significantly faster than ray-tracing. Furthermore, interactive operations (e.g. measuring the distance between two trees) are trivial calculations on primitives/polygonal meshes and they are easy to implement. 
 
-\par The output is a 3D triangular polygon mesh. The standard rasterati
-
-Find the surface of the Voxelised FW LiDAR and construct a polygon mesh, which is defined by vertices, edges and faces (triangles). 
-
-Standard rendering format of GPUs 
-
-Direct visualisation of volumetric data is also possible but more difficult to interact at real time 
-
-
-
-
+\par This chapter focuses on visualising the 3D volume by reconstructing the surface of the scanned area. 
 
 \section{Algebraic Representation of the Volume}
 
@@ -45,6 +37,15 @@ algebraic objects - implicit and functional are the same
 
 
 \section {Surface Reconstruction}\label{sec:SurfaceReconstruction}
+
+*** 
+
+On the one hand, the voxelised space can be directly rendered using ray-tracing \cite{Hanrahan1983}, but ray-tracing continouesly produces 2D images and even though near real time visualisation has been achieved ***cite ***, GPU processing and hyperformance computing is used. On the other hand, polygonisation (or isosurface extraction or surface reconstruction) it takes longer to generate but once generated it can be faster rendered using rasterisation. 
+
+with commodity hardware and the user can easily interact with the mesh in real time. For example, selecting a tree and measuring the distance between two locations, useful tasks in forestry. For that reason the polygonisation direction is taken. 
+
+***
+
 \par Even though numerical implicitisation is beneficial in reducing storage memory and for various resolution renderings of the same object, visualising numerical/algebraic objects is not straight forward, since they contain no discrete values. This problem can either be address either by ray-tracing or polygonisation. In 1983, Hanraham suggested a ray-tracing approach, where an equation is derived from the ray and surface intersection \cite{Hanrahan1983}.  
 
 \par The Marching Cubes algorithm was later introduced for polygonising implicit objects, using a look up table. Let’s assume that $f(X)$ defines an implicit object. At first the space is divided into cubes. Each cube is defined by eight corner points, which lie either inside or outside the object. By enumerating all the possible cases and linearly interpolating the intersections along the edges, the surface of the implicit object is constructed \cite{Lorensen1987}. According to Lorensen and Cline, the normal of each vertex is calculated by measuring the gradient change. But in this case, due to the high gradient changes inside the volume, this approach of calculating the normal leads to a non-smooth visualisation. For that reason, the normal of each vertex is derived by the average of its adjacent triangles. 
