@@ -10,7 +10,7 @@
 \par To briefly sum up the previous sections, FW LiDAR data (Section \ref{AcquireData}) are laser scanning data particularly useful in Forestry, but the huge amount of information recorded make handling of the data difficult. The open source software DASOS (Section \ref{DASOS}) was developed along with this thesis to ease the usage of the data. DASOS voxelises (Section \ref{Voxelisation}) the data before interpretation and this approach is fundamentally different from the related and state-of-art software packages. The output of the voxelisation is a 3D discrete density Volume. 
 
 
-\par This chapter explains the concepts of reconstructing the surface of the scanned area from the 3D voxelised FW LiDAR. At first, volumetric rendering approaches are briefly described at Section\ref{sec:RenderingApproaches}. Section \ref{sec:AlgebracObjects} gives a mathematical definition to the voxelised data, while Section \ref{sec:SurfaceReconstruction} explains the actual algorithm of generating a surface from the voxelised FW LiDAR data. By the end the results are given in Section \ref{sec:MCResults}. 
+\par This chapter explains the concepts of reconstructing the surface of the scanned area from the 3D voxelised FW LiDAR. At first, volumetric rendering approaches are briefly described at Section\ref{sec:RenderingApproaches}. Section \ref{sec:AlgebracObjects} gives a mathematical definition to the voxelised data, while Section \ref{sec:SurfaceReconstruction} the actual algorithm of generating a surface from the voxelised FW LiDAR data. By the end the results are given in Section \ref{sec:MCResults}. 
 
 
 \section{Rendering Approaches of Volumetric Data}\label{sec:RenderingApproaches}
@@ -72,17 +72,17 @@ In computer graphics, polygonal meshes are a set of primitives usually triangles
 
 \section{Results}\label{sec:MCResults}
 
- 
- selecting region of interest \&
- 
+\par The output of DASOS is a polygonal mesh saved into a standard graphics format (.obj). Figure \ref{fig:VariousFlightlines} shows polygonal meshes generated using NERC-ARF data from three different areas in UK. Additionally, the .obj files can be loaded into various animation software tools like Maya and Meshlab (figure \ref{fig:AnimationPackages}). The region of interest is also user defined. Consequently an entire flightline or selected area is polygonised (figure \ref{fig:SelectingRegionOfInterest}). 
 
- \begin{figure} [h!]
- 	\centering
- 	\includegraphics[width=.8\textwidth]{img/SelectingRegionOfInterest}
- 	\caption[Selecting Region of Interest]{Selecting Region of Interest}
- 	\label{fig:SelectingRegionOfInterest}
- \end{figure}
+\par Furthermore, there are three user-defined parameters and figure \ref{fig:SwitchingVisParameters} shows how the results are affected once modified:
+\begin{enumerate}
+	\item The voxel Length controls the resolution of the output; the bigger the voxel length is the lower the resolution is.
+	\item The iso-level is the boundary that defines whether a voxel is inside or outside the object. Therefore, while iso-level increases the number of voxels that are considered inside the implicit object decreases and therefore when it is set too high the object seems to disappear.
+	\item The Noise level is the threshold of the low level filtering applied during Voxelisation (Section \ref{Voxelisation}). If the noise level is too low, then the noise covers significant features of the data and when it is too high important information are discarded and the object seems to disappear again.
+\end{enumerate}  
+
  
+\par By the end, it is possible to 3D print the meshes using the MakerBot but it's tricky because the meshes are not manifold\footnote{ A non-manifold polygonal object may have triangle below the outside surface of the object}. Simplification of the mesh would have eased the processing of the .obj file in MakerBot. 
  
   \begin{figure} [h!]
   	\centering
@@ -91,21 +91,36 @@ In computer graphics, polygonal meshes are a set of primitives usually triangles
   	\label{fig:VariousFlightlines}
   \end{figure}
   
+    \begin{figure} [h!]
+    	\centering
+    	\includegraphics[width=0.9\textwidth]{img/AimationPackages.png}
+    	\caption[Animation Packages]{Visualising the output of DASOS into animation software packages (Maya and Meshlab)}
+    	\label{fig:AnimationPackages}
+    \end{figure}
+ 
+
+
+ \begin{figure} [h!]
+ 	\centering
+ 	\includegraphics[width=.8\textwidth]{img/SelectingRegionOfInterest}
+ 	\caption[Selecting Region of Interest]{Selecting Region of Interest}
+ 	\label{fig:SelectingRegionOfInterest}
+ \end{figure}
+ 
+
+ 
+
+  
 
   
   \begin{figure} [h!]
   	\centering
-  	\includegraphics[width=0.95\textwidth]{img/SwitchingParameters}
-  	\caption[Polygonisation Parameters]{How the output polygon mesh is affected by modifying the user-defined parameters}
+  	\includegraphics[width=0.91\textwidth]{img/SwitchingParameters}
+  	\caption[Polygonisation Parameters]{How the output polygon mesh is affected by modifying the user-defined parameters (voxel length, isolevel\footnote{} and noise level). Please note that the intensities were scaled to be within the range [-100,100] and that the current released version of DASOS do not scale the intensities.}
   	\label{fig:SwitchingVisParameters}
   \end{figure}
   
-   \begin{figure} [h!]
-	   	\centering
-    	\includegraphics[width=0.9\textwidth]{img/AimationPackages.png}
-     	\caption[Animation Packages]{Visualising the output of DASOS into animation software packages (Maya and Meshlab)}
-     	\label{fig:AnimationPackages}
-    \end{figure}
+
   
    \begin{figure} [h!]
    	\centering
