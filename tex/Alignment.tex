@@ -19,14 +19,17 @@
 
 	\par For every scanned area, there are both FW LiDAR and hyperspectral data, but since the data are collected from different instruments they are not aligned. To integrate the data geo-spatially, aligning the data is required. In order to preserve the highest possible quality and reduce blurring that occurs during geo-rectification, data in original sense of geometry (level 1) are used.
 	
-	\par The main idea of the geo-recification is to find the nearest hyperspectral pixel to a point in the fastest possible way. For the reason, we first import the pixels into a 2D grid, similar to \cite{Warren2014}. The dimensions of the grid and the length of squares are constant, but in our case the average number of pixels per square (Aps) can be modified and the dimensions (nx, ny) of the grid are calculated as follow:
+	\par The main idea of the geo-recification is to find the nearest hyperspectral pixel to a point in the fastest possible way. For the reason, we first import the pixels into a 2D grid, similar to \cite{Warren2014}. The dimensions of the grid and the length of squares are constant, but in our case the average number of pixels per square $(A_{ps})$ can be modified and the dimensions $(n_x, n_y)$ of the grid are calculated as follow:
 	
-	**** EQUATION *****
+%	\begin{math}
+%	 $ \sqrt[root]{2} $
+	 	
+%	\end{math}
 	
 	\par where ns = the number of samples and
 	nl = the number of lines in the hyperspectral images.
 	
-	\par Furthermore, while Warren et al use a tree-like structure, here  structure similar to hash tables is used to speed up searching. Hash table is a data structure, which maps keys to values. In our case, we utilise the unordered\_multimap available with the standard library of the c++ programming language, where for every key there is a bucket with multiple values stored inside. Each square (xs,ys)	has a unique key, which is equal to (xs + ys *nXs) and each pixel is associated with the square it lies inside. In other words, every key with its bucket corresponds to a single square of the grid and every bucket includes all the pixels that lie inside that square. The next step is for every vertex (xv, yv, zv) to find the pixel whose geolocation is closest it. First we project each vertex into 2D by dropping the z coordinate and then we find the square (xs , ys ) that its projection (xv , yv) lies in, as follow:
+	\par Furthermore, while Warren et al use a tree-like structure, here  structure similar to hash tables is used to speed up searching. Hash table is a data structure, which maps keys to values. In our case, we utilise the unordered\_multimap available with the standard library of the $C++$ programming language, where for every key there is a bucket with multiple values stored inside. Each square $(x_s,y_s)$	has a unique key, which is equal to $(x_s + y_s *nXs)$ and each pixel is associated with the square it lies inside. In other words, every key with its bucket corresponds to a single square of the grid and every bucket includes all the pixels that lie inside that square. The next step is for every vertex $(x_v, y_v, z_v)$ to find the pixel whose geolocation is closest it. First we project each vertex into 2D by dropping the $z$ coordinate and then we find the square $(x_s , y_s )$ that its projection $(x_v , y_v)$ lies in, as follow:
 	
 	**** EQUATION *****
 	
