@@ -25,28 +25,26 @@
 		n_x=\sqrt{\dfrac{n_s^2}{A_{ps}}} \;\;\;\;\;\;\;\;\;\; n_y=\sqrt{\dfrac{n_l^2}{A_{ps}}}   
 	\end{eqnarray} 
 	
-	
-	
-%	\begin{math}
-%	 $ \sqrt[root]{2} $
-	 	
-%	\end{math}
-	
 	\par where ns = the number of samples and
 	nl = the number of lines in the hyperspectral images.
 	
 	\par Furthermore, while Warren et al use a tree-like structure, here  structure similar to hash tables is used to speed up searching. Hash table is a data structure, which maps keys to values. In our case, we utilise the unordered\_multimap available with the standard library of the $C++$ programming language, where for every key there is a bucket with multiple values stored inside. Each square $(x_s,y_s)$	has a unique key, which is equal to $(x_s + y_s *nXs)$ and each pixel is associated with the square it lies inside. In other words, every key with its bucket corresponds to a single square of the grid and every bucket includes all the pixels that lie inside that square. The next step is for every vertex $(x_v, y_v, z_v)$ to find the pixel whose geolocation is closest it. First we project each vertex into 2D by dropping the $z$ coordinate and then we find the square $(x_s , y_s )$ that its projection $(x_v , y_v)$ lies in, as follow:
 	
-	**** EQUATION *****
+    \begin{eqnarray}
+	    x_s = \dfrac{x_v-X_{min}}{X_{max}-X_{min}} * nXs
+    \end{eqnarray}
 	
-	**** EQUATION *****
-	\par where maxX, minX, maxY, minY = the geolocation boundaries of all the hyperspectral image.
+	 \begin{eqnarray}
+	 x_s = \dfrac{y_v-Y_{min}}{Y_{max}-Y_{min}} * nYs
+	 \end{eqnarray}
+ 
+	\par where $X_max,\; X_min,\; Y_max,\; Y_min $ are the geolocation boundaries of all the hyperspectral image.
 	
-	\par From the square $(x_s,y_s)$ we can get the set of pixels that lie inside the same square with the vertex of our interest. Let’s assume that the positions and geolocations of these pixels are defined by $p_1	, p_2 , p_3, ... , p_n$ and $g_1, g_2, g_3 , ... , g_n$ respectively. Then, by looping through only that set of pixels, we can find the pixel $i$ that lies closest to the point $v(x_v , y_v)$
+	\par From the square $(x_s,y_s)$ we can get the set of pixels that lie inside the same square with the vertex of our interest. Let’s assume that the positions and geolocations of these pixels are defined by $p_1	, p_2 , p_3, ... , p_n$ and $g_1, g_2, g_3 , ... , g_n$ respectively. Then, by looping through only that set of pixels, we can find the pixel $i$ that lies closest to the point $v(x_v , y_v)$:
+	\begin{eqnarray}
+		i = argmin|v-g_i|^2
+	\end{eqnarray}
 	
-	**** EQUATION *****
-	
-
 	
 	
 		
@@ -58,14 +56,15 @@
 	\end{enumerate}
 	
 	\par Here it worth mentioning that the texture coordinates $(u, v)$ of each vertex lies in the range $[0, 1]$ and if they are multiplied by the height/width of the texture, then the position of the corresponding pixel of the 2D texture is given. The 2D texture is simply an image generated from three user-selected bands for the RGB colours and its width is equal to the number of samples per line while its height is equal to the number of lines.
+
 				
-					
 	\par DASOS projects level 1 hyperspectral images by adjusting the texture coordinates of the polygon according to the geolocation of the samples. That is, for each vertex $(xv, yv , zv)$ we find the pixel, whose geolocation $(x_g, y_g )$ is closest to it. Then by using the position of the pixel on the image $(x_p, y_p)$, the texture coordinates of the vertex are calculated accordingly.
 				
 	\par Finally, we need to scale the pixel position $p_i = (x_p, y_p )$, such that it lies in the range $[0,1]$. The scale factors are the number of samples $(n_s)$ and lines $(n_l)$ of the hyperspectral image. So, the texture coordinates $(u, v)$ of each vertex $v(x_v , y_v)$ are given by the following:
 		
-		
-	**** EQUATION *****
+	\begin{eqnarray}
+	u=\dfrac{x_p}{n_s} \;\;\;\;\;\;\;\;\;\; v=\dfrac{y_p}{n_l}
+	\end{eqnarray}
 	
 	\subsection {Results}
 		
@@ -104,8 +103,37 @@ imagery
 
 \par For each test case, an error matrix is generated to indicate the accuracy of the classification results as verified on the ground truth data (Table 9-11). From the error matrices the classification accuracy of each test case was calculated and is presented in the Table \ref{tab:CoverageResults}.
 
+\par Figure 13 depicts the coverage maps generated for each test case. Three areas were also marked for comparison. Area 1 has been wrongly classified when only the hyperspectral data were used; nevertheless with the height information of the LiDAR
+data, area 1 was correctly classified. Similarly, area 2 was wrongly classified using the FW LiDAR because the height of the trees were less than the training samples but since the hyperspectral images do not contain height information, the
+trees were better labelled at the related test cases. By the end area 3 contains greenhouses, which seems to confuse the first two classifications in different ways, while the combination is much improved. 
 
 
+\begin{table}[!htbp]
+	\label{CoverageErrorMatrix1}
+	\centering
+	\begin{tabular}{c}
+	 \raisebox{-\totalheight}{\adjincludegraphics[width=0.57\linewidth]{img/ErrorMetrix1.png}}
+	\end{tabular}
+	\caption{Error Matrix 1}
+\end{table}
+
+\begin{table}[!htbp]
+	\label{CoverageErrorMatrix2}
+	\centering
+	\begin{tabular}{c}
+		\raisebox{-\totalheight}{\adjincludegraphics[width=0.57\linewidth]{img/ErrorMetrix2.png}}
+	\end{tabular}
+	\caption{Error Matrix 2}
+\end{table}
+
+\begin{table}[!htbp]
+	\label{CoverageErrorMatrix3}
+	\centering
+	\begin{tabular}{c}
+		\raisebox{-\totalheight}{\adjincludegraphics[width=0.57\linewidth]{img/ErrorMetrix3.png}}
+	\end{tabular}
+	\caption{Error Matrix 3}
+\end{table}
 
 
 \begin{table}[!htbp]
@@ -128,18 +156,23 @@ imagery
 \end{table}
 
 
-\par Figure 13 depicts the coverage maps generated for each test case. Three areas were also marked for comparison. Area 1 has been wrongly classified when only the hyperspectral data were used; nevertheless with the height information of the LiDAR
-data, area 1 was correctly classified. Similarly, area 2 was wrongly classified using the FW LiDAR because the height of the trees were less than the training samples but since the hyperspectral images do not contain height information, the
-trees were better labelled at the related test cases. By the end area 3 contains greenhouses, which seems to confuse the first two classifications in different ways, while the combination is much improved. 
 
 
 \begin{figure} [h!]
 	\centering
 	\includegraphics[width=0.7\textwidth]{img/CoverageResults}
-	\caption[Results of Alignement]{Results of Alignment; the left table shows results of projecting hyperspectral images from the Eagle Instrument on polygonal meshes generated using FW LiDAR data and the right hand side images results using the Hawk instrument.}
+	\caption{Visual Comparison of the Results of the Coverage Maps }
 	\label{fig:CoverageResults}
 \end{figure}
 
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=\textwidth]{img/CoverageProjected}
+	\caption[3D Coverage Model]{3D Coverage Model, generated by Projecting the Results of the Tree Coverage Classification into a Polygonal Mesh.}
+	\label{fig:CoverageProjectedPolygon}
+\end{figure}
+
+\newpage\newpage
 \section {Summary and Conclusions}
 \par In this paper we showed an efficient way of aligning the FW LiDAR data and hyperspectral images. The voxel representation of the FW LiDAR data eases the handling of data as well as the alignment with the hyperspectral images. Furthermore, the spatial representation of hyperspectral pixels into a grid
 contributes to the efficiency of the alignement.
