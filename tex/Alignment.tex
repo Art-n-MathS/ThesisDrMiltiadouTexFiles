@@ -91,25 +91,54 @@ that is more likely to belong to (Tree or Ground).
 \subsection{Results and Testing}
 \par As expected the total accuracy was increased with the integration of FW LiDAR data and hyperspectral images. For validating the results, ground truth data were hand painted using 3D models generated with DASOS. Further there are three test cases and for each test case the following metrics are used:
 
-1. L1-L4: Metrics generated from the FW LiDAR
-2. H1-H4: Metrics generated from the hyperspectral
+\begin{enumerate}
+	\item 1. L1-L4: Metrics generated from the FW LiDAR
+	\item 2. H1-H4: Metrics generated from the hyperspectral
 imagery
-3. L1-L4 \& H1-H4: A combination of metrics generated from either FW LiDAR or hyperspectral imagery 
+	\item 3. L1-L4 \& H1-H4: A combination of metrics generated from either FW LiDAR or hyperspectral imagery 
+\end{enumerate}
+
+
 
 \par An error matrix represents the accuracy of the classifications (Congalton, 1991). Each row shows the number of pixels assigned to each class relative to their actual class. For example, the first row of Table 9 shows that 130445 pixels were classified as trees, where 125375 were actual trees and the rest 5070 were ground.
 
-\par For each test case, an error matrix is generated to indicate the accuracy of the classification results as verified on the ground truth data (Table 9-11). From the error matrices the classification accuracy of each test case was calculated and is
-presented in the Table 12.
+\par For each test case, an error matrix is generated to indicate the accuracy of the classification results as verified on the ground truth data (Table 9-11). From the error matrices the classification accuracy of each test case was calculated and is presented in the Table \ref{tab:CoverageResults}.
 
 
-** Tables ***
+
+
+
+\begin{table}[!htbp]
+
+	\label{tab:CoverageResults}
+	\centering
+\begin{tabular}{| l || c | c | c| }
+	\hline		
+	& \textbf{FW LiDAR} & \textbf{Hyperspectral Imagery} & \textbf{Both} \\	
+	\hline			
+	\hline			
+	\textbf{Tree} & 73.55\% & 90.79\% & 89.52\% \\
+	\hline			
+	\textbf{Ground} & 97.83\% & 83.09\% & 95.48\% \\
+	\hline			
+	\textbf{Total} & 87.58\% & 86.34\% &92.97\% \\
+	\hline  
+\end{tabular}
+	\caption{ Classification accuracy of each test case}
+\end{table}
+
 
 \par Figure 13 depicts the coverage maps generated for each test case. Three areas were also marked for comparison. Area 1 has been wrongly classified when only the hyperspectral data were used; nevertheless with the height information of the LiDAR
 data, area 1 was correctly classified. Similarly, area 2 was wrongly classified using the FW LiDAR because the height of the trees were less than the training samples but since the hyperspectral images do not contain height information, the
 trees were better labelled at the related test cases. By the end area 3 contains greenhouses, which seems to confuse the first two classifications in different ways, while the combination is much improved. 
 
 
-*** Image *** 
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.7\textwidth]{img/CoverageResults}
+	\caption[Results of Alignement]{Results of Alignment; the left table shows results of projecting hyperspectral images from the Eagle Instrument on polygonal meshes generated using FW LiDAR data and the right hand side images results using the Hawk instrument.}
+	\label{fig:CoverageResults}
+\end{figure}
 
 \section {Summary and Conclusions}
 \par In this paper we showed an efficient way of aligning the FW LiDAR data and hyperspectral images. The voxel representation of the FW LiDAR data eases the handling of data as well as the alignment with the hyperspectral images. Furthermore, the spatial representation of hyperspectral pixels into a grid
