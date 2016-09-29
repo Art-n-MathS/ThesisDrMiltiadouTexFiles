@@ -3,144 +3,169 @@
 \begin{document}
 	\section{Previous Work}
 	
-	\par Regarding the integration of FW LiDAR and hyperspectral in remote forest surveys, there are diverse opinions on whether the integration of sensors improves remote forest surveying. Clark et al attempted to estimate forest biomass but no better results were observed after the integration \cite{Clark2011}, while the outcomes of Aderson et al for observing tree species abundances structures were improved after the integration of data \cite{Anderson2008}. 
+	\par Regarding the integration of FW LiDAR and hyperspectral data in remote forest surveying, there are diverse opinions on whether the integration of multi-sensor data improves remote forest surveying. Clark et al attempted to estimate forest biomass but no better results were observed after the integration \cite{Clark2011}, while the outcomes of Aderson et al for observing tree species abundances structures were improved after the integration of the data \cite{Anderson2008}. 
 	
-	\par  Buddenbaum et al, 2013 \cite{Buddenbaum2013}, and Heinzel and Koch, 2012 \cite{Heinzel2012}, used a combination of multi-sensor data for tree classifications. Buddenbaum et al use fusion of data to generate RGB images from a combination of FW LiDAR and hyperspectral features, although the fusion reduces the dimensionality of a classifier \cite{Buddenbaum2013}. In this study, three different classifiers were implemented and the Support Vector Machines (SVMs) returned the best results. SVMs were also used in \cite{Heinzel2012} to handle the high dimensionality of the metrics (464 metrics). In that research a combination of FW LiDAR, discrete LiDAR, hyperspectral and colour infrared (CIR) images are used. Each of the 125 hyperspectral bands was directly used as a feature in the classifier, contributing to the high dimensionality. 
+	\par  Buddenbaum et al \cite{Buddenbaum2013}, and Heinzel and Koch \cite{Heinzel2012}, used a combination of multi-sensor data for tree classifications. Buddenbaum et al use fusion of data to generate RGB images from a combination of FW LiDAR and hyperspectral features, although the fusion reduces the dimensionality of a classifier \cite{Buddenbaum2013}. In that study, three different classifiers were implemented and the Support Vector Machines (SVMs) returned the best results. SVMs were also used in \cite{Heinzel2012} to handle the high dimensionality of the metrics (464 metrics). In that research a combination of FW LiDAR, discrete LiDAR, hyperspectral and colour infrared (CIR) images are used. Each of the 125 hyperspectral bands was directly used as a feature in the classifier, contributing to the high dimensionality. 
 	
-	\par In this chapter, the hyperspectral images are introduced to improve the visual output of the polygonal meshes derived from the FW LiDAR data (Chapter \ref{Visualisations}) and it is also investigated how the combination of NERC-ARF data from New Forest  (figure \ref{fig:dataInstrumentsRelations}) performs for generating tree coverage maps. 
+	\par In this chapter, the hyperspectral images are introduced to improve the visual output of the polygonal meshes derived from the FW LiDAR data (Chapter \ref{Visualisations}) and it is also investigated how the combination of NERC-ARF data from New Forest  (Figure \ref{fig:dataInstrumentsRelations}) performs for generating tree coverage maps. 
 	
 	
-%	 Regarding tree coverage, the  Some of the FW LiDAR features are used in a digested form (i.e. the width of the waveform, which corresponds to the thickness map from figure \ref{tab:functionalities}), and matches to the spectral signatures of each class are used to reduce the dimensionality.
-	
-
+%	 Regarding tree coverage, the  Some of the FW LiDAR features are used in a digested form (i.e. the width of the waveform, which corresponds to the thickness map from Figure \ref{tab:functionalities}), and matches to the spectral signatures of each class are used to reduce the dimensionality.
 	
 
+	
+
 
 	
-\section{Integrating Hyperspectral Imagery}
+\section{Spatial Representation of Hyperspectral Pixels for Quick Search}\label{sec:SpatialRepresentation}
 
 
-	\par For every scanned area, there are both FW LiDAR and hyperspectral data, but since the data are collected from different instruments they are not aligned. To integrate the data geo-spatially, aligning the data is required. In order to preserve the highest possible quality and reduce blurring that occurs during geo-rectification, data in original sense of geometry (level 1) are used. More Information about the hyperpsectral Imagery are available in Section \ref{sec:HyperspectralImages}.
+	\par For the New Forest Dataset (Figure \ref{fig:dataInstrumentsRelations}), there are both FW LiDAR and hyperspectral data, but since the data are collected from different instruments they are not aligned. To integrate the data geo-spatially, aligning the data is required. In order to preserve the highest possible quality and reduce blurring that occurs during geo-rectification, data in original sense of geometry (level 1) are used. More Information about the hyperpsectral Imagery are available in Section \ref{sec:HyperspectralImages}.
 	
-	\par The main idea of the geo-recification is to find the nearest hyperspectral pixel to a point in the fastest possible way. For the reason, a spatial representation of the hyperspectral pixels is created by importing the pixels into a 2D grid, similar to \cite{Warren2014}. The dimensions of the grid in meters are constant, but in our case the dimensions of the grid in cells $(n_x, n_y)$ is modifiable according to the chosen average number of pixels per cell $(A_{ps})$: 
+	\par In Anderson et al \cite{Anderson2008}, an inverse distance weighted algorithm is used to raster the hyperspectral images and the pixel size is constant, 15.8m, while in this study an approach similar to Warren el \cite{Warren2014} is used and the resolution is changeable. The main concept of our geo-rectification algorithm is to be able to find the nearest hyperspectral pixel to a point in the fastest possible way. For the reason, a spatial representation of the hyperspectral pixels is created by importing the pixels into a 2D grid, similar to \cite{Warren2014}. The dimensions of the grid in meters are constant, but the dimensions of the grid in number of squares $(n_x, n_y)$ is modifiable according to the chosen average number of pixels per square $(A_{ps})$: 
 	
 	\begin{eqnarray}
 		n_x=\sqrt{\dfrac{n_s^2}{A_{ps}}} \;\;\;\;\;\;\;\;\;\; n_y=\sqrt{\dfrac{n_l^2}{A_{ps}}}   
 	\end{eqnarray} 
 	
-	\par where $n_s$  is  the number of samples and $n_l$ is the number of lines in the hyperspectral cube (figure \ref{fig:hyperspectralCube}).
+	\par where $n_s$  is  the number of samples and $n_l$ is the number of lines of the hyperspectral cube (figure \ref{fig:hyperspectralCube}).
 	
-	\par While Warren et al use a tree-like structure, here a structure similar to hash tables is used to speed up searching. Hash table is a data structure, which maps keys to values. In our case, we utilise the unordered\_multimap available with the standard library of the $C++$ programming language, where for every key there is a bucket with multiple values stored inside. Each square $(x_s,y_s)$	has a unique key, which is equal to $(x_s + y_s *nXs)$ and each pixel is associated with the square it lies inside. In other words, every key with its bucket corresponds to a single square of the grid and every bucket includes all the pixels that lie inside that square. The next step is for every vertex $(x_v, y_v, z_v)$ to find the pixel whose geolocation is closest it. First we project each vertex into 2D by dropping the $z$ coordinate and then we find the square $(x_s , y_s )$ that its projection $(x_v , y_v)$ lies in, as follow: 
+	\par Furthermore, while Warren et al use a tree-like structure, here a structure similar to hash tables is used for speeding up searching. We utilise the unordered\_multimap available with the standard library of the $C++$ programming language, where for every key there is a bucket with many values stored inside. Each square $(x_s,y_s)$	has a unique key and each pixel is associated with the square it lies inside. In other words, every key correspond to a bucket and a single square from the spatial grid. Every bucket contains all the pixels that lie inside the related square. Also, the key is equal to $(x_s + y_s *n_x)$ where $n_x$ is the number of pixels in the x-axis. Figure \ref{fig:HashTable} illustrates how the hash table works for the spatial representation of pixels. 
+	
+	 \begin{figure} [h!]
+	 	\centering
+	 	\includegraphics[width=0.55\textwidth]{img/HashTable}
+	 	\caption[Hash Table]{The hash table of the spatial representation of the hyperspectral pixels; each bucket contains all the pixels of a square and  has a unique key derived from the location of its square. The hash function takes as input the key and returns the address in memory of the corresponding bucket. }
+	 	\label{fig:HashTable}
+	 \end{figure}
+	
+	\par The next step is for a point $(x_v, y_v, z_v)$ to find the pixel whose geolocation is the closest to it. First we project the point into 2D by dropping the $z$ coordinate and then we find the square $(x_s , y_s )$ that the projected point $\mathbf{v}(x_v , y_v)$ lies inside, as follow: 
 	
     \begin{eqnarray}
-	    x_s = \dfrac{x_v-X_{min}}{X_{max}-X_{min}} * nXs
+	    x_s = \dfrac{x_v-X_{min}}{X_{max}-X_{min}} * n_x
     \end{eqnarray}
 	
 	 \begin{eqnarray}
-	 x_s = \dfrac{y_v-Y_{min}}{Y_{max}-Y_{min}} * nYs
+	 x_s = \dfrac{y_v-Y_{min}}{Y_{max}-Y_{min}} * n_y
 	 \end{eqnarray}
  
-	\par where $X_max,\; X_min,\; Y_max,\; Y_min $ are the geolocation boundaries of all the hyperspectral image.
+	\par where $X_{max},\; X_{min},\; Y_{max},\; Y_{min} $ are the geospatial boundaries of all the hyperspectral image and $n_x, n_x$ are the number of pixels in the x and y axis accordingly. 
 	
-	\par From the square $(x_s,y_s)$ we can get the set of pixels that lie inside the same square with the vertex of our interest. Let’s assume that the positions and geolocations of these pixels are defined by $p_1	, p_2 , p_3, ... , p_n$ and $g_1, g_2, g_3 , ... , g_n$ respectively. Then, by looping through only that set of pixels, we can find the pixel $i$ that lies closest to the point $v(x_v , y_v)$:
+	\par From the square $(x_s,y_s)$ we can get the set of pixels that lie inside the same square with the point of our interest. Let’s assume that the geospatial locations of these pixels are the vectors $\mathbf{g_1},\mathbf{g_2}, \mathbf{g_3}, ... , \mathbf{g_n}$ respectively. Then, by looping through that set of pixels, we can find the pixel $i$ that is most likely to be the closest pixel to the point $\mathbf{v}(x_v , y_v)$:
 	\begin{eqnarray}
-		i = argmin|v-g_i|^2
+		i = argmin|\mathbf{v}-\mathbf{g_i}|^2
 	\end{eqnarray}
 	
-	
+	\par By the end, there is the case of the closest point to be within an adjacent square and this occurs when the point is very close to the edges of the square. Even though this was not implemented in DASOS when the paper \cite{Miltiadou2015} was published, it can be done by checking the distance between the edges of the square and the point. If this distance is smaller than the distance between pixel $i$ then we could loop through the points of the corresponding adjacent square and check whether there is another pixel closer to point $\mathbf{v}$ than pixel $i$. Similarly, by checking the distance between the point $\mathbf{v}$ and the corners of the square $(x_s,y_s)$, the case of the closest point to exist inside a diagonal adjacent square is also covered. 
 	
 		
-\section{Visualisation}
-	\par When the hyperspectral images are loaded along with the LiDAR files, then the outputs are: 	
-	\begin{enumerate}
-		\item the 3D geometry, which contains all the information about the vertices, edges, faces, normal and texture coordinates, and
-		\item  a texture, which is an RGB image which is aligned with the texture coordinates of the polygon mesh.
-	\end{enumerate}
-	
-	\par Here it worth mentioning that the texture coordinates $(u, v)$ of each vertex lies in the range $[0, 1]$ and if they are multiplied by the height/width of the texture, then the position of the corresponding pixel of the 2D texture is given. The 2D texture is simply an image generated from three user-selected bands for the RGB colours and its width is equal to the number of samples per line while its height is equal to the number of lines.
+\section{Projecting Hyperspectral Images into Polygon Meshes generated using FW LiDAR data}\label{sec:ProjectingHyperspectral}
+	\par This section focuses on projecting the (level 1) hyperspectral Images onto the polygonal meshes reconstructed from the FW LiDAR data as explained in Section \ref{sec:SurfaceReconstruction}. As shown the at Figure \ref{fig:ProjectingHyperspectral} the result is a coloured polygon mesh. That mesh is saved into two files: 
+	 \begin{itemize}
+	 	\item the .obj file that contains the 3D geometry and
+	 	\item the .png file that contains the 2D texture image
+	 \end{itemize} 	
 
-				
-	\par DASOS projects level 1 hyperspectral images by adjusting the texture coordinates of the polygon according to the geolocation of the samples. That is, for each vertex $(xv, yv , zv)$ we find the pixel, whose geolocation $(x_g, y_g )$ is closest to it. Then by using the position of the pixel on the image $(x_p, y_p)$, the texture coordinates of the vertex are calculated accordingly.
-				
-	\par Finally, we need to scale the pixel position $p_i = (x_p, y_p )$, such that it lies in the range $[0,1]$. The scale factors are the number of samples $(n_s)$ and lines $(n_l)$ of the hyperspectral image. So, the texture coordinates $(u, v)$ of each vertex $v(x_v , y_v)$ are given by the following:
+	
+		 \begin{figure} [h!]
+		 	\centering
+		 	\includegraphics[width=0.9\textwidth]{img/ProjectingHyperspectral}
+		 	\caption{Projecting hyperspectral images into the polygonal meshes}
+		 	\label{fig:ProjectingHyperspectral}
+		 \end{figure}
+		 
+
+	
+			
+	\par  The (level 1) hyperspectral images look deformed because the pixel size is not consistent (figure \ref{fig:ProjectingHyperspectral}) and DASOS resolves this problem by adjusting the texture coordinates of the polygonal mesh according to the geolocation of the pixels. The texture coordinates $(u, v)$ of each vertex lies inside the range $[0, 1]$ and if they are multiplied by the height/width of the texture, then the position of the corresponding pixel of the texture is given. In order to calculate the texture coordinates of each vertex $(x_v, y_v, z_v)$, the spatial representation of the hyperspectral pixels (explained at Section \ref{sec:SpatialRepresentation}) is used for quickly detecting the pixel $(x_p, y_p )$, whose geolocation is the closest to a vertex. By dividing the pixel position with the number of samples $(n_s)$ and lines $(n_l)$ in the hyperspectral image, the texture coordinates $(u, v)$ of each vertex $v(x_v , y_v)$ are calculated:
 		
 	\begin{eqnarray}
 	u=\dfrac{x_p}{n_s} \;\;\;\;\;\;\;\;\;\; v=\dfrac{y_p}{n_l}
 	\end{eqnarray}
 	
+	\par Regarding the outputs the texture coordinates of the polygonal mesh are added into the .obj file, while the 2D texture is simply an image generated from three user-selected bands for the RGB colours. The width of the image is equal to the number of hyperspectral samples per line while its height is equal to the number of lines.
+	
 	\subsection {Results}
+	
+
+		\par The results of the projection are coloured polygonal meshes. Each coloured polygonal mesh is exported into two files:
+		\begin{enumerate}
+			\item the .obj file contains the 3D geometry with all the information about the vertices, edges, faces, normals and texture coordinates, and
+			\item the .png is the 2D texture (an RGB image) and it is aligned with the texture coordinates of the polygonal mesh.
+		\end{enumerate} 
 		
-		  \begin{figure} [h!]
+		 \par Figure \ref{fig:AlignementResults} shows how the visual output is affected by projecting hyperspectral data from different sensors and by changing the selected bands. 
+		
+			
+		
+		\begin{figure} [h!]
 		  	\centering
 		  	\includegraphics[width=\textwidth]{img/AlignmentEagle_Hawk}
-		  	\caption[Results of Alignement]{Results of Alignment; the left table shows results of projecting hyperspectral images from the Eagle Instrument on polygonal meshes generated using FW LiDAR data and the right hand side images results using the Hawk instrument.}
+		  	\caption[Results of Alignement]{Results of Alignment; the left table shows the results of projecting hyperspectral images from the Eagle Instrument onto the polygonal meshes generated using FW LiDAR data and the right hand side table shows results using the Hawk instrument.}
 		  	\label{fig:AlignementResults}
-		  \end{figure}
+		\end{figure}
 		
-		
+	\newpage	
 \section{Tree Coverage Maps}
 
-\par In Anderson et al, 2008, \cite{Anderson2008} an inverse distance weighted algorithm is used to raster the hyperspectral images and the pixel size is constant, 15.8m. While in this study an approach similar to Warren el \cite{Warren2014} is used and the resolution is changeable.
+\par As mentioned before, there are diverse opinions on whether integration of remotely sensed data improves forest monitoring \cite{Clark2011} \cite{Anderson2008}. For that reason, a simple pixelwise classifier was implemented to test how the integration of NERC-ARF data, using metrics generated from DASOS, performs for generating tree coverage maps.  
 
-\par Further, the metrics generated from both hyperspectral and LiDAR are 2D aligned pictures. In other words, the pixel $(x, y)$ has the same geographical coordinates in every metric. Further the resolution of the metrics depends on the resolution of the 3D volume. If the dimensions of the volume are $(x, y, z)$ then the dimensions of the metrics are $(x, y)$. For LiDAR each pixel is coloured according to the information derived from the corresponding column. For Hyperspectral metrics level 1 data are used to preserve the highest possible quality. The same method as section 4.5 is used for finding the pixels from the hyperspectral data that are closest to the centre of the every column of the 3D discrete density volume.
+\par The metrics generated from both hyperspectral and FW LiDAR data are 2D aligned images (Table \ref{tbl:functionalities}). In other words, the pixel $(x, y)$ has the same geospatial coordinates in every metric. Further the resolution of the metrics depends on the resolution of the 3D voxelised FW LiDAR data (Section \ref{Voxelisation}). If the dimensions of the volume are $(x, y, z)$ then the dimensions of the metrics are $(x, y)$. For the LiDAR metrics, each pixel is coloured according to the information derived from the corresponding column. Regarding the Hyperspectral metrics, (level 1) data are used to preserve the highest possible quality. The same method as Section \ref{sec:SpatialRepresentation} is used for finding the pixel from the hyperspectral data that its geospatial location is the closest to the centre of each column of the 3D voxelised FW LiDAR.
 
-\par The metrics used in this project are shown in the following table, but the list of the metrics can easily be extended. The metrics L1 to L4 are generated from the FW LiDAR data while the metrics H1 to H4 are generated from the hyperspectral images
-
-\par To demonstrate the usefulness of DASOS, tree coverage maps are generated using a classifier and the results projected back into the polygon representations as shown in the following figure ***. A Naïve Bayesian classifier using a multi-variance Gaussian model is applied for distinguishing tree covered areas from the ground. The main idea is for each pixel/column to find the class
-that is more likely to belong to (Tree or Ground).
-
-\subsection{Results and Testing}
-\par As expected the total accuracy was increased with the integration of FW LiDAR data and hyperspectral images. For validating the results, ground truth data were hand painted using 3D models generated with DASOS. Further there are three test cases and for each test case the following metrics are used:
-
-\begin{enumerate}
-	\item 1. L1-L4: Metrics generated from the FW LiDAR
-	\item 2. H1-H4: Metrics generated from the hyperspectral
-imagery
-	\item 3. L1-L4 \& H1-H4: A combination of metrics generated from either FW LiDAR or hyperspectral imagery 
-\end{enumerate}
+\par The metrics used for generating tree coverage maps are grouped into two categories (FW LiDAR and hyperspectral metrics):
+\begin{itemize}
+	\item FW LiDAR: Height (L0), Thickness (L1), Density (L2) and First Patch (L3)
+	\item Hyperspectral: Mean (H0), NDVI (H1), Standard Deviation (H2) and Spectral Signature (H3)
+\end{itemize}
+For more descriptive information and examples of the metrics please look at Table \ref{tbl:functionalities}, where all the functionalities of DASOS are listed.  
 
 
+\subsection{Testing and Results}
 
-\par An error matrix represents the accuracy of the classifications (Congalton, 1991). Each row shows the number of pixels assigned to each class relative to their actual class. For example, the first row of Table 9 shows that 130445 pixels were classified as trees, where 125375 were actual trees and the rest 5070 were ground.
+\par In this case, the total accuracy was increased with the integration of FW LiDAR data and hyperspectral images. A Naïve Bayesian classifier using a multi-variance Gaussian model is applied for distinguishing tree covered areas from the ground. The main idea is for each pixel/column to find the class that is more likely to belong to Tree or Ground.  Ground truth data were hand painted using 3D models generated with DASOS and they were divided into training and testing data. Further there are three test cases and for each test case the following metrics are used:
 
-\par For each test case, an error matrix is generated to indicate the accuracy of the classification results as verified on the ground truth data (Table 9-11). From the error matrices the classification accuracy of each test case was calculated and is presented in the Table \ref{tab:CoverageResults}.
+\begin{itemize}
+	\item 1st test case uses the L0-L3 metrics that are generated from the FW LiDAR data.
+	\item 2nd test case uses the H0-H3 metrics that are generated from the hyperspectral imagery.
+	\item 3rd test case uses L0-L3 \& H1-H4 which is a combination of metrics generated from either FW LiDAR data or hyperspectral imagery. 
+\end{itemize}
 
-\par Figure 13 depicts the coverage maps generated for each test case. Three areas were also marked for comparison. Area 1 has been wrongly classified when only the hyperspectral data were used; nevertheless with the height information of the LiDAR
-data, area 1 was correctly classified. Similarly, area 2 was wrongly classified using the FW LiDAR because the height of the trees were less than the training samples but since the hyperspectral images do not contain height information, the
-trees were better labelled at the related test cases. By the end area 3 contains greenhouses, which seems to confuse the first two classifications in different ways, while the combination is much improved. 
+\par For each test case, an error matrix is generated to indicate the accuracy of the classification results as verified on the ground truth data (Tables \ref{tab:CoverageErrorMatrix1}, \ref{tab:CoverageErrorMatrix2} and \ref{tab:CoverageErrorMatrix3}) \cite{Congalton1991}. Each row shows the number of pixels assigned to each class relative to their actual class. For example, the first row of Table \ref{tab:CoverageErrorMatrix1} shows that 130445 pixels were classified as trees, where 125375 were actual trees and the rest 5070 were ground. From the error matrices the classification accuracy of each test case was calculated and it is presented in Table \ref{tab:CoverageResults}.
 
+\par Figure \ref{fig:CoverageResults} depicts the coverage maps generated for each test case. Three areas are marked for comparison. In Area 1 there is low vegetation, in Area 2 there are short trees and in Area 3 warehouses. Area 1 has been wrongly classified when only the hyperspectral data were used; nevertheless when the height information of the LiDAR data was included into the classifier, area 1 was correctly classified. Similarly, Area 2 was wrongly classified when using the only FW LiDAR metrics because the height of the trees was less than the average training samples. But since features from the hyperspectral data are not height dependant, the classification results of test case 1 (with hyperspectral metrics) was better at Area 2. By the end Area 3 seems to confuse the first two classifiers in different ways, while the combination improved the results. 
 
-\begin{table}[!htbp]
-	\label{CoverageErrorMatrix1}
+\par By the end, to demonstrate the usefulness of DASOS's polygonal meshes, the results of the tree coverage maps were projected into the polygon representations as shown in the following Figure \ref{fig:CoverageProjectedPolygon}. 
+
+\newpage
+\begin{table}[!h]
 	\centering
 	\begin{tabular}{c}
 	 \raisebox{-\totalheight}{\adjincludegraphics[width=0.57\linewidth]{img/ErrorMetrix1.png}}
 	\end{tabular}
-	\caption{Error Matrix 1}
+	\caption{Error Matrix for 1st test case (Hyperspectral)}
+	\label{tab:CoverageErrorMatrix1}
 \end{table}
 
-\begin{table}[!htbp]
-	\label{CoverageErrorMatrix2}
+\begin{table}[!h]
 	\centering
 	\begin{tabular}{c}
 		\raisebox{-\totalheight}{\adjincludegraphics[width=0.57\linewidth]{img/ErrorMetrix2.png}}
 	\end{tabular}
-	\caption{Error Matrix 2}
+	\caption{Error Matrix for 2nd test case (FW LiDAR)}
+	\label{tab:CoverageErrorMatrix2}
 \end{table}
 
-\begin{table}[!htbp]
-	\label{CoverageErrorMatrix3}
+\begin{table}[!h]
 	\centering
 	\begin{tabular}{c}
 		\raisebox{-\totalheight}{\adjincludegraphics[width=0.57\linewidth]{img/ErrorMetrix3.png}}
 	\end{tabular}
-	\caption{Error Matrix 3}
+	\caption{Error Matrix for 3rd test case (Both)}
+	\label{tab:CoverageErrorMatrix3}
 \end{table}
 
 
-\begin{table}[!htbp]
-
-	\label{tab:CoverageResults}
+\begin{table}[!h]
 	\centering
 \begin{tabular}{| l || c | c | c| }
 	\hline		
@@ -155,11 +180,12 @@ trees were better labelled at the related test cases. By the end area 3 contains
 	\hline  
 \end{tabular}
 	\caption{ Classification accuracy of each test case}
+	\label{tab:CoverageResults}
 \end{table}
 
 
 
-
+\newpage
 \begin{figure} [h!]
 	\centering
 	\includegraphics[width=0.7\textwidth]{img/CoverageResults}
@@ -176,14 +202,10 @@ trees were better labelled at the related test cases. By the end area 3 contains
 
 \newpage\newpage
 \section {Summary and Conclusions}
-\par In this paper we showed an efficient way of aligning the FW LiDAR data and hyperspectral images. The voxel representation of the FW LiDAR data eases the handling of data as well as the alignment with the hyperspectral images. Furthermore, the spatial representation of hyperspectral pixels into a grid
-contributes to the efficiency of the alignement.
+\par To sum up, this chapter describes an efficient way of aligning the FW LiDAR data and hyperspectral images using a spatial representation of hyperspectral pixels. The voxelisation of the FW LiDAR data also eases the generation of aligned metrics from both datasets. Furthermore, the resolution of the metrics is changeable and depends on the user-defined resolution of the voxelised FW LiDAR data. Additionally, since the closest pixel is always selected, regardless the distance from the point of interest, the problem of having data of different resolution is automatically resolved. 
 
-\par The visualisation of FW LiDAR data and hyperspectral images has been improved by introducing computer graphics approaches to remote sensing. While the state-of-the-art FW LiDAR visualisations talks about points clouds and transparent
-voxels, the output of DASOS is a coloured polygon representation which can be exported and interpretated in modeling softwares, like Meshlab.
+\par Regarding the results, coloured polygonal meshes are generated using the alignment and it was also showed that the integration of this specific data has great potentials in remote forest surveying. This was demonstrated using a simple classifier for generating tree coverage maps. The results were positive; the classification accuracy was improved by 5.39\% when both datasets were used.
 
-\par It was also showed that the integration of the data has great potentials in remote forest surveys. This was demonstrated using a Bayesian probabilistic classifier for generating tree coverage maps. Positive results were shown by improved classification accuracy when both datasets were used.
 
-\par By the end, the tools developed for this research are now openly available (Section 2). 
 
 \end{document}
