@@ -4,7 +4,7 @@
 \begin{document}
 
 \section{Problem}\label{sec:Problem}
-\par FW LiDAR systems have been available for a number of years but there still very few uses of FW LiDAR data. NERC-ARF has been acquiring airborne data for the UK and overseas since 2010 and it has more than 100 clients of new and archived data. Many clients request FW LiDAR data to be acquired, but despite the significant number of requests, the discrete LiDAR data has been mostly used on research instead. Some of the factors regarding this slow intakes are:
+\par FW LiDAR systems have been available for a number of years but there still very few uses of FW LiDAR data. NERC-ARF has been acquiring airborne data for the UK and overseas since 2010 and it has more than 100 clients of new and archived data. Many clients request FW LiDAR data to be acquired, but despite the significant number of requests,the majority of research still only uses discrete LIDAR. Some of the factors regarding this slow intakes are:
 \begin{itemize}
 	\item Typically FW datasets are 5 – 10 times larger than discrete data, with data sizes in the range of 50GB – 2.5TB GB for a single area of interest. NERC-ARF's datasets are up to 100GB each because most clients are research institutes but for commercial purposes each FW dataset is a couple of TB.
 	\item Existing workflows are only able to work with the discrete data since the increased amount of information recorded within the FW LiDAR makes handling the quantity of data very challenging.
@@ -15,6 +15,7 @@
 \par This thesis explores visualisation and data-understanding for FW LIDAR systems and the overarching aim is to increase the accessibility FW LiDAR in remote forest surveying.
 
 \par The objectives are the following:
+{\color{red} NEILL: Could perhaps provide more structure to these points by dividing into general aims and specific examples/applications? I would also number these so that you can refer to the objectives later on. }
 \begin{itemize}
 	\item Enable forestry experts with no computer science expertise to visualise and work with the FW LiDAR data. 
 	\item Enable forest understanding through 3D visualisations of FW LiDAR data.
@@ -32,7 +33,7 @@
 
 \par {\color{red} *** the following text has been taken from the IAA2 funding application}
 	
-\par To address the limitations of existing workflows for using with FW data we developed the open source software DASOS ($\delta \alpha \sigma o \varsigma$=forest in Greek) and novel algorithms that allow users, without computer science expertise, to work with and visualise large volumes of FW LiDAR data. Our open source software DASOS aims to remove the barriers preventing the use of FW LiDAR. Its contributions, and those of the new representations of the FW LiDAR, are demonstrated in three applications:
+\par To address the limitations of existing workflows for using with FW data we developed the open source software DASOS ( from $\delta \alpha \sigma o \varsigma$ meaning forest in Greek) and novel algorithms that allow users, without computer science expertise, to work with and visualise large volumes of FW LiDAR data. Our open source software DASOS aims to remove the barriers preventing the use of FW LiDAR. Its contributions, and those of the new representations of the FW LiDAR, are demonstrated in three applications:
 
 \begin{itemize}
 \item Firstly, foresters can exploit their domain expertise to derive a wealth of information by observing the FW LiDAR data. We therefore improve visualisations for deriving information directly from the data, thus reducing travelling time and the associated expenses of getting into the forests. This cost includes appropriate cars and sometimes helicopters depending on the accessibility of the forests. While previous work on FW LiDAR visualisation talks about point cloud visualisation \cite{Isenburg2012Pulsewaves} and transparent voxels \cite{Persson2005}, DASOS is able to reconstruct the surfaces from the scanned area in 3D. This research further optimisesvisualisations by using the new FW LiDAR representations to accelerate this process by ****\%. {\color{red} *** I will complete the percentage once related test are completed}
@@ -40,7 +41,7 @@
 \item Secondly, a fast way of aligning the FW LiDAR with Remotely Sensed Images has been developed in DASOS. Subsequently, by generating tree coverage maps, it has been shown that the combination of these datasets confers better remote survey results \cite{Miltiadou2015}.
 
 
-\item {\color{gray} Finally, DASOS allow the generation of 3D priors. An example usage of this information is characterising dead standing Eucalyptuses, which as explained at Section \ref{sec:sec:forestMonitoring} are extremely beneficial for managing biodiversity in native Australian forests. This is work in progress and a comparison between the discrete and FW LiDAR will be performed to demonstrate the increased survey accuracy obtained when the FW LiDAR is used.}
+\item {\color{gray} Finally, DASOS allows the generation of 3D priors. An example usage of this information is characterising dead standing Eucalyptuses, which as explained at Section \ref{sec:sec:forestMonitoring} are extremely beneficial for managing biodiversity in native Australian forests. This is work in progress and a comparison between the discrete and FW LiDAR will be performed to demonstrate the increased survey accuracy obtained when the FW LiDAR is used.}
 
 \end{itemize}
 
