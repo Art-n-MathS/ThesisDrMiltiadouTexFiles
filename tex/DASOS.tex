@@ -167,13 +167,18 @@
         		LAS1.3 \newline and \newline level 1 (.bil \& .igm)& \textbf{H0 : Mean } \newline The mean of the hyperspectral spectrum.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/HYPERSPECTRAL_MEAN}} & .asc \\ 
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 \newline and \newline level 1 (.bil \& .igm&\textbf{H1: NDVI } \newline Normalised Difference Vegetation index.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/NDVI}} & .asc \\ 
+        		LAS1.3 \newline and \newline level 1 (.bil \& .igm&\textbf{H1: NDVI } \newline {\color{blue} The Normalised Difference Vegetation Index indicates whether green vegetation exists or not and it is derived from the electromagnetic spectrum as follow:
+        		    \begin{eqnarray}
+        		    NDVI = \dfrac{NIR-VIS}{NIR+VIS}
+        		    \end{eqnarray}
+        		    where the NIR is the near-infrared region of the spectrum (700-2500nm) and VIS is the Visible/Visual spectrum (430-770) 
+        		     \cite{Crippen1990_NDVI}.}& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/NDVI}} & .asc \\ 
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 \newline and \newline level 1 (.bil \& .igm&\textbf{H2: Standard \newline Deviation \footnotemark[2]} \newline The standard deviation of the hyperspectral spectrum at each pixel.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/std}} & .asc \\ 
+        		LAS1.3 \newline and \newline level 1 (.bil \& .igm&\textbf{H2: Standard \newline Deviation \footnotemark[1]} \newline The standard deviation of the hyperspectral spectrum at each pixel.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/std}} & .asc \\ 
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 \newline and \newline level 1 (.bil \& .igm&\textbf{H3: Spectral \newline Signature \footnotemark[2]} \newline The   squared spectral   difference   between   each pixels’  spectrum  and the  generalised vegetation signature retrieved  from  USGS  Digital  Spectral Library \cite{Clark2007}.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/spectralSignature}} & .asc  \\ 
+        		LAS1.3 \newline and \newline level 1 (.bil \& .igm&\textbf{H3: Spectral \newline Signature \footnotemark[1]} \newline The   squared spectral   difference   between   each pixels’  spectrum  and the  generalised vegetation signature retrieved  from  USGS  Digital  Spectral Library \cite{Clark2007}.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/spectralSignature}} & .asc  \\ 
         		
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
@@ -206,11 +211,11 @@
 				\label{tbl:functionalities}	
         	\end{longtable}
         	
-			\footnotetext[2]{Those two metrics were implemented specifically for the tree coverage maps \cite{Miltiadou2015} and they are not available on the released version of DASOS.}
+			\footnotetext[1]{Those two metrics were implemented specifically for the tree coverage maps \cite{Miltiadou2015} and they are not available on the released version of DASOS.}
 
 	   	
-	   	\par In this sections an in depth overview of DASOS's functionalities was given (Table \ref{tbl:functionalities}). Each functionality is linked to a number of Sections, which describes the algorithms implemented and related applications.
-	   		
+	   	\par In this sections an in depth overview of DASOS's functionalities was given (Table \ref{tbl:functionalities}). Each functionality is linked to a number of Sections, which describes the algorithms implemented and related applications. {\color{blue} In a few words, the 3D visualisations are useful in foresty for reducing fielwork and improving planning of field trips (i.e. checking whether a road is passing through a fieldplot area). The 2D metrics allow simultaneous interepretation of FW LiDAR data and hyperspectral imagery. They could also be used in GIS softwares. In this thesis, they are used for generating tree coverage maps. Last but not least the priors enables 3D feature detection and they are used for detecting dead standing trees.}
+	   
 	   	
 	   	\par It further worth stating that the up-to-date information about DASOS are provided at: \url{<http://miltomiltiadou.blogspot.co.uk/2015/03/las13vis.html>} 
 	   	This link also indicates how to download DASOS, the complete user-guide and the source code, as well as where to seek for support while using it. 
