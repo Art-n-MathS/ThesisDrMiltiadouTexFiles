@@ -1,6 +1,10 @@
 \documentclass[11pt,nofootinbib]{report}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
 \usepackage{authblk}
 \usepackage{hyperref}
 \usepackage{booktabs}
@@ -22,8 +26,22 @@
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \usepackage{booktabs,makecell}
 \usepackage{color} 
+
+\usepackage{ifpdf}
+
 \usepackage[dvipsnames]{xcolor}
 \usepackage[export]{adjustbox}
+
+
+\usepackage{array}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\usepackage{booktabs,makecell}
+
+
+\usepackage{xspace}
+\newcommand*{\eg}{e.g.\@\xspace}
+\newcommand*{\ie}{i.e.\@\xspace}
+\newcommand*{\etal}{\textit{et~al.}\@\xspace}
     
 
 
@@ -45,6 +63,7 @@
      
      NOTES:
      \par {\color{blue}{Blue colour: additions according to Neill's feedback}},
+     \par {\color{Fuchsia} Purple colour: addition/corrections according to Mike's comments }
      \par {\color{red}{Red colour: notes}}
      \par {\color{gray}{Gray colour: text that is going to be modified }}
      
@@ -126,7 +145,7 @@
 
 		 		
 	\chapter{Surface Reconstruction from Voxelised FW LiDAR Data}\label{Visualisations}
-		\subfile{tex/Visualisations.tex}
+		\subfile{tex/Visualisations1.tex}
 		\newpage
     \chapter{Optimisations of Polygonal Meshes Extraction}\label{Optimisations}
 			 \subfile{tex/Optimisations.tex}

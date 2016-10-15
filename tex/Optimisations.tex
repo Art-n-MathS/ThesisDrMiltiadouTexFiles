@@ -79,13 +79,13 @@ The last three approaches are optimisation approaches that aim to ignore big emp
 	\item Integral Tree: It is a combination of Octree and Integral where the sum of a given branch is returned at constant time. (Section \ref{sec:ITopt})
 \end{itemize}
 
-\subsection{Integral Volumes}\label{sec:IVopt}
+\section{Integral Volumes}\label{sec:IVopt}
 The Integral Volumes optimisation is based on the idea of Integral Images, which is an image representation where each pixel value is replaced by the sum of all the pixels that belong to the rectangle defined by the lower left corner of the image and the pixel of interest.  An integral image is constructed in linear time and the sum of every rectangular area is calculated in constant time, as shown in figure \ref{fig:IntegralImages} \cite{Crow1984}
 
 
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=3.5in]{IntegralImages}
+	\includegraphics[width=5.5in]{img/IntegralImages}
 	% where an .eps filename suffix will be assumed under latex, 
 	% and a .pdf suffix will be assumed for pdflatex; or what has been declared
 	% via \DeclareGraphicsExtensions.
@@ -96,7 +96,7 @@ The Integral Volumes optimisation is based on the idea of Integral Images, which
 
 In this paper, we extend Integral Images to Integral Volumes and use them to quickly identify and ignore big chunks of empty voxels during polygonisation. The following section explains the mathematics behind Integral Volumes, while sections \ref{sec:IVoptApproach}  and \ref{sec:IVcodeDetails} give an in depth description about the algorithms invented. 
 
-\subsubsection{Extending Integral Images to Integral Volumes}\label{sec:extendingIV}
+\subsection{Extending Integral Images to Integral Volumes}\label{sec:extendingIV}
 
 As shown in Figure \ref{fig:IntegralImages},the area of interest is defined by the pixels $(x, y)$ and $(x+l_x, y+l_y)$ and the sum $S$ is given by: 
 \begin{equation}
@@ -131,7 +131,7 @@ $S$ is the sum of voxels inside the box, $T(x, y, z)$ is the value of the voxel 
 
 
 
-\subsubsection{Optimisation Algorithm}\label{sec:IVoptApproach}
+\subsection{Optimisation Algorithm}\label{sec:IVoptApproach}
 As mentioned before, using Integral volumes empty areas are quickly identified and ignored during polygonisation. An iterative algorithm is introduced here. This algorithm continuously splits the volume and checks whether the sub-volumes and its neighbouring voxels are empty using the Integral Volumes. Please note that all the values below the threshold boundary of the object must be zero and all the non-empty voxels must contain a positive value.  
 
 \begin{algorithm}
@@ -139,25 +139,25 @@ As mentioned before, using Integral volumes empty areas are quickly identified a
 	\label{alg:IVoptSimple}
 	\centering
 	\begin{algorithmic}[1]
-		\STATE Push the entire Volume as a cuboid inside a Stack
-		\WHILE {stack is not empty }
-		\STATE Cuboid-A   $\gets$  next cuboid from the Stack 
-		\IF{Cuboid-A and neighbours are empty} 
-		\STATE	discard Cuboid-A
-		\ELSIF { Cuboid-A consists of only one cube}
-		\STATE polygonise Cuboid-A
-		\ELSE 
-		\STATE divide Cuboid-A
-		\STATE push the two new Cuboids into stack
-		\ENDIF
-		\ENDWHILE
+		\State Push the entire Volume as a cuboid inside a Stack
+		\While {stack is not empty }
+		\State Cuboid-A   $\gets$  next cuboid from the Stack 
+		\If{Cuboid-A and neighbours are empty} 
+		\State	discard Cuboid-A
+		\ElsIf { Cuboid-A consists of only one cube}
+		\State polygonise Cuboid-A
+		\Else 
+		\State divide Cuboid-A
+		\State push the two new Cuboids into stack
+		\EndIf
+		\EndWhile
 	\end{algorithmic}
 \end{algorithm}
 Here it is worth highlighting that, on line 3 of the algorithm it is checked if the neighbouring cubes of a cuboid are empty (figure 5) as well, because the voxels of the 3D density volume and the cubes in marching cubes algorithm are  aligned with an offset \cite{Miltiadou2015}. If volumes with non-empty neighbouring voxels are ignored, then holes appear on the output polygon mesh. 		
 
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=3.5in]{HolesNeighbours}
+	\includegraphics[width=5.5in]{img/HolesNeighbours}
 	% where an .eps filename suffix will be assumed under latex, 
 	% and a .pdf suffix will be assumed for pdflatex; or what has been eclared
 	% via \DeclareGraphicsExtensions.
@@ -165,7 +165,7 @@ Here it is worth highlighting that, on line 3 of the algorithm it is checked if 
 	\label{fig:IVholesNeighbours}
 \end{figure}
 
-\subsubsection{Coding Details for Faster Implementation}\label{sec:IVcodeDetails}
+\subsection{Coding Details for Faster Implementation}\label{sec:IVcodeDetails}
 Implementation details contributes to the efficiency and speed up of the algorithm. Significant improvements are achieved by reducing recursions, big memory allocations and if statements, since memory jumps are time expensive. As shown in algorithm \ref{alg:IVoptSimple}, a while loop is used to avoid recursion. In this section it's given an explanation on how the stack controls memory consumption and how bitwise operations reduces if-statement usage. 
 
 Regarding memory consumption, a stack was chosen over a queue, to decrease the amount of cubes saved into the data structure simultaneously. A queue is a first in first out data structure, while a stack accesses data in a last in first out order. In every iteration, it is ideal to interpret the smallest saved cube, such that the possibility of being polygonised is higher and the possibility of storing another cube is less. A queue guarantees cubes with approximately the same size, since the big cubes will be added first and sequentially being divided first. In contrast, a stack guarantees the smallest possible number of cubes saved. The larger cubes are stored in the bottom of the stack while the smaller ones are interpreted first because they are always the last one divided and inserted into the stack.  For that reason, a stack guarantees the lowest memory usage. 
@@ -179,16 +179,15 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 	\renewcommand{\arraystretch}{1.3}
 	% if using array.sty, it might be a good idea to tweak the value of
 	% \extrarowheight as needed to properly center the text within the cells
-	\caption{Values of divisible sides}
-	\label{tab:divisiblesNum}
+
 	\centering
 	% Some packages, such as MDW tools, offer better commands for making tables
 	% than the plain LaTeX2e tabular which is used here.
-	\begin{tabular}{|P{0.8cm}||P{1.0cm}|P{1.0cm}||P{1.0cm}|P{1.0cm}|}	
+	\begin{tabular}{|P{1.4cm}||P{1.4cm}|P{1.4cm}||P{1.4cm}|P{1.4cm}|}	
 		\hline
 		&	\multicolumn{2}{c||}{Decimal Numbers} & \multicolumn{2}{c|}{Binary Numbers}  \\
 		\hline\hline
-		Side &	Divisible & Not Divisible &	Divisible &	Not Divisible  \\
+		Side &	Divisible & Not\newline Divisible &	Divisible &	Not \newline Divisible  \\
 		\hline
 		X &	1 &	0 &	0001 &	0000  \\	
 		\hline
@@ -197,6 +196,8 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 		Z &	4 &	0 &	0100 &	0000 \\
 		\hline
 	\end{tabular}
+	\caption{Values of divisible sides}
+	\label{tab:divisiblesNum}
 \end{table}
 
 
@@ -206,12 +207,10 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 	\renewcommand{\arraystretch}{1.3}
 	% if using array.sty, it might be a good idea to tweak the value of
 	% \extrarowheight as needed to properly center the text within the cells
-	\caption{How to calculate the value of D, which represents the divisible sides of a cuboid}
-	\label{tab:Dnumbers}
 	\centering
 	% Some packages, such as MDW tools, offer better commands for making tables
 	% than the plain LaTeX2e tabular which is used here.
-	\begin{tabular}{|P{0.3cm}||P{0.5cm}|P{0.5cm}|P{0.5cm}|P{0.5cm}|P{0.5cm}|P{0.5cm}|P{0.5cm}|P{0.5cm}|}	
+		\begin{tabular}{|P{0.7cm}||P{0.7cm}|P{0.7cm}|P{0.7cm}|P{0.7cm}|P{0.7cm}|P{0.7cm}|P{0.7cm}|P{0.7cm}|}	
 		\hline
 		X &	1 &	- &	1 &	- &	1 &	- &	1 &	- \\	
 		\hline
@@ -222,6 +221,8 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 		D &	7 &	6 &	5 &	4 &	3 &	2 &	1 &	0 \\
 		\hline
 	\end{tabular}
+	\caption{How to calculate the value of D, which represents the divisible sides of a cuboid}
+	\label{tab:Dnumbers}
 \end{table}
 
 
@@ -230,12 +231,11 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 	\renewcommand{\arraystretch}{1.3}
 	% if using array.sty, it might be a good idea to tweak the value of
 	% \extrarowheight as needed to properly center the text within the cells
-	\caption{How to calculate the value of divisible sides (D) in binary representation}
-	\label{tab:Dbinary}
 	\centering
 	% Some packages, such as MDW tools, offer better commands for making tables
 	% than the plain LaTeX2e tabular which is used here.
-	\begin{tabular}{|P{0.3cm}||P{0.5cm}|P{0.5cm}|P{0.5cm}|P{0.5cm}|P{0.5cm}|P{0.5cm}|P{0.5cm}|P{0.5cm}|}
+	
+	\begin{tabular}{|P{0.7cm}||P{0.7cm}|P{0.7cm}|P{0.7cm}|P{0.7cm}|P{0.7cm}|P{0.7cm}|P{0.7cm}|P{0.7cm}|}
 		\hline
 		X &	0001 &	-	 &	0001 &	-	 &	0001 &	-	 &	0001 &	-   \\
 		\hline
@@ -246,6 +246,9 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 		D &	0111 &	0110 &	0101 &	0100 &	0011 &	0010 &	0001 &	0000\\
 		\hline
 	\end{tabular}
+	
+	\caption{How to calculate the value of divisible sides (D) in binary representation}
+	\label{tab:Dbinary}
 \end{table}
 
 
@@ -255,51 +258,93 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 	\label{alg:IVoptAdvance}
 	\centering
 	\begin{algorithmic}[1]
-		\STATE Push the entire Volume as a cuboid inside a Stack
-		\WHILE {stack is not empty }
-		\STATE Cuboid-A   $\gets$  next cuboid from the Stack 
-		\IF{Cuboid-A and neighbours are empty} 
-		\STATE	discard Cuboid-A
-		\ELSIF { $D$ is equal to $0$}
-		\STATE polygonise Cuboid-A
-		\ELSIF { $( D$ bitwise add $2^s )$ shift right $(s-1)$ }
-		\STATE	divide side s of Cuboid-A 
+		\State Push the entire Volume as a cuboid inside a Stack
+		\While {stack is not empty }
+			\State Cuboid-A   $\gets$  next cuboid from the Stack 
+			\If{Cuboid-A and neighbours are empty} 
+				\State	discard Cuboid-A
+			\ElsIf { $D$ is equal to $0$}
+				\State polygonise Cuboid-A
+			\ElsIf { $( D$ bitwise add $2^s )$ shift right $(s-1)$ }
+				\State	divide side s of Cuboid-A 
 		
-		\IF { the new length of side $s$ is equal to $1$ } 
-		\STATE	$D \gets D$ bitwise add $(7-2^s)$
-		\ENDIF
-		\STATE 	$s \gets (s+1) \text{ mod } 3$
-		\STATE push both new Cuboids into stack
-		\ELSE 
-		\STATE $s \gets (s+1) \text{ mod } 3$
-		\STATE push Cuboid-A back into the stack
-		
-		\ENDIF
-		\ENDWHILE
+				\If { the new length of side $s$ is equal to $1$ } 
+					\State	$D \gets D$ bitwise add $(7-2^s)$
+				\EndIf
+				\State 	$s \gets (s+1) \text{ mod } 3$
+				\State push both new Cuboids into stack
+			\Else 
+				\State $s \gets (s+1) \text{ mod } 3$
+				\State push Cuboid-A back into the stack
+			\EndIf
+		\EndWhile
 	\end{algorithmic}
 \end{algorithm}
 
 
-\subsection{Octree Max and Min} \label{sec:OctreeMaxMin}
+\section{Octree Max and Min} \label{sec:OctreeMaxMin}
+The concept used for this structure is 
 
 
+\section{Integral Tree}\label{sec:ITopt}
+The Integral Tree is an attempt to preserve some of the Integral Volumes properties but also avoid saving huge amounts of empty spaces.  
 
-\subsection{Integral Tree}\label{sec:ITopt}
 -> 1D Array and Integral Volumes save data coferent memory, making accessing data efficient time but memory alocaton is much higher and because they require continous data to be allocated and all the empty voxels are also included. 
 
-\subsubsection{Constructing the Structure}
+\subsection{Main Idea of Integral Trees}
+
+\par For the first part, the most important rule of this suggested approach is that the node values of each branch must be continuous in memory. All the nodes values of the tree are saved into a single 1D array. Each node N has two parameters (*p, k). The pointer *p points to the node value of N and k is the number of elements that the branch with root N has. Since all the node values of branch with root N are adjacent in memory, it implies that the (k-1) node values followed after the root node value of N belong to the same branch, as shown in the following figure:
 
 \begin{figure}[!htbp]
 	\centering
-	\includegraphics[width=3.5in]{IntegralTree}
+	\includegraphics[width=5.5in]{img/IntegralTreeMainIdea}
 	% where an .eps filename suffix will be assumed under latex, 
 	% and a .pdf suffix will be assumed for pdflatex; or what has been eclared
 	% via \DeclareGraphicsExtensions.
-	\caption{Comparison between including and ignoring neighborouing voxels; holes appears when ignored.}
+	\caption{Ordering of tree elements}
+	\label{fig:IntegralTreeMainIdea}
+\end{figure}
+
+\par The aforementioned rules can be applied for most tree structures like binary trees, quadtrees and octrees. To better understand how the structure works, let’s assume that there are several 2D spatially distributed intensity values and we would like to add them into the new suggested structure for quick intensity observation in multi-resolution scales. 
+
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=5.5in]{img/IntegralTree}
+	% where an .eps filename suffix will be assumed under latex, 
+	% and a .pdf suffix will be assumed for pdflatex; or what has been eclared
+	% via \DeclareGraphicsExtensions.
+	\caption{SubdivisionOfQuad}
 	\label{fig:IntegralTreeQuads}
 \end{figure}
 
-\subsubsection{Optimisation Algorithm}
+\par The second part is the modification of the $1D$ array such that the sum of the node values of each branch can be calculated in constant time. An example is given of applying it at a binary tree for simplicity and clarity (Figure 40***). After the first step, the node values of the tree are sorted in the $1D$ array ($A$) as $\{15, 12, 10, 13, 14, 17, 16, 18, 19\}$. On the second step and similarly to integral images, the array $A$ is modified as $\{15, 27$,$37$,$50, 64, 81, 97, 115, 134\}$, by:
+
+\par *** EQUATION ***
+
+
+\par Then, the sum S of each branch with root $*p$ and $k$ number of notes is given as follow:
+
+
+\par *** EQUATION ***
+
+For instance the sum of the blue branch on Figure ***43 is $A[5+4-1]-A[5-1] = A[8]-A[4] = 134-64 = 70$, which is correct since $17+16+18+19=70$.
+By the end, even though this new data structure is extremely beneficial for the aforementioned optimisation algorithm (Section 4.4***) and multi-resolution direct volumetric rendering, there is a big drawback associated with it: adding elements to it implies reconstruction of the entire tree. In volumetric rendering of FW LiDAR data, the possibility of adding new elements in the volume is not big and the data of each scan are constant, so this is not a considerable problem for this project. Nevertheless, in the case of cloud simulation in animated movie, this structure would have not been appropriate due to the time required to reconstruct the tree every time an element is added or modified. 
+
+
+\begin{figure}[!htbp]
+	\centering
+	\includegraphics[width=5.5in]{img/IntegralBinaryTree}
+	% where an .eps filename suffix will be assumed under latex, 
+	% and a .pdf suffix will be assumed for pdflatex; or what has been eclared
+	% via \DeclareGraphicsExtensions.
+	\caption{Example of Integral Binary Tree}
+	\label{fig:IntegralBinaryTree}
+\end{figure}
+
+
+
+\subsection{Optimisation Algorithm}
 
 
 
