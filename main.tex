@@ -34,16 +34,23 @@
 
 
 \usepackage{array}
-\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+%\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
 \usepackage{booktabs,makecell}
 
+\usepackage{tabularx}
+\usepackage{fancyhdr}
 
+\usepackage{rotating}
 \usepackage{xspace}
 \newcommand*{\eg}{e.g.\@\xspace}
 \newcommand*{\ie}{i.e.\@\xspace}
 \newcommand*{\etal}{\textit{et~al.}\@\xspace}
-    
-
+  
+\makeatletter
+\def\hlinewd#1{%
+	\noalign{\ifnum0=`}\fi\hrule \@height #1 %
+	\futurelet\reserved@a\@xhline}
+\makeatother 
 
 \title{ Novel algorithms for efficiently accumulating, analysing and visualising full-waveform LiDAR in a volumetric representation with applications to forestry}
 \author{Milto Miltiadou}
@@ -127,19 +134,19 @@
 
 	\chapter{Introduction} \label{Introduction} 	\pagenumbering{arabic}
 		\section{Forest Monitoring: Importance and Applications}\label{sec:forestMonitoring}
-			\subfile{tex/ForestMonitoring.tex}
+		\subfile{tex/ForestMonitoring.tex}
 		\section{Background Information about Remote Sensing and Airborne Laser Scanning Systems}\label{Background}
 			\subfile{tex/Background.tex}
 			\newpage
 		
     \chapter{Acquire Data}\label{AcquireData}
-	    \subfile{tex/AcquireData.tex}
+	 %   \subfile{tex/AcquireData.tex}
 	    \newpage
 	\chapter{Overview of Thesis}\label{PipeLine}
 		\subfile{tex/Overview.tex}
 
 	\chapter{The open source software DASOS and the Voxelisation Approach}\label{DASOS_Voxelisation}
-	  	\subfile{tex/DASOS.tex}	
+	%  	\subfile{tex/DASOS.tex}	
 	\newpage
 
 
@@ -147,11 +154,11 @@
 	\chapter{Surface Reconstruction from Voxelised FW LiDAR Data}\label{Visualisations}
 		\subfile{tex/Visualisations1.tex}
 		\newpage
-    \chapter{Optimisations of Polygonal Meshes Extraction}\label{Optimisations}
-			 \subfile{tex/Optimisations.tex}
+    \chapter{Optimisation Attempts on the Surface Reconstruction}\label{Optimisations}
+		 \subfile{tex/Optimisations.tex}
 			 \newpage
 	\chapter{Alignment with Hyperspectral Imagery}\label{Alignment}
-		\subfile{tex/Alignment.tex}
+	%	\subfile{tex/Alignment.tex}
 		\newpage		
 	\chapter{Classifications using 3D Prior Models}\label{Classifications}
 		\subfile{tex/Classifications.tex}
