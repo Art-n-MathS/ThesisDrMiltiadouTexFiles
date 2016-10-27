@@ -163,7 +163,7 @@ As mentioned before, using Integral volumes empty areas are quickly identified a
 		\EndWhile
 	\end{algorithmic}
 \end{algorithm}
-Here it is worth highlighting that, on line 3 of the algorithm it is checked if the neighbouring cubes of a cuboid are empty (figure 5) as well, because the voxels of the 3D density volume and the cubes in marching cubes algorithm are  aligned with an offset \cite{Miltiadou2015}. If volumes with non-empty neighbouring voxels are ignored, then holes appear on the output polygon mesh. 		
+Here it is worth highlighting that, on line 3 of the algorithm it is checked if the neighbouring cubes of a cuboid are empty, because the voxels of the 3D density volume and the cubes in marching cubes algorithm are  aligned with an offset (Figure \ref{fig:ExpectedSampling}). If volumes with non-empty neighbouring voxels are ignored, then holes appear on the output polygon mesh. 		
 
 \begin{figure}[!htbp]
 	\centering
@@ -296,11 +296,10 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 \rhead{ }
 \section{Octree Max and Min {\color{red} **Everything from here is new :)}} \label{sec:OctreeMaxMin}
 
-The Integral Volumes data structure quickly identifies and ignores empty spaces during polygonisation but it requires storage capacity for the entire volume. 
+\par Integral Volumes quickly identifies and ignores empty spaces during polygonisation (tackles the 1st, 2nd and 4th problem of the original algorithm -- Section \ref{sec:Opt:Challenges}), but it allocates memory for the entire volume (the 3rd problem). For that reason, the `Octree Max and Min' data structure has been implemented. 
 
-There are two new things about this structure:
-- 
-- It uses logarithms for improving neighbours finding
+\par The `Octree Max and Min' data structure avoids storing empty voxels and it also identifies empty areas during polygonisation. The polygonisation is built on the traversal of the octree, as explained in Algorithm \ref{alg:MCOctree}. Similarly to Integral Volumes, a stuck is used to avoid recursion and reduce memory jumps. Integral volumes check whether the neighbours of a cuboid is empty or not to avoid holes. The same things is required to be done when a branch to be discard. But because the branches of the octree are cubic and powers of two, it is not trivial to check whether the neighbours of the area of interest are empty or not. For that reason, we loop through those edges and polygonise them according to look up table of the the Marching Cubes algorithm. 
+
 
 \begin{algorithm}[!htbp]
 	\caption{Embedding the Marching Cubes Algorithm into an octree structure}
@@ -312,19 +311,54 @@ There are two new things about this structure:
 		\State Node-N   $\gets$  next Node from the Stack 
 		\If{ Node-N is a Leaf}
 		\State polygonise Leaf
-		
-	     \ElsIf{Node-N has no children OR its max value < isolevel \newline OR its min value > isolevel} 
-		\State	POLYGONISE\_EDGES()
-		
+		\ElsIf{Node-N has no children OR max value of Node-N < isolevel \newline OR min value of Node-N > isolevel} 
+		\State	POLYGONISE\_EDGES\_OF\_CUBIC\_WITH\_ROOT\_NODE-N()	
 		\Else
-		   \State push the children of Node-N into the Stack
+		\State push the children of Node-N into the Stack
 		\EndIf
-		
-		
 		\EndWhile
 	\end{algorithmic}
 \end{algorithm}
 
+
+
+
+\par Embedding the polygonisation of volumetric data into an octree has been done before \cite{Wilhelms1990}. Nevertheless, the 'Octree Max and Mean' data structure differs in two ways:
+\begin{itemize}
+	\item The max and min values of each Branch are stored into the related node to speed up polygonisation. This enables checking whether the leaves of the branch lies either only inside or only outside the implicit object{\footnote{Explanation about implicit/algebraic objects is given at Section \ref{sec:AlgebracObjects}}}. If they do, then there is no iso-surface crossing that branch and the branch can be discarded (after polygonising its edges).
+    \item A new algorithm is proposed and implemented for finding neighbouring voxels. This algorithm reduces comparisons and jumps in memory. An in-depth explanation is given at Section \ref{sec:NeighboursFinding}.
+\end{itemize}
+
+
+
+
+
+\subsection{Finding Neighbours}\label{sec:NeighboursFinding}
+
+\par Every time a voxel/leaf is polygonised, seven of its neighbours are checked to decide whether a surface is passing through that area or not. At hierarchical data structures, the nearest common ancestor is tracked upwards and the branch, with root the common ancestor, is traversed to reach the neighbour. The article \cite{Hanan1989} uses recursion that terminates once a common ancestor between a leaf and its neighbour is identified. According to Scharack \cite{Schrack1992}, finding neighbours in linear octree \footnote{Linear octrees are octrees stored into a 1D-array instead of a hierarchical structure.} is done in constant time. Nevertheless, linear Octrees are full octrees. Therefore, if used in our case all the empty voxels would have to be stored as well. Lohner suggested vectorising the space during post-processing for finding the shorter distance between un-constructed points \cite{Lohner1994}. However, the 3D voxelised FW LiDAR is a regular grid and during polygonisation the shorter distance to travel is one voxel. For that reason simpler approaches with less initialisation time, like \cite{Schrack1992} could perform equally well. Castro et al. \cite{Castro2008} assume that with hierarchical octrees it is not possible to start searching neighbours from leaves and suggest using hashed octrees to do that. In contrast, it is possible to start from the leaves and find the common ancestor using parentship as described at \cite{Hanan1989}.
+
+\par To avoid recursion and reduce comparison, this thesis introduces a new way of finding the  common ancestor using logarithms of $2$. The Algorithm \ref{alg:Ascestor} explains the proposed method. As shown in Figure \ref{fig:OctreeNeighbours}, there are occasions where it is cheaper to start searching a neighbour from the root instead of the leaf. For example Node-$F$ is the $(+1)$ neighbour of Node-$E$. If we start looking for it from the leaves then we need to travel through 6 nodes, but if we start from the root we only need to travel 5 nodes. Logarithms helps us decide which route to take, while reducing comparisons (i.e. no need to check whether branches has common faces while travelling upwards\cite{Hanan1989}).
+
+\begin{algorithm}[!htbp]
+	\caption{Finding the number of steps required to go upward in order to find the common ancestor of a Leaf$(x)$ of interest and it $(+1)$ neighbour}
+	\label{alg:Ascestor}
+	\centering
+	\begin{algorithmic}[1]
+		\State $c $  $\gets$ ceil$(log_2 x)$
+		\State $c_1 \gets$ ceil$(log_2 (x+1))$
+		\While {$c = c_1$}
+		\State $x = x - 2^{(c-1)} $
+		\State $c $  $\gets$ ceil$(log_2 x)$
+		\State $c_1 \gets$ ceil$(log_2 (x+1))$		
+		\EndWhile
+		\If {$D_{max}/2 < c_1 $}
+		\State Start from Root to find Neighbour Branch +1
+		\Else
+		\State Backtrack $c_1$ parents to find the common ancestor
+		\State Find neighbour
+		\EndIf
+	\end{algorithmic}
+\end{algorithm}
 
 \begin{figure}[!htbp]
 	\centering
@@ -337,51 +371,12 @@ There are two new things about this structure:
 \end{figure}
 
 
-\subsection{Finding Neighbours}
-
-\par Hierarchically we need to trace the parents of the branches in order to find the nearest common ancestor and then traverse this branch to reach the neighbour. The article \cite{Hanan1989} uses recursion that stops when the neigbouring branch of interest has a common face with the node of interest. 
-
-
-According to Scharack \cite{Schrack1992}, finding neighbours in linear Octree (octrees are stored into a 1D-array instead of a hierarchical structure) is constant time efficient. Nevertheless, linear Octrees are full octrees and therefore it requires to store all the empty voxels. 
-
-Finding neigbouring points by vectorising the space during post-processing \cite{Lohner1994}. The chance of skipping empty areas, while in our case we have a regular grid and he only need to loop through every neighbour once therefore the cost of building the vectorised space is too high for the purpose of reconstructing a surface from voxelised FW LiDAR. 
-
-Castro etl al \cite{Castro2008}, assume that with hierarchical octrees it is not possible start searching neighbours from leaves and suggest using hashed octrees to do that. Nevertheless it is possible to start from leaves and find the common ancestor using parentship as described at \cite{Hanan1989}.
-
-\par To avoid recursion and reduce comparison, this thesis introduce a new way of finding the  common ancestor using logarithms of $2$.
-
-
-
-\par For example 
-
-\begin{algorithm}[!htbp]
-	\caption{Finding the number of steps required to go upward in order to find the common ancestor of a branch of interest and it +1 neighbour}
-	\label{alg:Ascestor}
-	\centering
-	\begin{algorithmic}[1]
-		\State $c $  $\gets$ ceil$(log_2 x)$
-		\State $c_1 \gets$ ceil$(log_2 (x+1))$
-		\While {$c = c_1$}
-		 	\State $x = x - 2^{(c_0-1)} $
- 			\State $c $  $\gets$ ceil$(log_2 x)$
- 			\State $c_1 \gets$ ceil$(log_2 (x+1))$		
-		\EndWhile
-		\If {$D_{c}/2 < c_1 $}
-		\State Start from Root to find Neighbour Branch +1
-		\Else
-		\State Backtrack $c_1$ parents to find the common ancestor
-		\State Find neighbour
-		\EndIf
-	\end{algorithmic}
-\end{algorithm}
+\par For example, at Node-C x=9 (please note that counting of leaves starts at 0 and the counting corresponds to full octree) and the result of the algorithm is 1
 
 
 
 
-\subsection{Conclusions and Discussion}
-On the one hand, it preserves the lower memory consumption of an octree, but despite Integral Volumes, when using an octree the space should be cubic and finding neighbouring voxels is more complicated and time consuming. 
-
-
+\newpage
 
 \section{Integral Tree}\label{sec:ITopt}
 \par The Integral Tree is an attempt to preserve some of the Integral Volumes properties but also avoid saving huge amounts of empty spaces.  
@@ -476,6 +471,10 @@ Same resolution, constant noise level, different Flightlines
 LDR-FW-FW10\_01-201009821.LA
 
 
+\subsection{Summary and Discussion Octree Max Min}
+On the one hand, it preserves the lower memory consumption of an octree, but despite Integral Volumes, when using an octree the space should be cubic and finding neighbouring voxels is more complicated and time consuming. 
+
+More complicated to pre-save values for faster interpolation. 
 
 
 \begin{sidewaystable}[!htbp]
