@@ -296,9 +296,9 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 \rhead{ }
 \section{Octree Max and Min {\color{red} **Everything from here is new :)}} \label{sec:OctreeMaxMin}
 
-\par Integral Volumes quickly identifies and ignores empty spaces during polygonisation (tackles the 1st, 2nd and 4th problem of the original algorithm -- Section \ref{sec:Opt:Challenges}), but it allocates memory for the entire volume (the 3rd problem). For that reason, the `Octree Max and Min' data structure has been implemented. 
+\par Integral Volumes quickly identify and ignore empty spaces during polygonisation (tackles the 1st, 2nd and 4th problem of the original algorithm -- Section \ref{sec:Opt:Challenges}), but it allocates memory for the entire volume (the 3rd problem). For that reason, the `Octree Max and Min' data structure has been implemented. 
 
-\par The `Octree Max and Min' data structure avoids storing empty voxels and it also identifies empty areas during polygonisation. The polygonisation is built on the traversal of the octree, as explained in Algorithm \ref{alg:MCOctree}. Similarly to Integral Volumes, a stuck is used to avoid recursion and reduce memory jumps. Integral volumes check whether the neighbours of a cuboid is empty or not to avoid holes. The same things is required to be done when a branch to be discard. But because the branches of the octree are cubic and powers of two, it is not trivial to check whether the neighbours of the area of interest are empty or not. For that reason, we loop through those edges and polygonise them according to look up table of the the Marching Cubes algorithm. 
+\par The `Octree Max and Min' data structure avoids storing empty voxels and it also identifies empty areas during polygonisation. The polygonisation is built on the traversal of the octree, as explained in Algorithm \ref{alg:MCOctree}. Similarly to Integral Volumes, a stuck is used to avoid recursion and reduce memory jumps. While using the Integral volumes, it is checked whether the neighbours of a cuboid is empty or not to avoid generating holes on the polygonal mesh. This is also essential when a branch to be discard at 'Octree Max and Min' data structure. But because the every branch of an octree is cubic and power of two, it is not trivial to check whether the neighbours of a branch are empty or not. For that reason, we loop through its edges and polygonise them according to look up table of the the Marching Cubes algorithm. 
 
 
 \begin{algorithm}[!htbp]
@@ -325,8 +325,8 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 
 \par Embedding the polygonisation of volumetric data into an octree has been done before \cite{Wilhelms1990}. Nevertheless, the 'Octree Max and Mean' data structure differs in two ways:
 \begin{itemize}
-	\item The max and min values of each Branch are stored into the related node to speed up polygonisation. This enables checking whether the leaves of the branch lies either only inside or only outside the implicit object{\footnote{Explanation about implicit/algebraic objects is given at Section \ref{sec:AlgebracObjects}}}. If they do, then there is no iso-surface crossing that branch and the branch can be discarded (after polygonising its edges).
-    \item A new algorithm is proposed and implemented for finding neighbouring voxels. This algorithm reduces comparisons and jumps in memory. An in-depth explanation is given at Section \ref{sec:NeighboursFinding}.
+	\item The max and min values of each branch are stored into the corresponding node to speed up polygonisation. This enables checking whether the leaves of a branch lie either only inside or only outside the implicit object{\footnote{Explanation about implicit/algebraic objects is given at Section \ref{sec:AlgebracObjects}}}. If they do, then no iso-surface is crossing that branch and it can be discarded (after polygonising its edges).
+    \item A new algorithm is proposed and implemented for finding neighbouring voxels. This algorithm reduces comparisons and jumps in memory. An in-depth explanation of this algorithm is given at Section \ref{sec:NeighboursFinding}.
 \end{itemize}
 
 
@@ -374,13 +374,11 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 \newpage
 
 \section{Integral Tree}\label{sec:ITopt}
-\par The Integral Tree is an attempt to preserve some of the Integral Volumes properties but also avoid saving huge amounts of empty spaces.  
+\par 
 
--> 1D Array and Integral Volumes save data coherent memory, making accessing data efficient time but memory allocation is much higher and because they require continuous data to be allocated and all the empty voxels are also included. 
+\subsection{Main Idea }
 
-\subsection{Main Idea of Integral Trees}
-
-\par The values of every Integral Trees are saved coherent in memory into 1D-array and fulfil the following condition: the values of each branch are saved adjacent in memory inside the 1D-array. Each node $N$ contains two parameters $(*p, k)$. The number $k$ is the number of elements that the branch with root $N$ has and the pointer $*p$ points to the first element saved into the 1D-array (Figure \ref{fig:IntegralTreeMainIdea}). The aforementioned rules can be applied to most tree structures like binary trees, quadtrees and octrees. 
+\par The Integral Tree is a new term that describes the attempt to preserve some properties of the Integral Images while using a non-full tree structure. Every Integral Tree consists of two elements: an integral 1D-array and a tree. All the values of every non-empty and non-connecting node are saved into an 1D-array, in a way such that the Integral Tree's condition is fulfil: all the values of every branch $B$ are adjacent inside the 1D-array. Afterwards the array is converted to integral; the sum of every $n$ continuous values is calculated in constant time. Additionally, the root node of each branch $B$ contains two parameters $(*p, k)$. The number $k$ is the number of nodes with values the branch $B$ has (e.g. for an octree, it is all its leaf nodes) and the pointer $*p$ points to the first one in the 1D-array (Figure \ref{fig:IntegralTreeMainIdea}).
 
 \begin{figure}[!htbp]
 	\centering
@@ -392,7 +390,7 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 	\label{fig:IntegralTreeMainIdea}
 \end{figure}
 
-\par To better understand how the structure works, let’s assume that there is a number of 2D spatially distributed values. Figure  \ref{fig:IntegralTreeQuads} shows how they can be saved into an Integral Quad Tree in order to fulfil the Integral Tree condition of adjacency. 
+\par The aforementioned rules can be applied to any tree structures including binary trees, quadtrees and octrees. To better perceive how this data structure works, let’s assume that there is a number of 2D spatially distributed values. Figure  \ref{fig:IntegralTreeQuads} depicts how they can be saved into an Integral Quad Tree in order to fulfil the Integral Tree's condition of adjacency. Also, Section {\ref{sec:IntegralBinaryTree}} gives an example of an Integral Binary Tree.
 
 \begin{figure}[!htbp]
 	\centering
@@ -404,6 +402,9 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 	\label{fig:IntegralTreeQuads}
 \end{figure}
 
+
+\subsection{Integral Binary Tree Example}\label{sec:IntegralBinaryTree}
+
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=4.8in]{img/IntegralBinaryTree}
@@ -414,7 +415,7 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 	\label{fig:IntegralBinaryTree}
 \end{figure}
 
-\par Additionally, the values of the tree are saved integrally into the 1D-array, such that the sum of all the node values of each branch can be calculated in constant time. An example is given of applying it at a binary tree for simplicity and clarity (Figure \ref{fig:IntegralBinaryTree} After the first step, the node values of the tree are sorted in the $1D$ array ($A$) as $\{15, 12, 10, 13, 14, 17, 16, 18, 19\}$. On the second step and similarly to integral images, the array $A$ is modified as $\{15,$ $27,37,50, 64, 81, 97, 115, 134\}$, by:
+\par  An example of applying the idea of Integral Tree into a binary tree is given for clarity (Figure \ref{fig:IntegralBinaryTree}). Firstly, the values of the binary tree are sorted into the 1D-array $A$ as $\{15,$ $12,$ $10,$ $13,$ $14,$ $17,$ $16,$ $18,$ $19\}$ in order to fulfil the Integral Tree's condition of adjacency. Secondly, the array $A$ is modified as $\{15,$ $27,$ $37,$ $50,$ $64,$ $81,$ $97,$ $115,$ $134\}$ in order to become integral using the following equation:
 
 \begin{equation}
 \begin{split}
@@ -423,27 +424,30 @@ A[i]=A[i]+A[i-1]
 \end{equation}
 
 
-\par Then, the sum S of each branch with root $*p$ and $k$ number of notes is given as follow:
+\par Then, the sum $S$ of each branch with root $*p$ and $k$-nodes is calculated at constant time as follow:
 
 
 \begin{equation}
 \begin{split}
-S = A[p+k-1]-A[*p-1]
+S = A[*p+k-1]-A[*p-1]
 \end{split}
 \end{equation}
 
-For instance the sum of the blue branch on Figure \ref{fig:IntegralBinaryTree} is $A[5+4-1]-A[5-1] = A[8]-A[4] = 134-64 = 70$, which is correct since $17+16+18+19=70$.
-By the end, even though this new data structure is extremely beneficial for the aforementioned optimisation algorithm (Section 4.4***) and multi-resolution direct volumetric rendering, there is a big drawback associated with it: adding elements to it implies reconstruction of the entire tree. In volumetric rendering of FW LiDAR data, the possibility of adding new elements in the volume is not big and the data of each scan are constant, so this is not a considerable problem for this project. Nevertheless, in the case of cloud simulation in animated movie, this structure would have not been appropriate due to the time required to reconstruct the tree every time an element is added or modified. 
+\par For instance the sum of the blue branch on Figure \ref{fig:IntegralBinaryTree} is $A[5+4-1]-A[5-1] = A[8]-A[4] = 134-64 = 70$, which is correct since $17+16+18+19=70$.
 
 
 
 
+\subsection{Integral Octree for Surface Reconstruction}
+
+The same algorithms as 'Octree Max and Min' are used. The only difference is at the comparison of Line 6 at Algorithm \ref{alg:MCOctree}. 
+
+at octree the values saved into the 1-D array are all the leaves of the trees. 
 
 
-\subsection{Optimisation Algorithm}
 
 
-
+The leaves of the octree are saved into the 1D-array. 
 
 
 
@@ -466,13 +470,19 @@ Same resolution, constant noise level, different Flightlines
 LDR-FW-FW10\_01-201009821.LA
 
 
-\subsection{Summary and Discussion Octree Max Min}
+
 On the one hand, it preserves the lower memory consumption of an octree, but despite Integral Volumes, when using an octree the space should be cubic and finding neighbouring voxels is more complicated and time consuming. 
 
 More complicated to pre-save values for faster interpolation. 
 
+The Hashed Octree approach could further be used for speeding up neighbouring search in spatial representation of geometric objects.
 
+By the end, even though this new data structure is extremely beneficial for the aforementioned optimisation algorithm (Section 4.4***) and multi-resolution direct volumetric rendering, there is a big drawback associated with it: adding elements to it implies reconstruction of the entire tree. In volumetric rendering of FW LiDAR data, the possibility of adding new elements in the volume is not big and the data of each scan are constant, so this is not a considerable problem for this project. Nevertheless, in the case of cloud simulation in animated movie, this structure would have not been appropriate due to the time required to reconstruct the tree every time an element is added or modified. 
+
+
+{
 \begin{sidewaystable}[!htbp]
+	\small
 	% increase table row spacing, adjust to taste
 	\renewcommand{\arraystretch}{1.3}
 	% if using array.sty, it might be a good idea to tweak the value of
@@ -480,7 +490,7 @@ More complicated to pre-save values for faster interpolation.
 	\centering
 	% Some packages, such as MDW tools, offer better commands for making tables
 	% than the plain LaTeX2e tabular which is used here.
-	\begin{tabular}{|P{1.92cm}|P{2.25cm}||P{0.75cm}|P{0.85cm}|P{0.9cm}|P{0.85cm}||P{0.75cm}|P{0.85cm}|P{0.9cm}|P{0.85cm}||P{0.75cm}|P{0.85cm}|P{0.9cm}|P{0.85cm}|}	
+	\begin{tabular}{|P{1.75cm}|P{2.1cm}||P{0.82cm}|P{0.85cm}|P{0.9cm}|P{0.7cm}||P{0.7cm}|P{0.97cm}|P{0.97cm}|P{0.7cm}||P{0.7cm}|P{1cm}|P{1cm}|P{0.7cm}|}	
     \hlinewd{1.5pt}
 		\multicolumn{2}{|c||}{} & \multicolumn{4}{c||}{\textbf{1D-Array}} & \multicolumn{4}{c||}{\textbf{Voxels Hashing}} &\multicolumn{4}{c|}{\textbf{Octree}}  \\
 		\hline
@@ -489,23 +499,16 @@ More complicated to pre-save values for faster interpolation.
 		\hline
 		Length (m) & No. of Voxels & Con & Pol & Total& MByte &  Con & Pol & Total & MByte &  Con & Pol &Total & MByte \\
 		\hlinewd{2pt}
-		20 &29x115x23   & 12.04 &0.16 &12.21	& 10.17& 12.84 & 0.19 &13.02 & 9.78 &14.58& 0.18 &14.76& 11.07\\	
-		\hline
-		15 &39x157x30   & 12.06 &0.32&12.38	& 12.50 & 12.96 &0.37 &13.33 &11.44&14.91 & 0.35 & 15.26 & 12.00\\
-		\hline
-		10& 58x235x45   & 12.07 & 0.80 &12.87 & 20.09 & 12.95 & 0.96 &13.92 &16.19& 14.92& 0.91 &  15.82& 16.69\\
-		\hline
-		5&116x476x89    & 12.08 &4.85 &16.92 &88.35	 & 13.01 & 6.95 &19.96 & 47.66& 15.26 & 5.55 & 20.81 &50.50\\
-		\hline
-		4& 145x597x111  & 12.24 &9.21&21.45  &158.94 & 13.08 &12.83&25.91 &76.7& 15.58& 10.61 & 26.19&  80.31\\
-		\hline
-		3  & 194x800x148&	 12.19 & 21.90 &34.09 &	362.23 & 13.23 &29.94 &43.16 & 153.27 & 15.67& 24.14 & 39.81& 8.27\\
-		\hline
-		2  &290x1199x222&	12.45 &67.65 & 80.10	 & 1153.13&	13.69 &95.85 & 109.54 &389.34& 16.16 &75.29& 91.45 & 417.98\\
-		\hline
-		1.5&387x1602x295& 12.83 & 151.48 & 164.31 &	2666.67 &  13.96 &216.35&230.31 &788.00&16.26 & 166.23&182.49 &839.35 \\
-		\hline
-		1  &80x2405x443 &	14.62 & 443.5 & 458.1	& 8556.78 &	 15.43 & 672.07 & 687.50 &1912.57 & 16.91& 491.88& 508.79& 2056.805\\
+	20 &29x115x23   & 12.04 &0.16 &12.21	& 10.17& 12.84 & 0.19 &13.02 & 9.78 &14.58& 0.18 &14.76& 11.07\\	
+	15 &39x157x30   & 12.06 &0.32&12.38	& 12.50 & 12.96 &0.37 &13.33 &11.44&14.91 & 0.35 & 15.26 & 12.00\\
+	10& 58x235x45   & 12.07 & 0.80 &12.87 & 20.09 & 12.95 & 0.96 &13.92 &16.19& 14.92& 0.91 &  15.82& 16.69\\
+	5&116x476x89    & 12.08 &4.85 &16.92 &88.35	 & 13.01 & 6.95 &19.96 & 47.66& 15.26 & 5.55 & 20.81 &50.50\\
+	4& 145x597x111  & 12.24 &9.21&21.45  &158.94 & 13.08 &12.83&25.91 &76.7& 15.58& 10.61 & 26.19&  80.31\\
+	3  & 194x800x148&	 12.19 & 21.90 &34.09 &	362.23 & 13.23 &29.94 &43.16 & 153.27 & 15.67& 24.14 & 39.81& 8.27\\
+	2  &290x1199x222&	12.45 &67.65 & 80.10	 & 1153.13&	13.69 &95.85 & 109.54 &389.34& 16.16 &75.29& 91.45 & 417.98\\
+	1.5&387x1602x295& 12.83 & 151.48 & 164.31 &	2666.67 &  13.96 &216.35&230.31 &788.00&16.26 & 166.23&182.49 &839.35 \\
+	1  &80x2405x443 &	14.62 & 443.5 & 458.1	& 8556.78 &	 15.43 & 672.07 & 687.50 &1912.57 & 16.91& 491.88& 508.79& 2056.805\\
+	
 		\hlinewd{1.5pt}
 		\hlinewd{2pt}
 		\multicolumn{2}{|c||}{} & \multicolumn{4}{c||}{\textbf{Integral Volumes}}  &\multicolumn{4}{c||}{\textbf{Octree Max/Min}}& \multicolumn{4}{c|}{\textbf{Integral Tree}}  \\
@@ -513,24 +516,17 @@ More complicated to pre-save values for faster interpolation.
 		\multicolumn{2}{|c||}{Resolution} & \multicolumn{3}{c|}{Time (s)} & \multicolumn{1}{c||} {Memory} & \multicolumn{3}{c|}{Time (s)}&  \multicolumn{1}{c||}{Memory}&\multicolumn{3}{c|}{Time (s)}& \multicolumn{1}{c|}{Memory}  \\
 		\hline
 		Length (m) & No. of Voxels & Con & Pol & Total& MByte &  Con & Pol & Total & MByte &  Con & Pol &Total & MByte \\
-		\hlinewd{2pt}
-		20 &29x115x23    & 12.90 &  0.15 & 13.05 &   10.38 && & & & & & & \\	
-		\hline
-		15 &39x157x30    & 12.11 &  0.28 & 12.39 &   12.80 && &	& & & & & \\
-		\hline
-		10 & 58x235x45   & 12.17 &  0.68 & 12.85 &   20.43 && &	& & & & &  \\
-		\hline 
-		5  &116x476x89   & 13.62 &  3.56 & 16.02 &   88.84 &&&	& & & & &  \\
-		\hline
-		4  & 145x597x111 & 13.32 & 6.48  & 19.81 &  159.08 && &	& & & & &  \\
-		\hline
-		3  & 194x800x148 & 15.15 & 14.37 & 29.52 &  363.95 && &	& & & & &  \\
-		\hline
-		2  &290x1199x222 & 23.11 & 40.80 & 63.91 & 1154.02 && &	& & & & &  \\
-		\hline
-		1.5&387x1602x295 & 39.64 & 86.54 & 126.18& 2667.67&&&	& & & & &  \\
-		\hline
-		1  &80x2405x443  & 111.38 &210.94& 322.32& 8559.66&&&	& & & & &  \\
+		\hlinewd{2pt}	
+	20&	29x115x23& 		12.9&	0.15&	13.05&	10.38&	14.65&	0.21&	14.86&	18.32&	14.67&	0.23&	14.9&	18.27\\
+	15&	39x157x30& 		12.11&	0.28&	12.39&	12.8&	15.01&	0.34&	15.35&	19.8&	14.76&	0.37&	15.13&	20.16\\
+	10&	 58x235x45& 	12.17&	0.68&	12.85&	20.43&	15.12&	0.89&	16.01&	25.68&	15.32&	0.92&	16.24&	25.93\\
+	5&	116x476x89& 	13.62&	3.56&	16.02&	88.84&	15.3&	4.99&	20.29&	67.5&	15.98&	5.03&	21.01&	68.94\\
+	4&	 145x597x111& 	13.32&	6.48&	19.81&	159.08&	15.62&	9.45&	25.07&	110.24&	16.45&	9.67&	26.12&	117.25\\
+	3&	 194x800x148& 	15.15&	14.37&	29.52&	363.95&	15.74&	26.16&	41.9&	218.92&	16.51&	26.35&	42.86&	231.67\\
+	2&	290x1199x222& 	23.11&	40.8&	63.91&	1154.02&16.21&	63.02&	79.23&	595.01&	17.14&	64.08&	81.22&	720.01\\
+	1.5&387x1602x295& 	39.64&	86.54&	126.18&	2667.67&16.37&	131.21&	147.58&	898.8&	19.22&	133.46&	152.68&	968.43\\
+	1&	80x2405x443& 	111.38&	210.94&	322.32&	8559.66&17.91&	348.97&	366.88&	2087.71&25.83&	352.31&	378.14&	2123.14\\
+	
 		\hlinewd{1.5pt}
 		
 	\end{tabular}
@@ -540,6 +536,7 @@ More complicated to pre-save values for faster interpolation.
 
 
 \begin{sidewaystable}[!htbp]
+	\small
 	% increase table row spacing, adjust to taste
 	\renewcommand{\arraystretch}{1.3}
 	% if using array.sty, it might be a good idea to tweak the value of
@@ -548,7 +545,7 @@ More complicated to pre-save values for faster interpolation.
 	\centering
 	% Some packages, such as MDW tools, offer better commands for making tables
 	% than the plain LaTeX2e tabular which is used here.
-	\begin{tabular}{|P{1.92cm}|P{2.25cm}||P{0.75cm}|P{0.85cm}|P{0.9cm}|P{0.85cm}||P{0.75cm}|P{0.85cm}|P{0.9cm}|P{0.85cm}||P{0.75cm}|P{0.85cm}|P{0.9cm}|P{0.85cm}|}	
+	\begin{tabular}{|P{1.75cm}|P{2.1cm}||P{0.75cm}|P{0.85cm}|P{0.9cm}|P{0.7cm}||P{0.7cm}|P{0.85cm}|P{0.9cm}|P{0.7cm}||P{0.7cm}|P{0.85cm}|P{0.9cm}|P{0.7cm}|}	
 		\hlinewd{1.5pt}
 		\multicolumn{2}{|c||}{} & \multicolumn{4}{c||}{\textbf{1D-Array}} & \multicolumn{4}{c||}{\textbf{Voxels Hashing}} &\multicolumn{4}{c|}{\textbf{Octree}}  \\
 		\hline
@@ -557,17 +554,18 @@ More complicated to pre-save values for faster interpolation.
 		\hline
 		Length (m) & No. of Voxels & Con & Pol & Total& MByte &  Con & Pol & Total & MByte &  Con & Pol &Total & MByte \\
 		\hlinewd{2pt}
-	6   &    96x250x76 & 5.29 & 1.70  & 6.99  &   40.01 &  5.55 &  2.13 &  7.68 &  21.13 &  6.54 & 1.91 &  8.45 &   22.55  \\	
-	3   &  191x561x149 & 5.38 & 11.73 & 17.12 &  237.39 &  5.67 & 16.76 & 22.43 &  80.45 &  6.71 & 13.18&  19.89 &   83.95  \\	
-	1.5 & 381x1122x296 & 5.82 & 85.51 & 91.33 & 1713.74 &  6.12 & 127.23&133.35 & 369.61 &  6.86 & 92.91& 99.77 &  120.57  \\	
+			
+	6   &    96x250x76 & 6.70  &  2.10  & 8.80 & 51.70 &       7.05 & 2.61 & 9.66 & 29.94& 7.70 & 2.33 & 10.02 & 32.15  \\	
+	3   &  191x561x149 & 6.61  &  14.82 & 21.43 & 275.71 &    7.21 & 19.95 & 27.16 & 107.61 & 7.98 & 15.71 & 23.70 & 110.96  \\	
+	1.5 & 381x1122x296 & 7.11  & 104.51 & 111.62 & 1810.67&  7.95 & 154.10 & 162.05 & 428.18& 8.70 & 109.54 & 118.25 & 451.41\\	
 	\hline
-	6   &   100x760x64 & 22.21 & 4.38  & 26.59 &  84.55 & 23.65 &  6.40 & 30.05 &  48.10 & 31.04 & 5.07 & 36.11 &   52.23  \\	
-	3   & 199x1525x124 & 22.48 & 38.57 & 61.05 & 608.29 & 24.05 &  51.31& 75.36 & 281.26 & 30.90 &42.70 & 73.61 &  292.18  \\		
-	1.5 & 398x3063x248 & 23.56 &264.72 &288.28 & 4477.02& 26.19 & 372.62&398.81 &1418.92 & 32.14 &293.29 & 325.43 & 1505.45  \\	
+	6   &   100x760x64 &30.34  &   6.32 & 36.66 & 114.00 & 38.03 & 8.16 & 46.19 & 78.57 & 40.27 & 6.85 & 47.11 & 79.90 \\	
+	3   & 199x1525x124 & 30.25 &  48.58 & 78.83 & 766.74& 33.84 & 64.90 & 98.73 & 424.13 & 40.27 & 54.89 & 95.17 & 437.93\\
+	1.5 & 398x3063x248 & 30.82 & 310.93 &  341.75 & 4776.21& 35.03 & 434.00 & 469.04 & 1659.12 & 40.77 & 342.88 & 383.65 & 1754.78  \\	
 	\hline
-	6   &   382x90x108 & 22.43 & 2.75  & 25.18 &  62.50  & 24.45 &  3.87 & 28.32 &   29.67 & 32.58 & 3.19 & 35.76 & 32.16\\	
-	3   &  763x178x213 & 21.95 & 18.20 & 40.15 & 397.73  & 23.81 & 28.42 & 52.23 &  126.06 & 32.05 & 21.20 & 53.25 &   37.37\\	
-	1.5 & 1526x355x424 & 22.84 & 164.73&187.57 & 3044.09 & 25.03 & 261.64& 286.67&  707.75 & 33.00 & 169.80 & 202.80 &  769.43 \\	
+	6   &   382x90x108 & 30.78 &   3.58 &   34.36 & 79.26  & 33.43 & 4.47 & 37.90 & 45.43& 40.76 & 4.04 & 44.79 & 46.00\\	
+	3   &  763x178x213 & 30.23 &  23.81 &   54.05 & 462.16 & 33.53 & 34.82 & 68.35 & 179.23 & 41.38 & 26.04 & 67.42 & 186.75\\	
+	1.5 & 1526x355x424 & 30.70 & 195.64 & 226.34 & 3261.54& 34.99 & 298.46 & 333.45 & 896.38& 41.99 & 197.40 & 239.40 & 962.02 \\	
 	\hlinewd{1.5pt}
 	\hlinewd{2pt}
 			\multicolumn{2}{|c||}{} & \multicolumn{4}{c||}{\textbf{Integral Volumes}}  &\multicolumn{4}{c||}{\textbf{Octree Max/Min}}& \multicolumn{4}{c|}{\textbf{Integral Tree}}  \\
@@ -577,25 +575,25 @@ More complicated to pre-save values for faster interpolation.
 			Length (m) & No. of Voxels & Con & Pol & Total& MByte &  Con & Pol & Total & MByte &  Con & Pol &Total & MByte \\
 
 \hlinewd{2pt}
-	6   &    96x250x76 &  5.50 &  1.23 &  6.73 &    40.05 & & & & & & & & \\	
-	3   &  191x561x149 &  7.13 &  6.80 & 13.93 &   237.75 & & & & & & & & \\	
-	1.5 & 381x1122x296 & 23.98 &  40.13&  64.11&  1714.71 & & & & & & & & \\	
+	6   &    96x250x76 &9.20 & 1.28 & 10.48 & 51.19   &9.40 & 1.67 & 11.07 & 31.50& 7.17 &   2.07 & 9.25 & 30.88\\	
+	3   &  191x561x149 &8.89 & 8.04 & 16.93 & 275.76   &7.51 & 9.89 & 17.40 & 111.52& 7.06 & 11.33 & 18.40 & 105.68\\	
+	1.5 & 381x1122x296 & 25.76 & 46.48 & 72.23 & 1810.99&7.49 & 55.73 & 63.22 & 443.09& 7.34 & 59.60 & 66.94 & 417.36\\	
 	\hline
-	6   &   100x760x64 & 22.69 & 3.19 &  25.88 &   89.90 & & & & & & & & \\	
-	3   & 199x1525x124 & 28.04 & 26.86&  54.91 &  608.79 & & & & & & & & \\		
-	1.5 & 398x3063x248 & 69.42 & 159.5&  228.95& 4478.66 & & & & & & & & \\	
+	6   &   100x760x64 &31.81 & 4.50 & 36.31 & 114.24   &35.26 & 6.09 & 41.35 & 82.86& 35.23 & 6.70 & 41.93 & 68.93 \\	
+	3   & 199x1525x124 & 34.76 & 34.80 & 69.55 & 767.11  &35.26 & 6.09 & 41.35 & 176.47& 34.11 & 46.50 & 80.61 & 396.45\\		
+	1.5 & 398x3063x248 & 76.31 & 190.87 & 267.18 & 4777.49   &35.26 & 6.09 & 41.35 & 653.92& 34.47 & 226.85 & 261.32 & 1546.43 \\	
 	\hline
-	6   &   382x90x108 & 23.12 & 1.80  &  24.922 &   63.02 & & & & & & & & \\	
-	3   &  763x178x213 & 24.53 & 9.870  &  34.393 &  398.16 & & & & & & & & \\	
-	1.5 & 1526x355x424 & 62.25 & 139.75&  62.327 & 3045.41 & & & & & & & & \\
+	6   &   382x90x108 & 30.93 & 2.27 & 33.20 & 78.71  &36.53 & 2.77 & 39.30 & 45.84& 33.56 & 2.62 & 36.18 & 40.33 \\	
+	3   &  763x178x213 &34.26 & 12.63 & 46.89 & 461.86  &5.33 & 14.92 & 50.24 & 183.02& 34.63 & 12.96 & 47.59 & 147.89\\	
+	1.5 & 1526x355x424 &0.40 & 90.92 & 161.32 & 3262.15 &35.26 & 105.56 & 140.82 & 934.25& 33.96 & 85.79 & 119.75 & 764.62\\
 	\hlinewd{1.5pt}
 	\end{tabular}
 		\caption{Execution Time and Memory Consumption Results from 3 different Flightlines}
 		\label{tab:ResultsMemoryConsuption}
 \end{sidewaystable}
 
+}
 
-\section{Conclusion}
-The Hashed Octree approach could further be used for speeding up neighbouring search in spatial representation of geometric objects.
+
 
 \end{document}
