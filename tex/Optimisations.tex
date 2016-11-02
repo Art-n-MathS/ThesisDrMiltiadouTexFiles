@@ -671,6 +671,30 @@ Same resolution, constant noise level, different Flightlines
 	\label{tab:ResultsOptimisationMultiFlightline}
 \end{sidewaystable}
 
+\begin{sidewaystable}
+	\small
+		% increase table row spacing, adjust to taste
+		\renewcommand{\arraystretch}{1.3}
+		% if using array.sty, it might be a good idea to tweak the value of
+		% \extrarowheight as needed to properly center the text within the cells
+		
+		\centering
+		\begin{tabular}{|P{0.2cm}|P{3.8cm}|P{3.8cm}|P{3.8cm}|P{3.8cm}|P{3.8cm}|}
+			\hline
+			& Percentage of Empty Voxels & Construction Time & Polygonisation Time & Total Time & Maximum Memory\\
+			\hline
+			1&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm,trim={{.03\width} {0} {.15\width} 1.5cm},clip]{img/opt/Per1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm,trim={{.03\width} {0} {.15\width} 1.5cm},clip]{img/opt/Con1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm,trim={{.03\width} {0} {.15\width} 1.5cm},clip]{img/opt/Pol1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm,trim={{.03\width} {0} {.15\width} 1.5cm},clip]{img/opt/Total1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4.2cm]{img/opt/Mem1}}\\
+			\hline
+			1&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm]{img/opt/Per1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm]{img/opt/Con1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm]{img/opt/Pol1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm]{img/opt/Total1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm]{img/opt/Mem1}}\\
+			\hline
+			1&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm]{img/opt/Per1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm]{img/opt/Con1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm]{img/opt/Pol1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm]{img/opt/Total1}}&\raisebox{-\totalheight}{\adjincludegraphics[width=4cm]{img/opt/Mem1}}\\
+			
+			\hline
+		\end{tabular}
+	\caption{Charts of the Results from Table \ref{tab:ResultsOptimisationMultiFlightline}. The 1st flightline is from the New Forest Dataset (LDR-FW-FW10\_01-201009822.LAS). The 2nd flightline is from the Dennys Wood dataset (LDR-FW10\_01-201018713.LAS) and the 3rd one from Eaves Wood (LDR-FW-GB12\_04-2014-083-13.LAS)}
+	\label{tab:OptTestGrapshs}
+\end{sidewaystable}
+
 
 \section{Discussion}
 On the one hand, it preserves the lower memory consumption of an octree, but despite Integral Volumes, when using an octree the space should be cubic and finding neighbouring voxels is more complicated and time consuming. 
