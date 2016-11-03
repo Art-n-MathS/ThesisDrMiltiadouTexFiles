@@ -57,7 +57,7 @@ On the one hand, visualising all the wave samples makes understanding of data di
 		\hline
 		\textbf{1D Array} &	\textbf{Voxel Hashing} & \textbf{Octree}  \\
 		\hlinewd{1.5pt}
-		{\color{blue}Influenced by \cite{Hadwiger2012}, all the data are saved into an 1D array to guarantee coherent memory, even though much memory is wasted in regards of empty voxels.} &	{\color{blue}The intensities of the voxels are saved into a simple hash table with key value relevant to their position into the volume. Similary to \cite{Nievner2016voxelHashing}, this approach overheads traversing time of hierarchical structures and on top of that it reduces memory allocation because empty voxels are not stored. } & {\color{blue} This is a traditional  hierarchical octree with traversal time to be essential. Please note that this is a scan line test and therefore it does not take into consideration empty chunks of memory.}\\	
+		{\color{blue}Influenced by \cite{Hadwiger2012}, all the data are saved into an 1D array to guarantee coherent memory, even though much memory is wasted in regards of empty voxels.} &	{\color{blue}The intensities of the voxels are saved into a simple hash table with key value relevant to their position into the volume. Similary to \cite{Nievner2016voxelHashing}, this approach overheads traversing time of hierarchical structures and on top of that it reduces memory allocation because empty voxels are not stored. } & {\color{blue} This is a  hierarchical octree with traversal time to be essential. Please note that this is a scan line test and therefore it does not take into consideration empty chunks of memory.}\\	
 		\hline
 	\end{tabular}
 	\caption{Brief Description of the Three Scan-Line Tests}
@@ -79,7 +79,7 @@ On the one hand, visualising all the wave samples makes understanding of data di
 		\hline
 		\textbf{Integral Volumes} &	\textbf{Octree Max and Min} & \textbf{Integral Tree}  \\
 		\hlinewd{1.5pt}
-		{\color{blue} This data structure is an extension of `Integral Images' to 3D. It was firstly presented at the CGVC conference and it is a part of this thesis. Using Integral Volumes, the sum of any cuboid area is calculated in constant time. By repeatedly dividing the space into cuboids, big empty spaces are quickly identified and ignored during the surface reconstruction. \newline(Section \ref{sec:IVopt}) }&	{\color{blue}In this approach, the values are saved into an octree, but the surface reconstruction is build along the tree. This is slightly different than a traditional octree, because at each branch node its max and min values are saved. This way, areas that are completely full or empty are identified during traversal before reaching the leaves of the trees. (Section \ref{sec:OctreeMaxMin}) } &{\color{blue} It is a combination of octree and integral where the sum of a given branch is returned at constant time. That was an attempt to combine the idea of `Integral Images' and octrees. Nevertheless, traversal time and backtracking for finding neighbouring voxels still exists. (Section \ref{sec:ITopt})}\\	
+		{\color{blue} This data structure is an extension of `Integral Images' to 3D. It was firstly presented at the CGVC conference as part of this thesis. Using Integral Volumes, the sum of any cuboid area is calculated in constant time. By repeatedly dividing the space into cuboids, big empty spaces are quickly identified and ignored during the surface reconstruction. \newline(Section \ref{sec:IVopt}) }&	{\color{blue}In this approach, the values are saved into an octree, but the surface reconstruction is build along the tree. This is slightly different than a traditional octree, because at each branch node its max and min values are saved. This way, areas that are completely full or empty are identified during traversal before reaching the leaves of the trees. (Section \ref{sec:OctreeMaxMin}) } &{\color{blue} It is a combination of octree and integral volumes; the sum of a given branch is given at constant time. That was an attempt to combine the idea of `Integral Images' and octrees. Nevertheless, traversal time and backtracking for finding neighbouring voxels still exists. (Section \ref{sec:ITopt})}\\	
 		\hline
 	\end{tabular}
 	\caption{Description of the Three Optimisation Attempts}
@@ -297,7 +297,7 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 
 \par `Integral Volumes' quickly identify and ignore empty spaces during polygonisation (tackles the 1st, 2nd and 4th problem of the original algorithm -- Section \ref{sec:Opt:Challenges}), but it allocates memory for the entire volume (the 3rd problem). For that reason, the `Octree Max and Min' data structure has been implemented. 
 
-\par The `Octree Max and Min' data structure avoids storing empty voxels and it also identifies empty areas during polygonisation. The polygonisation is built on the traversal of the octree, as explained in Algorithm \ref{alg:MCOctree}. Similarly to `Integral Volumes', a stuck is used to avoid recursion and reduce memory jumps. While using the `Integral volumes', it is checked whether the neighbours of a cuboid is empty or not to avoid generating holes on the polygonal mesh. This is also essential when a branch to be discard at 'Octree Max and Min' data structure. But because the every branch of an octree is cubic and power of two, it is not trivial to check whether the neighbours of a branch are empty or not. For that reason, we loop through its edges and polygonise them according to look up table of the the Marching Cubes algorithm. 
+\par The `Octree Max and Min' data structure avoids storing empty voxels and it also identifies empty areas during polygonisation. The polygonisation is built on the traversal of the octree, as explained in Algorithm \ref{alg:MCOctree}. Similarly to `Integral Volumes', a stuck is used to avoid recursion and reduce memory jumps. When the `Integral volumes' are used, it is checked whether the neighbours of a cuboid and itself are empty or not. If they are both empty then the cuboid is ignored. The neighbouring voxels have to be checked in order to avoid generating holes on the polygonal mesh. Similalry, it is essential to check neighbouring voxels when a branch of the 'Octree Max and Min' data structure is ignored. Nevertheless, because the branches of the octree are always cubic, it is not trivial to check whether they are empty or not. For that reason, if a branch is empty then we loop through its edges and polygonise them according to look up table of the the Marching Cubes algorithm. 
 
 
 \begin{algorithm}[!htbp]
@@ -336,10 +336,10 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 
 \par Every time a voxel/leaf is polygonised, seven of its neighbours are checked to decide whether a surface is passing through that area or not. At hierarchical data structures, the nearest common ancestor is tracked upwards and the branch, with root the common ancestor, is traversed to reach the neighbour. The article \cite{Hanan1989} uses recursion that terminates once a common ancestor between a leaf and its neighbour is identified. According to Scharack \cite{Schrack1992}, finding neighbours in linear octree \footnote{Linear octrees are octrees stored into a 1D-array instead of a hierarchical structure.} is done in constant time. Nevertheless, linear octrees are full octrees. Therefore, if used in our case all the empty voxels would have to be stored as well. Lohner suggested vectorising the space during post-processing for finding the shorter distance between un-constructed points \cite{Lohner1994}. However, the 3D voxelised FW LiDAR is a regular grid and during polygonisation the shorter distance to travel is one voxel. For that reason simpler approaches with less initialisation time, like \cite{Schrack1992} could perform equally well. Castro et al. \cite{Castro2008} assume that with hierarchical octrees it is not possible to start searching neighbours from leaves and suggest using hashed octrees to do that. In contrast, it is possible to start from the leaves and find the common ancestor using parentship as described at \cite{Hanan1989}.
 
-\par To avoid recursion and reduce comparison, this thesis introduces a new way of finding the  common ancestor using logarithms of $2$. The Algorithm \ref{alg:Ascestor} explains the proposed method. As shown in Figure \ref{fig:OctreeNeighbours}, there are occasions where it is cheaper to start searching a neighbour from the root instead of the leaf. For example Node-$F$ is the $(+1)$ neighbour of Node-$E$. If we start looking for it from the leaves then we need to travel through 6 nodes, but if we start from the root we only need to travel 5 nodes. Logarithms helps us decide which route to take, while reducing comparisons (i.e. no need to check whether branches has common faces while travelling upwards\cite{Hanan1989}).
+\par To avoid recursion and reduce comparison, this thesis introduces a new way of finding the  common ancestor using logarithms of $2$. The Algorithm \ref{alg:Ascestor} explains the proposed method. As shown in Figure \ref{fig:OctreeNeighbours}, there are occasions where it is cheaper to start searching a neighbour from the root instead of the leaf. For example Node-$F$ is the $(+1)$ neighbour of Node-$E$. If we start looking for it from the leaves then we need to travel through 6 nodes, but if we start from the root we only need to travel 5 nodes. Logarithms helps us decide which route to take, while reducing comparisons since it is not required to check whether branches has common faces while travelling upwards\cite{Hanan1989}.
 
 \begin{algorithm}[!htbp]
-	\caption{Finding the number of steps required to go upward in order to find the common ancestor of a Leaf$(x)$ of interest and it $(+1)$ neighbour}
+	\caption{Finding the number of steps required to go upward in order to find the common ancestor of a Leaf$(x)$ of interest and its $(+1)$ neighbour}
 	\label{alg:Ascestor}
 	\centering
 	\begin{algorithmic}[1]
@@ -377,7 +377,7 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 
 \subsection{Main Idea }
 
-\par The `Integral Tree' is a new term that describes the attempt to preserve some properties of the `Integral Images' while using a non-full tree structure. Every `Integral Tree' consists of two elements: an integral 1D-array and a tree. All the values of every non-empty and non-connecting node are saved into an 1D-array, in a way such that the condition of the `Integral Tree' is fulfil: all the values of every branch $B$ are adjacent inside the 1D-array. Afterwards the array is converted to integral; the sum of every $n$ continuous values is calculated in constant time. Additionally, the root node of each branch $B$ contains two parameters $(*p, k)$. The number $k$ is the number of nodes with values the branch $B$ has (e.g. for an octree, it is all its leaf nodes) and the pointer $*p$ points to the first one in the 1D-array (Figure \ref{fig:IntegralTreeMainIdea}).
+\par The `Integral Tree' is a new term that describes the attempt to preserve some properties of the `Integral Images' while using a non-full tree structure. Every `Integral Tree' consists of two elements: an integral 1D-array and a tree. All the values of every non-empty and non-connecting node are saved into an 1D-array, in a way such that the condition of the `Integral Tree' is fulfil: all the values of every branch $B$ are adjacent inside the 1D-array. Afterwards the array is converted to integral; the sum of every $n$ continuous values is calculated in constant time. Additionally, the root node of each branch $B$ contains two parameters $(*p, k)$. The number $k$ is the number of nodes, which contain values, of the branch $B$ (e.g. for an octree, it is all its leaf nodes) and the pointer $*p$ points to the first one in the 1D-array (Figure \ref{fig:IntegralTreeMainIdea}).
 
 \begin{figure}[!htbp]
 	\centering
@@ -414,8 +414,7 @@ Furthermore, in algorithm \ref{alg:IVoptSimple} an issue exists: how to quickly 
 	\label{fig:IntegralBinaryTree}
 \end{figure}
 
-\par  An example of applying the idea of `Integral Tree' into a binary tree is given for clarification (Figure \ref{fig:IntegralBinaryTree}). Firstly, the values of the binary tree are sorted into the 1D-array $A$ as $\{15,$ $12,$ $10,$ $13,$ $14,$ $17,$ $16,$ $18,$ $19\}$ in order to fulfil the adjacency condition of the `Integral Tree'. Secondly, the array $A$ is modified as $\{15,$ $27,$ $37,$ $50,$ $64,$ $81,$ $97,$ $115,$ $134\}$ in order to become integral using the following equation:
-
+\par  An example of applying the idea of `Integral Tree' into a binary tree is given for clarification (Figure \ref{fig:IntegralBinaryTree}). Firstly, the values of the binary tree are sorted into the 1D-array $A$ as $\{15,$ $12,$ $10,$ $13,$ $14,$ $17,$ $16,$ $18,$ $19\}$ in order to fulfil the adjacency condition. Secondly, the array $A$ is modified as $\{15,$ $27,$ $37,$ $50,$ $64,$ $81,$ $97,$ $115,$ $134\}$ in order to become integral using the following equation:
 \begin{equation}
 \begin{split}
 A[i]=A[i]+A[i-1]
@@ -424,8 +423,6 @@ A[i]=A[i]+A[i-1]
 
 
 \par Then the sum $S$ of a branch, with ($*p$, $k$) parameters,  is calculated at constant time as follow:
-
-
 \begin{equation}
 \begin{split}
 S = A[*p+k-1]-A[*p-1]
@@ -439,13 +436,13 @@ S = A[*p+k-1]-A[*p-1]
 
 \subsection{Integral Octree for Surface Reconstruction}
 
-\par For an `Integral Octree', all the values saved into the integral 1D-array are the values of the leaf nodes since the rest are connecting nodes. For the surface reconstruction, an `Integral Octree' is implemented and the same algorithm as 'Octree Max and Min' are used (Algorithm \ref{alg:MCOctree} and Algorithm \ref{alg:Ascestor}). The only difference is at the comparison of Line 6 at Algorithm \ref{alg:MCOctree}; instead of checking the max and min values, the sum of the branch is checked instead. If the sum is smaller than the iso-surface value then no surface is crossing that area and the branch is discarded. 
+\par For an `Integral Octree', all the values saved into the integral 1D-array are the values of the leaf nodes since the rest are connecting nodes. For the surface reconstruction, an `Integral Octree' is implemented and the same polygonisation algorithm as 'Octree Max and Min' are used (Algorithm \ref{alg:MCOctree} and Algorithm \ref{alg:Ascestor}). The only difference is the comparison at Line 6 of Algorithm \ref{alg:MCOctree}; instead of checking the max and min values, the sum of the branch is checked instead. If the sum is smaller than the iso-surface value then no surface is crossing that area and the branch is discarded. 
 
 
 
 \section{Data Structures Summary}
 
-\par To briefly sum up this chapter, the following six data structures has been implemented their performance has been tested for reconstructing polygonal meshes from voxelised FW LiDAR data:
+\par To briefly sum up, the following six data structures has been implemented their performance has been tested for reconstructing polygonal meshes from voxelised FW LiDAR data:
 
 \begin{enumerate}
 	\item \textbf{1D-Array}: Simple array that keeps data coherent in memory for quick access.
@@ -456,7 +453,7 @@ S = A[*p+k-1]-A[*p-1]
 	\item \textbf{Integral Octree}: An attempt to preserve properties from both `Octree Max/Min' and `Integral Volumes'. 
 \end{enumerate}
 
-\par Each one of the aforementioned data structure has different properties and attempts to address at least one of the problems mentioned in Section \ref{sec:Opt:Challenges}. The first three implementations are scaline algorithms, which means that polygonisation is linear and all the voxels, including the empty ones, are checked for generating triangles primitives. Some data structures are taken from the literature to test how well they perform on this specific datasets while others are new and firstly presented into this thesis. Table \ref{tab:DataStructuresProperties} summarises their properties and the problems each data structure attempts to resolve. 
+\par Each one of the aforementioned data structure has different properties and attempts to address at least one of the problems mentioned in Section \ref{sec:Opt:Challenges}. The first three implementations are scaline algorithms, which means that polygonisation is linear and all the voxels, including the empty ones, are checked for generating triangles primitives. Some data structures are taken from the literature to test how well they perform on this specific datasets while others are new and presented into this thesis. Table \ref{tab:DataStructuresProperties} summarises their properties and the problems each data structure attempts to resolve. 
 
 
 
@@ -489,7 +486,7 @@ S = A[*p+k-1]-A[*p-1]
 		\hline
 	\end{tabular}
 	
-	\caption{Summarising the addressed challenges and the properties of all the data structures implemented.The numbers of the first four columns are how the challenges as they are numbered in \ref{sec:Opt:Challenges}}
+	\caption{Summarising the addressed challenges and the properties of all the data structures implemented.The numbers of the first four columns correspond to the challenges described in Section \ref{sec:Opt:Challenges}}
 	\label{tab:DataStructuresProperties}
 \end{table}
 
@@ -501,13 +498,13 @@ S = A[*p+k-1]-A[*p-1]
 
 \begin{itemize}
 	\item The results of the first group are given in Table \ref{tab:ResultsOptimisationSingleFlightline} and visualised in the Charts depicted in Figures \ref{fig:ConTime}, \ref{fig:PolTime}, \ref{fig:TotalTime} and \ref{fig:MemoryConsumption}
-	\item The results the second group are given in Table \ref{tab:ResultsOptimisationMultiFlightline}. The related charts are inside Table \ref{tab:OptTestGrapshs}. 
+	\item The results of the second group are given in Table \ref{tab:ResultsOptimisationMultiFlightline}. The related charts are inside Table \ref{tab:OptTestGrapshs}. 
 \end{itemize}
- This section clarifies the various parameters of testing, while the following Section \ref{sec:Opt:Discussion} discussed the results and explains the behaviour of the algorithms in respect to the results. 
+ \par This section clarifies the various parameters of testing, while the following Section \ref{sec:Opt:Discussion} discussed the results and explains the behaviour of the algorithms in respect to the results. 
 
-\par The two group test cases has only one difference while the rest parameters are the same. The difference is that the first one uses one flightline (the LDR-FW-FW10\_01-201009821.LAS from New Forest) and focuses its performance using a finer resolution range. In contrast, the second uses three filghtlines from the NERC-ARF datasets. The 1st flightline is from the New Forest (LDR-FW-FW10\_01-201009822.LAS), the 2nd flightline is from the Dennys Wood  (LDR-FW10\_01-201018713.LAS) and the 3rd one from Eaves Wood (LDR-FW-GB12\_04-2014-083-13.LAS). The 2nd group checks whether there are significant performance differences when the algorithms are applied on different fligtlines. 
+\par The two test cases has only one difference, while the rest of the parameters are the same. The difference is that the first one uses one flightline (the LDR-FW-FW10\_01-201009821.LAS from New Forest) and focuses on its performance using a finer resolution range. In contrast, the second uses three filghtlines from the NERC-ARF datasets. The 1st flightline is from the New Forest (LDR-FW-FW10\_01-201009822.LAS), the 2nd flightline is from the Dennys Wood  (LDR-FW10\_01-201018713.LAS) and the 3rd one from Eaves Wood (LDR-FW-GB12\_04-2014-083-13.LAS). The 2nd group checks whether there are significant performance differences when the algorithms are applied on different fligtlines. 
 
-\par Except from the flightlines used, the rest of the parameters are the same in both test cases. In order to understand the size of the data, the voxel length, the number of voxels in the x,y,z axes and the percentage of empty voxels are stated. The smaller the voxel length is, the more voxels exist because the boundaries of the voxels in meters are constant and when the voxel length decreases the resolution of the volume increases. Additionally, for every resolution the execution time and maximum memory consumption is measured. Execution time is further divided into data structure construction (including reading the LAS file) and polygonisation. 
+\par Except from the flightlines used, the rest of the parameters are the same in both test cases. In order to understand the size of the data, the voxel length, the number of voxels in the x,y,z axes and the percentage of empty voxels are stated. The smaller the voxel length is, the more voxels exist because the boundaries of the voxels in meters are constant and when the voxel length decreases the resolution of the volume increases. Additionally, for every resolution the execution time and maximum memory consumption are measured. Execution time is further divided into data structure construction (including reading the LAS file) and polygonisation. 
 
 
 
@@ -706,16 +703,16 @@ S = A[*p+k-1]-A[*p-1]
 
 \begin{itemize}
 	\item Elements are accessed in constant time while traversing a tree requires at least O(log n) time, when the tree is balanced, and up to O(n) for unbalanced trees.
-	\item The size of the volume is the original cuboid while any octree structure requires a cubic space that is a power of two. This results into extending the boundaries of the 3D voxelised FW LiDAR, including big empty areas and building deeper, unbalanced tree (increased traversal time).
+	\item The size of the volume is the original cuboid while any octree data structure requires a cubic space that is a power of two. This results into extending the boundaries of the 3D voxelised FW LiDAR, including big empty areas and building deeper and unbalanced trees (increased traversal time).
 	\item Neighbours finding is faster than octrees since no backtracking is required. 
-	\item Checking whether a surface is crossing the edges of an empty area is much faster using the `Itengral Volumes' because the sum of any volume is calculated in constant time and therefore checking whether the neighbours are empty as well is trivial. While for the `Octree Max/Min' and `Integral Tree' data structures, it's required to loop through the all the voxels at edges of an empty branch to check that. 
+	\item Checking whether a surface is crossing the edges of an empty area is much faster using the `Itengral Volumes' because the sum of any volume is calculated in constant time. Therefore checking whether the neighbours are empty as well is trivial. While for the `Octree Max/Min' and `Integral Tree' data structures, it's required to loop through all the voxels at the edges of an empty branch to avoid generating holes. 
 \end{itemize}
 
 \par Regarding the `Voxel Hashing', faster results were expected than the `Octree' because it doesn't required traversal for reaching elements, but it's very likely to have more jumps in memory, considering that the implementation of the octree structures, keeps the children of every branch coherent in memory for faster interpretation. 
 
-\par Furthermore, `Octree Max and Min' and the `Integral Octree' have similar results. In the tests, the isolevel was set lower than the noise threshold and for that reason the empty branches were the ones discarded at the tests (Line 6 of Algorithm \ref{alg:MCOctree}). If the isolevel was lower than the noise threshold, then the low level noise would have affected the `Octree Max and Min' less than the `Integral Octree'; the `Octree Max and Min' check whether the max value is below the threshold, while the 'Integral Octree' the sum of the leaves. Additionally, `Integral Octree' consumes more memory for saving the leaves into an 1D-array, but even though Integral Ocree generally performed worse in the tests of Table \ref{tab:ResultsOptimisationSingleFlightline} and \ref{tab:ResultsOptimisationMultiFlightline}, this data structure should be beneficial in multi-resolution direct volumetric rendering and bluring of the volume for noise removal. 
+\par Furthermore, `Octree Max and Min' and the `Integral Octree' have similar results. In the tests, the isolevel was set lower than the noise threshold and for that reason the empty branches were the ones discarded at the tests (Line 6 of Algorithm \ref{alg:MCOctree}). If the isolevel was lower than the noise threshold, then the low level noise would have affected the `Octree Max and Min' less than the `Integral Octree'; the `Octree Max and Min' check whether the max value is below the threshold, while the 'Integral Octree' the sum of the leaves. Additionally, `Integral Octree' consumes more memory for saving the leaves into an 1D-array, but even though `Integral Ocree' generally performed worse than the `Octree Max/Min' in the tests of Table \ref{tab:ResultsOptimisationSingleFlightline} and \ref{tab:ResultsOptimisationMultiFlightline}, it should be beneficial in multi-resolution direct volumetric rendering and blurring the volume for noise removal. 
 
-\par To sum up, `Integral Volumes' is a new and simple algorithm presented in this thesis and it was showed to faster surface reconstruction of voxelised FW LiDAR in comparison to `Voxel Hasing' and octrees. 
+\par To sum up, `Integral Volumes' is a new and simple algorithm presented in this thesis and it is the fastest one for the surface reconstruction of voxelised FW LiDAR in comparison to `Voxel Hasing' and octrees. 
 
 
 
