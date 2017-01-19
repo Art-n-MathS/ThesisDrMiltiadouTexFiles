@@ -164,10 +164,10 @@
         		
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 \newline and \newline level 1 (.bil \& .igm)& \textbf{H0 : Mean } \newline The mean of the hyperspectral spectrum.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/HYPERSPECTRAL_MEAN}} & .asc \\ 
+        		LAS1.3 \newline and \newline level 1 (.bil \& .igm) & \textbf{H0 : Mean } \newline The mean of the hyperspectral spectrum.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/HYPERSPECTRAL_MEAN}} & .asc \\ 
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 \newline and \newline level 1 (.bil \& .igm&\textbf{H1: NDVI } \newline {\color{blue} The Normalised Difference Vegetation Index indicates whether green vegetation exists or not and it is derived from the electromagnetic spectrum as follow:
+        		LAS1.3 \newline and \newline level 1 (.bil \& .igm) &\textbf{H1: NDVI } \newline {\color{blue} The Normalised Difference Vegetation Index indicates whether green vegetation exists or not and it is derived from the electromagnetic spectrum as follow:
         		    \begin{eqnarray}
         		    NDVI = \dfrac{NIR-VIS}{NIR+VIS}
         		    \end{eqnarray}
@@ -175,14 +175,14 @@
         		     \cite{Crippen1990_NDVI}.}& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/NDVI}} & .asc \\ 
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 \newline and \newline level 1 (.bil \& .igm&\textbf{H2: Standard \newline Deviation \footnotemark[1]} \newline The standard deviation of the hyperspectral spectrum at each pixel.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/std}} & .asc \\ 
+        		LAS1.3 \newline and \newline level 1 (.bil \& .igm) &\textbf{H2: Standard \newline Deviation \footnotemark[1]} \newline The standard deviation of the hyperspectral spectrum at each pixel.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/std}} & .asc \\ 
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 \newline and \newline level 1 (.bil \& .igm&\textbf{H3: Spectral \newline Signature \footnotemark[1]} \newline The   squared spectral   difference   between   each pixels’  spectrum  and the  generalised vegetation signature retrieved  from  USGS  Digital  Spectral Library \cite{Clark2007}.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/spectralSignature}} & .asc  \\ 
+        		LAS1.3 \newline and \newline level 1 (.bil \& .igm) &\textbf{H3: Spectral \newline Signature \footnotemark[1]} \newline The   squared spectral   difference   between   each pixels’  spectrum  and the  generalised vegetation signature retrieved  from  USGS  Digital  Spectral Library \cite{Clark2007}.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/spectralSignature}} & .asc  \\ 
         		
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 \newline and \newline level 1 (.bil \& .igm&\textbf{H4: Band} \newline A single user defined hyperspectral band. & \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/hy35}} & .asc \\ 
+        		LAS1.3 \newline and \newline level 1 (.bil \& .igm) &\textbf{H4: Band} \newline A single user defined hyperspectral band. & \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/hy35}} & .asc \\ 
 				& & \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/hy235}} & .asc \\ 
         		
         		%%
@@ -193,14 +193,15 @@
         		\toprule
         		\multicolumn{4}{|c|}{\textbf{3rd Functionality: 3D Priors / Signatures }} \\
         		\toprule
-        		\multicolumn{4}{|c|}{In Section \ref{Classifications}, the 3D priors/templates are run over the volume}\\
+        		\multicolumn{4}{|c|}{The 3D priors/signatures characterise objects or local areas in 3D.}  \\
+        		\multicolumn{4}{|c|}{In Section \ref{Classifications}, the 3D priors are run over the volume}\\
        			\multicolumn{4}{|c|}{for detecting dead standing trees }\\
         		\toprule
         		\textbf{Input}&\textbf{Description} & \textbf{Output Example} & \textbf{Output Format} \\ 
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 & \textbf{3D Templates} & *** & .csv \\
+        		LAS1.3 & \textbf{3D Priors} \newline with raw intensities & Please Look at Figure \ref{fig:PriorRaw} & .csv \\
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 & \textbf{3D } & *** & .csv \\
+        		LAS1.3 & \textbf{3D Priors} \newline with processed intensities & Please Look at Figure \ref{fig:PriorProcessed}  & .csv \\
         		
         		
         		\bottomrule
@@ -213,6 +214,24 @@
         	
 			\footnotetext[1]{Those two metrics were implemented specifically for the tree coverage maps \cite{Miltiadou2015} and they are not available on the released version of DASOS.}
 
+        \newpage
+        	\begin{figure} [h!]
+        		\centering
+        		\includegraphics[width=\textwidth]{img/PriorsRaw}
+        		\caption{Example of .csv files with priors exported. These priors contain the raw intensities of the voxels.}
+        		\label{fig:PriorRaw}
+        	\end{figure}		
+        	\begin{figure} [h!]
+        		\centering
+        		\includegraphics[width=\textwidth]{img/PriorsProcessed}
+        		\caption{Example of .csv files with priors exported. These priors contains proccessed information about the the local area of interest (i.e. spread of non empty voxels). }
+        		\label{fig:PriorProcessed}
+        	\end{figure}	
+        	
+        		
+        	
+        
+        
 	   	
 	   	\par In this sections an in depth overview of DASOS's functionalities was given (Table \ref{tbl:functionalities}). Each functionality is linked to a number of Sections, which describes the algorithms implemented and related applications. {\color{blue} In a few words, the 3D visualisations are useful in foresty for reducing fielwork and improving planning of field trips (i.e. checking whether a road is passing through a fieldplot area). The 2D metrics allow simultaneous interepretation of FW LiDAR data and hyperspectral imagery. They could also be used in GIS softwares. In this thesis, they are used for generating tree coverage maps. Last but not least the priors enables 3D feature detection and they are used for detecting dead standing trees.}
 	   
@@ -223,7 +242,7 @@
        
 	   	
 	   
-	   	
+	   	\newpage
 	  \section{Summary and Discussion} \label{DASOS-Vol-Summary}
 	  
 	   	Along with that thesis, the open source software DASOS was developed to encourage foresters to use the FW LiDAR data. The main way of interpreting FW LiDAR data in DASOS is fundamentally different from the state-of-art available software packages. In a few words, the FW LiDAR data are voxelised by inserting the wave samples into a 3D discrete density volume, which preserves an extra parameter (the pulse width) in comparison to point extraction algorithms. It also accumulates intensity values from multiple shots and stores them into a 3D regular grid, resolving this way the problem with the sinusoidal footprints pattern of the Leica system.
