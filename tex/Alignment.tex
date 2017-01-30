@@ -82,7 +82,7 @@
 
 	
 			
-	\par  The (level-1) hyperspectral images look deformed because the pixel size is not consistent. {\color{blue} (Figure \ref{fig:ProjectingHyperspectral} shows that inconsistency.}
+	\par  The (level-1) hyperspectral images look deformed because the pixel size is not consistent. {\color{blue} (Figure \ref{fig:ProjectingHyperspectral} shows that inconsistency).}
 	 DASOS resolves this problem by adjusting the texture coordinates of the polygonal mesh according to the geolocation of the pixels. The texture coordinates $(u, v)$ of each vertex lies inside the range $[0, 1]$ and if they are multiplied by the height/width of the texture, then the position of the corresponding pixel of the texture is given. In order to calculate the texture coordinates of each vertex $(x_v, y_v, z_v)$, the spatial representation of the hyperspectral pixels (explained at Section \ref{sec:SpatialRepresentation}) is used for quickly detecting the pixel $(x_p, y_p )$, whose geolocation is the closest to a vertex. By dividing the pixel position with the number of samples $(n_s)$ and lines $(n_l)$ in the hyperspectral image, the texture coordinates $(u, v)$ of each vertex $v(x_v , y_v)$ are calculated:
 		
 	\begin{eqnarray}
