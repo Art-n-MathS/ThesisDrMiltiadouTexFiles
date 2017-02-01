@@ -1,6 +1,7 @@
 \documentclass[11pt,nofootinbib]{report}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{afterpage}
 
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
@@ -134,31 +135,31 @@
 
 	\chapter{Introduction} \label{Introduction} 	\pagenumbering{arabic}
 		\section{Forest Monitoring: Importance and Applications}\label{sec:forestMonitoring}
-		\subfile{tex/ForestMonitoring1.tex}
+	%	\subfile{tex/ForestMonitoring1.tex}
 		\section{Background Information about Remote Sensing and Airborne Laser Scanning Systems}\label{Background}
-			\subfile{tex/Background1.tex}
+	%		\subfile{tex/Background1.tex}
 			\newpage
 		
     \chapter{Acquire Data}\label{AcquireData}
- 		 \subfile{tex/AcquireData.tex}
+ 	%	 \subfile{tex/AcquireData.tex}
 	    \newpage
 	\chapter{Overview of Thesis}\label{PipeLine}
 		\subfile{tex/Overview.tex}
 
 	\chapter{The open source software DASOS and the Voxelisation Approach}\label{DASOS_Voxelisation}
-	  	\subfile{tex/DASOS.tex}	
+	%  	\subfile{tex/DASOS.tex}	
 	\newpage
 
 
 		 		
 	\chapter{Surface Reconstruction from Voxelised FW LiDAR Data}\label{Visualisations}
-		\subfile{tex/Visualisations1.tex}
+	%	\subfile{tex/Visualisations1.tex}
 		\newpage
     \chapter{Optimisation Attempts for the Surface Reconstruction}\label{Optimisations}
-        \subfile{tex/Optimisations.tex}
+    %    \subfile{tex/Optimisations.tex}
 			 \newpage
 	\chapter{Alignment with Hyperspectral Imagery}\label{Alignment}
-		\subfile{tex/Alignment.tex}
+	%	\subfile{tex/Alignment.tex}
 		\newpage		
 	\chapter{Detection of Dead Standing Eucalyptus For Managing Biodiversity in Native Australian Forest}\label{Classifications}
 		\subfile{tex/Classifications.tex}
