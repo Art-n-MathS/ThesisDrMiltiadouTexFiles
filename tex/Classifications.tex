@@ -43,7 +43,7 @@
 \par Remote Sensing was introduced in monitoring dead trees in forests in order to improve detection due to their variance spread. Dead trees could either be fallen or standing. The task of identifying those types of them is different from a classification perspective. Fallen trees are identified by detecting segments or line-like features on the terrain surface using LiDAR data \cite{Polewski2015} \cite{Mucke2013}. Regarding standing dead trees, their shape (reduced number of leaves or broken branches) \cite{Yao2012} and light reflectance (less green light illuminated) \cite{Pasher2009} are important factors for identifying them.
 
 
-\par Previous work on dead standing trees detection, suggests single tree segmentation before dead trees identification \cite{Yao2012}.
+\par Previous work on dead standing trees detection, performs single tree segmentation before dead trees identification \cite{Yao2012} \cite{Shendryk2016_DeadTrees}.
 
 Research on top tree detection with maxima and watershed for delineation. \cite{Popescu2003} 
 
@@ -61,7 +61,7 @@ Tree delineation from bottom to top \cite{Shendryk2016_treeDeliniation}
 
 An interesting work for delineating Eucalyptus recommends delineation from bottom to top. It first identifies standing trunks and then segments the points cloud. 
 
-This is then used for monitoring forest health \cite{Shendryk2016_DeadTrees}
+This is then used for monitoring forest health \cite{Shendryk2016_DeadTrees}.
 
 
 
@@ -77,7 +77,7 @@ Dong, 2009, introduced 3D tree shape signatures for distinguishing Oaks from Dou
 	\end{figure}
 
 
-\par Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009} ~\cite{Reitberger2008}. Nevertheless DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}. But, DASOS do not only uses voxelisation for visualisations but also for extracting metrics useful in classification. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. It is further seems that the literature is moving towards voxelisation with the good results obtained at recent publication on tree species classification ~\cite{Cao2016}. 
+% \par Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009} ~\cite{Reitberger2008}. Nevertheless DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}. But, DASOS do not only uses voxelisation for visualisations but also for extracting metrics useful in classification. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. It is further seems that the literature is moving towards voxelisation with the good results obtained at recent publication on tree species classification ~\cite{Cao2016}. 
 
 \section{Data and Fieldplots}
 
