@@ -11,7 +11,8 @@
 
 
 
-\par Specifically in Australia, tree hollows play a significant role in managing biodiversity. Nearly all arboreal mammals rely on hollows with the exception of the Koala and perhaps Ringtail Possums that preferentially make a stick nest, but they use hollows as well. Additionally, a large number of Australian bird species rely on hollows for shelters \cite{Gibbons2002}. Nevertheless, Australia has no real hollow creators like the northern hemisphere (e.g. Woodpeckers), and therefore it relies predominantly on natural processes of limb breakage, insect and fungal attack when access points are provided through damage caused by wind, storms and fire. These kind of hollows take hundreds of years to form and because of that it is more likely to exist on dead trees. In Australia, studies predict shortage of hollows for colonisation in the near future \cite{Lindenmayer2010} \cite{Goldingay2009}, therefore automated detection of them plays a significant role in protecting those animals. As an indicator of the importance of hollows in managing biodiversity, a few species that rely on hollows was provided as list by the Forestry Corporation of NSW. Those species are shown at Figure \ref{fig:Birds}. According to the Department of the Environment of Australian Government and the Government of Western Australia sixe of them are  protected, threatened or close to extinct \cite{AustraliaExtinct1999}  \cite{AustraliaExtince2015}. In Figure \ref{fig:Birds}, those six species have a red border and their names are bold in its description. 
+\par Specifically in Australia, tree hollows play a significant role in managing biodiversity. Nearly all arboreal mammals rely on hollows with the exception of the Koala and perhaps Ringtail Possums that preferentially make a stick nest, but they use hollows as well. Additionally, a large number of Australian bird species rely on hollows for shelters \cite{Gibbons2002}. Nevertheless, Australia has no real hollow creators like the northern hemisphere (e.g. Woodpeckers), and therefore it relies predominantly on natural processes of limb breakage, insect and fungal attack when access points are provided through damage caused by wind, storms and fire. 
+\par This kind of hollows take hundreds of years to form and because of that it is more likely to exist on dead trees. In Australia, studies predict shortage of hollows for colonisation in the near future \cite{Lindenmayer2010} \cite{Goldingay2009}. Therefore automated detection of them plays a significant role in protecting those animals. As an indicator of the importance of hollows in managing biodiversity, a list of a few of the species that rely on hollows was provided by the Forestry Corporation of NSW. Those species are shown at Figure \ref{fig:Birds}. According to the Department of the Environment of Australian Government and the Government of Western Australia, six of them are  protected, threatened or close to extinct \cite{AustraliaExtinct1999}  \cite{AustraliaExtince2015}. Figure \ref{fig:Birds} shows the species from the provided list and the six protected species have a red border and their names are bold in the description. 
 
 \par For the aforementioned reasons, monitoring dead trees is essential for having a resilient ecosystem. Nevertheless, the distribution of dead trees significantly varies making detection of them difficult \cite{Kim2009}. Remote sensing approaches has been introduce to automate the process of monitoring forest and further increase the spatial resolution of the monitored area. The following section gives an overview of the related work undertaken in Remote Sensing. 
 
@@ -40,46 +41,32 @@
 
 \section{Related Work}
 
-\par Remote Sensing was introduced in monitoring dead trees in forests in order to improve detection due to their variance spread. Dead trees could either be fallen or standing. The task of identifying those types of them is different from a classification perspective. Fallen trees are identified by detecting segments or line-like features on the terrain surface using LiDAR data \cite{Polewski2015} \cite{Mucke2013}. Regarding standing dead trees, their shape (reduced number of leaves or broken branches) \cite{Yao2012} and light reflectance (less green light illuminated) \cite{Pasher2009} are important factors for identifying them.
+\par Remote Sensing was introduced for automatically detecting dead trees, because fieldwork is time consuming considering their variance spread and the size of the relevant forests. From a classification perceptive, the task of identifying dead standing and dead fallen trees is different. Fallen trees are identified by detecting segments or line-like features on the terrain surface using LiDAR data \cite{Polewski2015} \cite{Mucke2013}. Regarding standing dead trees, their shape (reduced number of leaves or broken branches) \cite{Yao2012} and light reflectance (less green light illuminated) \cite{Pasher2009} are important factors for identifying them.
 
 
-\par Previous work on dead standing trees detection, performs single tree segmentation before dead trees identification \cite{Yao2012} \cite{Shendryk2016_DeadTrees}.
-
-Research on top tree detection with maxima and watershed for delineation. \cite{Popescu2003} 
-
-Improvements include using markers controlled watershed \cite{Jing2012}. Hu et al also uses disks of Structural Elements SE to detect tree crowns of different sizes from the CHM as well \cite{Hu2014}
+\par Previous work on dead standing trees detection performs single tree crown delineation before health assessment \cite{Yao2012} \cite{Shendryk2016_DeadTrees}.Tree-crown delineation is usually done by detecting local maxima from the canopy height model (CHM) and then segmenting trees with watershed algorithm \cite{Popescu2003}. Improvements has been achieved by introducing markers controlled watershed \cite{Jing2012} and structural elements of tree crowns with different sizes \cite{Hu2014}. Additionally, Popescu and Zhao analyse the vertical distribution of the LiDAR points in conjunction with the local maximum filtering of CHM \cite{Popescu2008}.
 
 
-Popescu and Zhao, 2008, uses the local maximum filtering of CHM and analyses the vertical distribution of the LiDAR points for detecting tree crowns.  \cite{Popescu2008}
-
-
- \par This research is focused on standing dead tree detection of Australian Eucalyptus, whose crown is not a semi-sphere or a cone like pine trees. Eucalyptus trees has  In case of Eucalyptus single tree detection is a challenge on its own due to their irregular structure and multiple trunk splits. 
-
-Tree delineation from bottom to top \cite{Shendryk2016_treeDeliniation} 
-
-
-
-An interesting work for delineating Eucalyptus recommends delineation from bottom to top. It first identifies standing trunks and then segments the points cloud. 
-
-This is then used for monitoring forest health \cite{Shendryk2016_DeadTrees}.
+ \par  In the case of Eucalyptus, single tree detection is a challenge on its own, due to their irregular structure and multiple trunk splits. In other words, each tree trunks splits create a local maximum leading into over-segmentation when tree crowns are detected by local maxima filtering. Shendryk published a eucalyptus delineation algorithm that starts segmentation from bottom to top. In this paper, the trunks point cloud is separated from the leaves and individual trunks are identified before proceeding to crown segmentation \cite{Shendryk2016_treeDeliniation}. Nevertheless, there is the consideration of optimal resolution for a cost effective versus quality acquisition \cite{Lovell2005}. For this project, there is an average of four pulses per square meter, which is considered an optimal resolution. But because of the tree height (up to 43meters according to the fieldwork), a small amount of pulse intensity reached the trunks and the recordered waveform do not include enough information for individual trunk detection.  An example of this project's discrete LiDAR data is shown in Figure \ref{fig:NoTrunks} and the missing information about the trunks are depicted.
+ 
+   	\begin{figure} [h!]
+   		\centering
+   		\includegraphics[trim={7cm 0 1.7cm 0},clip,width=\textwidth]{img/TreesNoTrunks}
+   		\caption{LiDAR point cloud showing that there are very limited points reflected from tree trunks.}
+   		\label{fig:NoTrunks}
+   	\end{figure}
+   	
 
 
 
-Nevertheless, this approach is time consuming and here it is introduced a fast approach for rough classification similar to boost cascade \cite{Viola2001} but extended to 3D. 
+Here, it is introduced an approach for quick dead tree detection derived from the boost cascade approach \cite{Viola2001} but extended into 3D. This approach further contains similaries of the 3D tree shape signatures proposed by Dong, 2009, for distinguishing Oaks from Douglas fir tree crowns \cite{Dong2009}. 
 
-Dong, 2009, introduced 3D tree shape signatures for distinguishing Oaks from Douglas fir tree crowns. The 3D shape signatures were generated by getting the distance distribution of random LiDAR point pairs of the two tree crown classes: Oaks and Douglas \cite{Dong2009}. 
-
-	\begin{figure} [h!]
-		\centering
-		\includegraphics[width=\textwidth]{img/TreesNoTrunks}
-		\caption{LiDAR point cloud showing that there are very limited points reflected from tree trunks.}
-		\label{fig:NoTrunks}
-	\end{figure}
 
 
 % \par Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009} ~\cite{Reitberger2008}. Nevertheless DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}. But, DASOS do not only uses voxelisation for visualisations but also for extracting metrics useful in classification. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. It is further seems that the literature is moving towards voxelisation with the good results obtained at recent publication on tree species classification ~\cite{Cao2016}. 
 
 \section{Data and Fieldplots}
+
 
 \par The data, provided by RPS Australia East Pty Ltd, were collected in March 2015 from the Riegl ( LMS-Q780 or LMS-Q680i?) sensor at an Australian native Forest with eucalyptus. The fieldplots has been provided by (Interprine Group Ltd or Forest Corporation?). 
 The LiDAR data used for this project are provided by RPS Australia East Pty Ltd and they were collected in March 2015 using the Riegl ( LMS-Q780 or LMS-Q680i?) sensor. The Riegl LMS-Q??? is a native full-waveform sensor and the LiDAR point clouds were generated from the waveform instrument data during post processing. In addition, the field plots used for the classifications are provided by (Interprine Group Ltd or Forest Corporation?) and contain around 1000 Eucalypt trees while 10\verb|%| of them are dead. 
@@ -113,6 +100,8 @@ Tree information like Dead trees
 		
 
 \section{Methodology}
+
+The 3D shape signatures were generated by getting the distance distribution of random LiDAR point pairs of the two tree crown classes: Oaks and Douglas \cite{Dong2009}
 
 \par In this chapter, the 3rd feature of DASOS (Table \ref{tbl:functionalities}) is used for generating 3D priors characterising dead standing Eucalypt trees. These 3D priors are used for detecting dead standing Eucalypt trees in native Australian forests. 
 
