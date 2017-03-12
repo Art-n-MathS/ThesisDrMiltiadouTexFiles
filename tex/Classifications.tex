@@ -2,9 +2,9 @@
 
 \begin{document}
 
+\section{Introduction}
 
-
-\section{The Importance of Dead Wood}
+\subsection{The Importance of Dead Wood}
 
 \par The value of dead trees from a biodiversity management perspective is large. Once a tree dies, its contribution to our ecosystem continues. The woody structure remains for centuries and it contributes to forest regeneration while providing resources for numerous surrounding organisms \cite{Franklin1987}. As an indication, more than 4000 species inhabit dead wood in Finland \cite{Siitonen2001}, where an estimate of 1000 species has been extinct \cite{Hanski2000}. These species do not only include animals and birds but also organisms, like fungi. Fungi contributes to wood decaying, formation of hollows and biodiversity, which is an important factor for a resilient ecosystem \cite{Peterson2000}. Observing the changes of fungal diversity on decaying wood has an increased interest in science  \cite{Abrego2011} \cite{Stokland2011} \cite{Lonsdale2008} in order to ensure the continuous existence of decaying wood in forests. 
 
@@ -39,7 +39,7 @@
 
 
 
-\section{Related Work}
+\subsection{Related Work}
 
 \par Remote Sensing was introduced for automatically detecting dead trees, because fieldwork is time consuming considering their variance spread and the size of the relevant forests. From a classification perceptive, the task of identifying dead standing and dead fallen trees is different. Fallen trees are identified by detecting segments or line-like features on the terrain surface using LiDAR data \cite{Polewski2015} \cite{Mucke2013}. Regarding standing dead trees, their shape (reduced number of leaves or broken branches) \cite{Yao2012} and light reflectance (less green light illuminated) \cite{Pasher2009} are important factors for identifying them.
 
@@ -65,11 +65,12 @@ Here, it is introduced an approach for quick dead tree detection derived from th
 
 % \par Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009} ~\cite{Reitberger2008}. Nevertheless DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}. But, DASOS do not only uses voxelisation for visualisations but also for extracting metrics useful in classification. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. It is further seems that the literature is moving towards voxelisation with the good results obtained at recent publication on tree species classification ~\cite{Cao2016}. 
 
-\section{Data and Fieldplots}
+\section{Materials and Methods}
+
+\subsection{Study Site}
 
 
-\par The data, provided by RPS Australia East Pty Ltd, were collected in March 2015 from the Riegl ( LMS-Q780 or LMS-Q680i?) sensor at an Australian native Forest with eucalyptus. The fieldplots has been provided by (Interprine Group Ltd or Forest Corporation?). 
-The LiDAR data used for this project are provided by RPS Australia East Pty Ltd and they were collected in March 2015 using the Riegl ( LMS-Q780 or LMS-Q680i?) sensor. The Riegl LMS-Q??? is a native full-waveform sensor and the LiDAR point clouds were generated from the waveform instrument data during post processing. In addition, the field plots used for the classifications are provided by (Interprine Group Ltd or Forest Corporation?) and contain around 1000 Eucalypt trees while 10\verb|%| of them are dead. 
+\subsection{Field Data}
 
 33 plots allocated randomly in the area of interest
 Plot Radius: 35.68m 
@@ -77,9 +78,6 @@ GPS tree location
 Tree information like Dead trees
 2386 Trees 
 269 Dead Trees
-
-
-\section{Actual Data and Problem}
 
 \begin{figure} [h!]
 	\centering
@@ -89,34 +87,30 @@ Tree information like Dead trees
 \end{figure}
 
 
-	\begin{figure} [h!]
-		\centering
-		\includegraphics[width=\textwidth]{img/DeadTreeInLiDAR}
-		\caption{Example of a dead tree in relation to the discrete LiDAR point cloud.}
-		\label{fig:DeadTreeInLiDAR}
-		\end{figure}
-		
-		
-		
 
-\section{Methodology}
 
+\subsection{Trimble full-waveform LiDAR data}
+
+\par The data, provided by RPS Australia East Pty Ltd, were collected in March 2015 from the Riegl ( LMS-Q780 or LMS-Q680i?) sensor at an Australian native Forest with eucalyptus. The fieldplots has been provided by (Interprine Group Ltd or Forest Corporation?). 
+The LiDAR data used for this project are provided by RPS Australia East Pty Ltd and they were collected in March 2015 using the Riegl ( LMS-Q780 or LMS-Q680i?) sensor. The Riegl LMS-Q??? is a native full-waveform sensor and the LiDAR point clouds were generated from the waveform instrument data during post processing. In addition, the field plots used for the classifications are provided by (Interprine Group Ltd or Forest Corporation?) and contain around 1000 Eucalypt trees while 10\verb|%| of them are dead. 
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=\textwidth]{img/DeadTreeInLiDAR}
+	\caption{Example of a dead tree in relation to the discrete LiDAR point cloud.}
+	\label{fig:DeadTreeInLiDAR}
+\end{figure}
+
+\subsection{Statistical Analysis}
+\subsubsection{The 3D-priors feature of DASOS}
 The 3D shape signatures were generated by getting the distance distribution of random LiDAR point pairs of the two tree crown classes: Oaks and Douglas \cite{Dong2009}
 
 \par In this chapter, the 3rd feature of DASOS (Table \ref{tbl:functionalities}) is used for generating 3D priors characterising dead standing Eucalypt trees. These 3D priors are used for detecting dead standing Eucalypt trees in native Australian forests. 
 
-\section{Experiments and Results}
+\section{Results} 
 
-\section{Conclusions}
-
-
-
-
-
-
-
-
-
+		
+		
+\section{Discussion}
 
 
 
