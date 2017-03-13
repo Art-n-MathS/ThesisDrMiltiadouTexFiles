@@ -67,17 +67,13 @@ Here, it is introduced an approach for quick dead tree detection derived from th
 
 \section{Materials and Methods}
 
-\subsection{Study Site}
+\subsection{Study Area}
+
+The study area is a native River Red Gum (Eucalyptus camaldulensis) forest in south-eastern Australia and its size is $542km^2$. The regeneration of the eucalyptus is highly depended and therefore, their distribution in respect to density, health and age is highly variance \cite{Kerle2005}.  Additionally, the height of Eucalyptus camaldulensis reaches up to 30-40m and their structural complexity is high with multiple trunk splits \cite{Wilson1995}. 
 
 
-\subsection{Field Data}
 
-33 plots allocated randomly in the area of interest
-Plot Radius: 35.68m 
-GPS tree location
-Tree information like Dead trees
-2386 Trees 
-269 Dead Trees
+
 
 \begin{figure} [h!]
 	\centering
@@ -89,16 +85,29 @@ Tree information like Dead trees
 
 
 
-\subsection{Trimble full-waveform LiDAR data}
+\subsection{Acquired full-waveform LiDAR data}
 
-\par The data, provided by RPS Australia East Pty Ltd, were collected in March 2015 from the Riegl ( LMS-Q780 or LMS-Q680i?) sensor at an Australian native Forest with eucalyptus. The fieldplots has been provided by (Interprine Group Ltd or Forest Corporation?). 
-The LiDAR data used for this project are provided by RPS Australia East Pty Ltd and they were collected in March 2015 using the Riegl ( LMS-Q780 or LMS-Q680i?) sensor. The Riegl LMS-Q??? is a native full-waveform sensor and the LiDAR point clouds were generated from the waveform instrument data during post processing. In addition, the field plots used for the classifications are provided by (Interprine Group Ltd or Forest Corporation?) and contain around 1000 Eucalypt trees while 10\verb|%| of them are dead. 
-\begin{figure} [h!]
-	\centering
-	\includegraphics[width=\textwidth]{img/DeadTreeInLiDAR}
-	\caption{Example of a dead tree in relation to the discrete LiDAR point cloud.}
-	\label{fig:DeadTreeInLiDAR}
-\end{figure}
+For this project, FW LiDAR data has been acquired. The data were supplied by RPS Australia East Pty Ltd and they were collected in March 2015 using the Trimble AX60 Airborne LiDAR sensor. 
+
+
+\subsection{Field Data}
+
+33 plots allocated randomly in the area of interest
+Plot Radius: 35.68m 
+GPS tree location
+Tree information like Dead trees
+2386 Trees 
+269 Dead Trees
+
+ In addition, the field plots used for the classifications are provided by (Interprine Group Ltd or Forest Corporation?) and contain around 1000 Eucalypt trees while 10\verb|%| of them are dead. 
+ \begin{figure} [h!]
+ 	\centering
+ 	\includegraphics[width=\textwidth]{img/DeadTreeInLiDAR}
+ 	\caption{Example of a dead tree in relation to the discrete LiDAR point cloud.}
+ 	\label{fig:DeadTreeInLiDAR}
+ \end{figure}
+ 
+
 
 \subsection{Statistical Analysis}
 \subsubsection{The 3D-priors feature of DASOS}
