@@ -65,20 +65,29 @@ Here, it is introduced an approach for quick dead tree detection derived from th
 
 % \par Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009} ~\cite{Reitberger2008}. Nevertheless DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}. But, DASOS do not only uses voxelisation for visualisations but also for extracting metrics useful in classification. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. It is further seems that the literature is moving towards voxelisation with the good results obtained at recent publication on tree species classification ~\cite{Cao2016}. 
 
+%\subsection{Potentially add Objectives???}
+
 \section{Materials and Methods}
 
 \subsection{Study Area}
 
-The study area is a native River Red Gum (Eucalyptus camaldulensis) forest in south-eastern Australia and its size is $542km^2$. The regeneration of the eucalyptus is highly depended and therefore, their distribution in respect to density, health and age is highly variance \cite{Kerle2005}.  Additionally, the height of Eucalyptus camaldulensis reaches up to 30-40m and their structural complexity is high with multiple trunk splits \cite{Wilson1995}. 
-
-
+The study area is a native River Red Gum (Eucalyptus camaldulensis) forest in south-eastern Australia and its size is $542km^2$. The regeneration of the eucalyptus is extremely dependant in floods and therefore, their distribution in respect to density, health and age is highly variance \cite{Kerle2005}. Additionally, the height of Eucalyptus camaldulensis reaches up to 30-40m and their structural complexity is high with multiple trunk splits \cite{Wilson1995}. The size and structure of the forest, with size reference a human, is depicted in Figure \ref{fig:EucalyptusSize}, while examples of the invariance shape of dead trees is shown in Figure \ref{fig:DeadTreesExamplePhotos}. 
 
 
 
 \begin{figure} [h!]
 	\centering
-	\includegraphics[width=\textwidth]{img/DeadTreesExamplePhotos}
-	\caption{The shape of dead trees significantly varies from the each other. Here there is an example of two dead trees.}
+	\includegraphics[width=0.965\textwidth]{img/Eucalyptus.png}
+	\caption{Structure of Red Gum Forest in south-eastern Australia.}
+	\label{fig:EucalyptusSize}
+\end{figure}
+
+
+
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=0.965\textwidth]{img/DeadTreesExamplePhotos}
+	\caption{Example of dead trees indicating their variance in shape.}
 	\label{fig:DeadTreesExamplePhotos}
 \end{figure}
 
