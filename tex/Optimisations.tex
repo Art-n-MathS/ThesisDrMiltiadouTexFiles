@@ -165,14 +165,14 @@ As mentioned before, using `Integral volumes' empty areas are quickly identified
 \end{algorithm}
 Here it is worth highlighting that, on line 3 of the algorithm it is checked if the neighbouring cubes of a cuboid are empty, because the voxels of the 3D density volume and the cubes in marching cubes algorithm are  aligned with an offset (Figure \ref{fig:ExpectedSampling}). If volumes with non-empty neighbouring voxels are ignored, then holes appear on the output polygon mesh. 		
 
-{\color{red} *** NEILL could draw a red box on image to highlight the difference and menetion it in the caption as well }
+
 \begin{figure}[!htbp]
 	\centering
 	\includegraphics[width=5.5in]{img/HolesNeighbours}
 	% where an .eps filename suffix will be assumed under latex, 
 	% and a .pdf suffix will be assumed for pdflatex; or what has been eclared
 	% via \DeclareGraphicsExtensions.
-	\caption{Comparison between including and ignoring neighborouing voxels; holes appears when ignored.}
+	\caption{Comparison between including and ignoring neighbouring voxels; holes appears when ignored. {\color{blue} Inside the red boxes, there are two affected areas.}}
 	\label{fig:IVholesNeighbours}
 \end{figure}
 
