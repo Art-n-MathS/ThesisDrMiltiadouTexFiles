@@ -47,7 +47,7 @@
 \par Previous work on dead standing trees detection performs single tree crown delineation before health assessment \cite{Yao2012} \cite{Shendryk2016_DeadTrees}.Tree-crown delineation is usually done by detecting local maxima from the canopy height model (CHM) and then segmenting trees with watershed algorithm \cite{Popescu2003}. Improvements has been achieved by introducing markers controlled watershed \cite{Jing2012} and structural elements of tree crowns with different sizes \cite{Hu2014}. Additionally, Popescu and Zhao analyse the vertical distribution of the LiDAR points in conjunction with the local maximum filtering of CHM \cite{Popescu2008}.
 
 
- \par  In the case of Eucalyptus, single tree detection is a challenge on its own, due to their irregular structure and multiple trunk splits. In other words, each tree trunks splits create a local maximum leading into over-segmentation when tree crowns are detected by local maxima filtering. Shendryk published a eucalyptus delineation algorithm that starts segmentation from bottom to top. In this paper, the trunks point cloud is separated from the leaves and individual trunks are identified before proceeding to crown segmentation \cite{Shendryk2016_treeDeliniation}. Nevertheless, there is the consideration of optimal resolution for a cost effective versus quality acquisition \cite{Lovell2005}. For this project, there is an average of four pulses per square meter, which is considered an optimal resolution. But because of the tree height (up to 43meters according to the fieldwork), a small amount of pulse intensity reached the trunks and the recordered waveform do not include enough information for individual trunk detection.  An example of this project's discrete LiDAR data is shown in Figure \ref{fig:NoTrunks} and the missing information about the trunks are depicted.
+ \par  In the case of Eucalyptus, single tree detection is a challenge on its own, due to their irregular structure and multiple trunk splits. In other words, each tree trunks splits create a local maximum leading into over-segmentation when tree crowns are detected by local maxima filtering. Shendryk published a eucalyptus delineation algorithm that starts segmentation from bottom to top. In this paper, the trunks point cloud is separated from the leaves and individual trunks are identified before proceeding to crown segmentation \cite{Shendryk2016_treeDeliniation}. {\color{blue} Nevertheless, for that project they collected only 17 flightlines of LiDAR data with the density resolution to vary from 12 points/$m^2$ up to 36 points/$m^2$ around forested areas. For small research projects capturing this high resolution is ok, but for commercial use and larger areas, the density of data collected is above the optimal resolution for a cost effective versus quality acquisition \cite{Lovell2005}. The project of this thesis is 7.35 times larger. The resolution of the LiDAR data has an average of four pulses per square meter, which is considered an optimal resolution.} But because of the tree height (up to 43meters according to the fieldwork), a small amount of pulse intensity reached the trunks and the recordered waveform do not include enough information for individual trunk detection.  An example of this project's discrete LiDAR data is shown in Figure \ref{fig:NoTrunks} and the missing information about the trunks are depicted.
  
    	\begin{figure} [h!]
    		\centering
@@ -63,50 +63,55 @@ Here, it is introduced an approach for quick dead tree detection derived from th
 
 
 
-% \par Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009} ~\cite{Reitberger2008}. Nevertheless DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}. But, DASOS do not only uses voxelisation for visualisations but also for extracting metrics useful in classification. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. It is further seems that the literature is moving towards voxelisation with the good results obtained at recent publication on tree species classification ~\cite{Cao2016}. 
+
 
 %\subsection{Potentially add Objectives???}
-
+\afterpage{
+	\begin{figure} [h!]
+		\centering
+		\includegraphics[width=0.965\textwidth]{img/Eucalyptus.png}
+		\caption{Structure of Red Gum Forest in south-eastern Australia.}
+		\label{fig:EucalyptusSize}
+	\end{figure}
+	
+	
+	
+	\begin{figure} [h!]
+		\centering
+		\includegraphics[width=0.965\textwidth]{img/DeadTreesExamplePhotos}
+		\caption{Example of dead trees indicating their variance in shape.}
+		\label{fig:DeadTreesExamplePhotos}
+	\end{figure}
+}
 \section{Materials and Methods}
 
 \subsection{Study Area}
 
-The study area is a native River Red Gum (Eucalyptus camaldulensis) forest in south-eastern Australia and its size is $542km^2$. The regeneration of the eucalyptus is extremely dependant in floods and therefore, their distribution in respect to density, health and age is highly variance \cite{Kerle2005}. Additionally, the height of Eucalyptus camaldulensis reaches up to 30-40m and their structural complexity is high with multiple trunk splits \cite{Wilson1995}. The size and structure of the forest, with size reference a human, is depicted in Figure \ref{fig:EucalyptusSize}, while examples of the invariance shape of dead trees is shown in Figure \ref{fig:DeadTreesExamplePhotos}. 
+The study area is a native River Red Gum (Eucalyptus camaldulensis) forest in south-eastern Australia which size is $542km^2$. The regeneration of the eucalyptus is extremely dependant in floods and therefore, their distribution in respect to density, health and age is highly variance \cite{Kerle2005}. Additionally, the height of Eucalyptus camaldulensis reaches up to 30-40m and their structural complexity is high with multiple trunk splits \cite{Wilson1995}. The size and structure of the forest, with a human as reference, is depicted in Figure \ref{fig:EucalyptusSize}, while examples of the invariance shape of dead trees is shown in Figure \ref{fig:DeadTreesExamplePhotos}. 
 
 
-
-\begin{figure} [h!]
-	\centering
-	\includegraphics[width=0.965\textwidth]{img/Eucalyptus.png}
-	\caption{Structure of Red Gum Forest in south-eastern Australia.}
-	\label{fig:EucalyptusSize}
-\end{figure}
-
-
-
-\begin{figure} [h!]
-	\centering
-	\includegraphics[width=0.965\textwidth]{img/DeadTreesExamplePhotos}
-	\caption{Example of dead trees indicating their variance in shape.}
-	\label{fig:DeadTreesExamplePhotos}
-\end{figure}
 
 
 
 
 \subsection{Acquired full-waveform LiDAR data}
 
-For this project, FW LiDAR data has been acquired. The data were supplied by RPS Australia East Pty Ltd and they were collected in March 2015 using the Trimble AX60 Airborne LiDAR sensor. 
+\par Multiple-echo, full-waveform (FW) LiDAR data are supplied by RPS Australia East Pty Ltd and they were collected using the Trimble AX60 Airborne LiDAR sensor from the 6th of March till the 31st of March 2015. The height of the flights was 900m, the wavelenght is 1062nm, the maxing scan angle is 60 degrees and the pulse rate is 400kHz. The delivered data are 218 flightlines, of which the 13 are cross runs used in geometric correction. Additionally, there is a 30\% of swath overlap. The point spacing along and across the track  is 0.48m, but the average point spacing is 4.3 points per square meter due to the overlap. Detailed information about FW LiDAR data are given in section \ref{AcquireData}. 
 
+\par Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009} ~\cite{Reitberger2008}. Nevertheless, in this project we uses the open source software DASOS. DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}. But, it does not only uses voxelisation for visualisations but also for extracting metrics useful in classification. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. It is further seems that the literature is moving towards voxelisation with promising results obtained at recent publication on tree species classification ~\cite{Cao2016}. More Information about DASOS and its voxelisation approach are given in Section \ref{DASOS_Voxelisation}.
 
 \subsection{Field Data}
 
-33 plots allocated randomly in the area of interest
+The field data were collected in July 2015 during the winter season.
+33 plots allocated randomly in the study area
+
 Plot Radius: 35.68m 
 GPS tree location
 Tree information like Dead trees
 2386 Trees 
 269 Dead Trees
+
+Diameter at breast height over bark (DBHOB) should be measured at the standard height of 1.3m (breast height). 
 
  In addition, the field plots used for the classifications are provided by (Interprine Group Ltd or Forest Corporation?) and contain around 1000 Eucalypt trees while 10\verb|%| of them are dead. 
  \begin{figure} [h!]
@@ -120,7 +125,9 @@ Tree information like Dead trees
 
 \subsection{Statistical Analysis}
 \subsubsection{The 3D-priors feature of DASOS}
-The 3D shape signatures were generated by getting the distance distribution of random LiDAR point pairs of the two tree crown classes: Oaks and Douglas \cite{Dong2009}
+\par The 3D shape signatures were generated by getting the distance distribution of random LiDAR point pairs of the two tree crown classes: Oaks and Douglas \cite{Dong2009}
+
+\par Here it is worth mentioning that this project is the first application of the new feature of DASOS that was released on the 20th of January 2017 \cite{DASOS_v2}. 
 
 \par In this chapter, the 3rd feature of DASOS (Table \ref{tbl:functionalities}) is used for generating 3D priors characterising dead standing Eucalypt trees. These 3D priors are used for detecting dead standing Eucalypt trees in native Australian forests. 
 
