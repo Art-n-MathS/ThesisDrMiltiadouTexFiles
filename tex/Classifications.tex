@@ -21,7 +21,7 @@
 \afterpage{
     \begin{figure} 
     	\centering
-    	\includegraphics[width=\textwidth]{img/Birds}
+    	\includegraphics[width=\textwidth]{img/dead/Birds}
     	\caption[Animals Closes to Exctinction]{A number of species that rely on tree hollows of which the red ones / bold ones are close to extinction: Kookaburra, Sulphur Crested Cockatoo, \textbf{Corella},  Crimson Rosella, Eastern Rosella,  Galah, Rainbow Lorikeet,  Musk Lorikeet, Little Lorikeet , Red-winged Parrot,  \textbf{Superb Parrot}, Cockatiel,   Australian Ringneck (Parrot),  Red-rumped Parrot,   Powerful Owl,    Sooty Ow,        Barking Owl, \textbf{Masked Owl},  \textbf{Barn Owl},  White-throated Treecreeper, Hollow Owl, \textbf{Brush-tailed Possum} (mammal) \footnotemark}
     	\label{fig:Birds}
     \end{figure}
@@ -51,13 +51,14 @@
  
    	\begin{figure} [h!]
    		\centering
-   		\includegraphics[trim={7cm 0 1.7cm 0},clip,width=\textwidth]{img/TreesNoTrunks}
+   		\includegraphics[trim={7cm 0 1.7cm 0},clip,width=\textwidth]{img/dead/TreesNoTrunks}
    		\caption{LiDAR point cloud showing that there are very limited points reflected from tree trunks.}
    		\label{fig:NoTrunks}
    	\end{figure}
    	
 
-
+{\color{red} ***Note read again to make sure it matches OK}
+\par The acquired data are full-waveform LiDAR data. Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009} ~\cite{Reitberger2008}. Nevertheless, in this project we uses the open source software DASOS. DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}. But, it does not only uses voxelisation for visualisations but also for extracting metrics useful in classification. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. It is further seems that the literature is moving towards voxelisation with promising results obtained at recent publication on tree species classification ~\cite{Cao2016}. 
 
 Here, it is introduced an approach for quick dead tree detection derived from the boost cascade approach \cite{Viola2001} but extended into 3D. This approach further contains similarities of the 3D tree shape signatures proposed by Dong, 2009, for distinguishing Oaks from Douglas fir tree crowns \cite{Dong2009}. 
 
@@ -80,7 +81,7 @@ In this section, information about the study area, the acquired remote sensing a
 	\begin{figure} [h!]
 		\centering
 		\begin{framed}
-		\includegraphics[width=0.965\textwidth]{img/StudyArea}
+		\includegraphics[width=0.965\textwidth]{img/dead/StudyArea}
 	  	\end{framed}
 		\caption{The study area is depicted by green ($542km^2$), the yellow strips are the LiDAR flightlines and the red dots are the position of the field plots.{\color{red}**Note: this image many need to be removed due to confidentiality of the company. I will talk with them and hopefully it will be ok.}}
 		\label{fig:StudyArea}
@@ -93,14 +94,14 @@ The study area is a native River Red Gum (Eucalyptus camaldulensis) forest  of s
 
 	\begin{figure} [h!]
 		\centering
-		\includegraphics[width=0.965\textwidth]{img/Eucalyptus.png}
+		\includegraphics[width=0.965\textwidth]{img/dead/Eucalyptus.png}
 		\caption{Structure of Red Gum Forest in south-eastern Australia.}
 		\label{fig:EucalyptusSize}
 	\end{figure}
 
 	\begin{figure} [h!]
 		\centering
-		\includegraphics[width=0.965\textwidth]{img/DeadTreesExamplePhotos}
+		\includegraphics[width=0.965\textwidth]{img/dead/DeadTreesExamplePhotos}
 		\caption{Example of dead trees indicating their variance in shape.}
 		\label{fig:DeadTreesExamplePhotos}
 	\end{figure}
@@ -113,7 +114,7 @@ The study area is a native River Red Gum (Eucalyptus camaldulensis) forest  of s
 
  \begin{figure} [h!]
  	\centering
- 	\includegraphics[width=\textwidth]{img/DeadTreeInLiDAR}
+ 	\includegraphics[width=\textwidth]{img/dead/DeadTreeInLiDAR}
  	\caption{Example of a dead tree in relation to the discrete LiDAR point cloud.}
  	\label{fig:DeadTreeInLiDAR}
  \end{figure}
@@ -166,14 +167,115 @@ The study area is a native River Red Gum (Eucalyptus camaldulensis) forest  of s
 
 \section{Methods and Algorithms}
 
-\par Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009} ~\cite{Reitberger2008}. Nevertheless, in this project we uses the open source software DASOS. DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}. But, it does not only uses voxelisation for visualisations but also for extracting metrics useful in classification. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. It is further seems that the literature is moving towards voxelisation with promising results obtained at recent publication on tree species classification ~\cite{Cao2016}. The next section gives an in-depth explanation of the feature of DASOS used in this study. For more Information about DASOS and its voxelisation approach, please refer to  Section \ref{DASOS_Voxelisation}.
+\par steps
 
-\subsubsection{The 3D-priors feature of DASOS}
+\begin{itemize}
+	\item DASOS and 3D priors
+	\item Random Forest for identifying the most significant features
+	\item Nearest Neighbour 
+	\item Thinning Algorithm
+	\item Remove Ground and noisy columns using Gaussian decomposition
+	\item Evaluation
+\end{itemize}
+
+\subsubsection{DASOS and 3D priors}
+
 \par The 3D shape signatures were generated by getting the distance distribution of random LiDAR point pairs of the two tree crown classes: Oaks and Douglas \cite{Dong2009}
 
 \par Here it is worth mentioning that this project is the first application of the new feature of DASOS that was released on the 20th of January 2017 \cite{DASOS_v2}. 
 
 \par In this chapter, the 3rd feature of DASOS (Table \ref{tbl:functionalities}) is used for generating 3D priors characterising dead standing Eucalypt trees. These 3D priors are used for detecting dead standing Eucalypt trees in native Australian forests. 
+
+
+\par like Viola but in 3D 
+
+\par the sets we create: 1. raw intensities 
+
+\par Figure \ref{fig:DASOSsPriors}
+
+
+ \begin{figure} [h!]
+	\centering
+	\includegraphics[width=\textwidth]{img/dead/DASOSsPriors}
+	\caption{This figure shows what priors were created for testing and how they are divided for cross validation.}
+	\label{fig:DASOSsPriors}
+\end{figure}
+
+\newpage
+	\begin{longtable}
+		{|p{4.65cm}|p{9.45cm}|}
+		\toprule
+		\multicolumn{2}{|c|}{\textbf{Explanation of the 3D priors Output with the Processed Intensities}} \\
+		\midrule
+		\textbf{Label} & \textbf{Description} \\ 
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Height\_Middle\_Column& The height of the middle column of the prior
+		\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Height\_Mean& The Mean height of all the columns included in the template\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Height\_Median& The Median height of all the columns included in the template
+		\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Height\_Std&The Standard Deviation of the heights of the columns included in the template \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Sum\_Int\_Diff\_X& The Mirror Summed Difference of the intensities using the middle column in the x-axis as the axis of symmetry \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Sum\_Int\_Diff\_Y& The Mirror Summed Difference of the intensities using the middle column in the y-axis as the axis of symmetry\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Sum\_Int\_Diff\_Z& The Mirror Summed Difference of the intensities using the middle column in the z-axis as the axis of symmetry\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Max\_Int& The maximum intensity found inside the prior\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Min\_Int& The minimum intensity found inside the prior\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Ave\_Int& The average intensity of the voxels that contain an intensity above the isolevel\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Median\_Int& The median intensity of the voxels\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Per\_Int\_Above\_Iso& Percentage of voxels that contain an intensity above the isolevel\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Dis\_Mean& Mean distance from the central voxel to every voxel that contain san intensity above the isolevel  \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Dis\_Median& Median distance from the central voxel to every voxel that contains an intensity above the isolevel \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Dis\_Std& The Standard Deviation of the distances between the central voxel and every voxel that contains an intensity above the isolevel\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Top\_Patch\_Len\_Middle\_Col& The length of the top patch of the middle column of the prior\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Top\_Patch\_Len\_Mean& The Mean length of all the top patches\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Top\_Patch\_Len\_Median& The Median length of all the top patches \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Top\_Patch\_Len\_Std& The Standard Deviation of all the top patches \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Mirror\_Diff\_X\_Mean& The Mean Mirror Difference of the voxel intensities with the middle column of the x-axis as the symmetric axis\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Mirror\_Diff\_X\_Median& The Median Mirror Difference of the voxel intensities with the middle column of the x-axis as the symmetric axis \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Mirror\_Diff\_X\_Std& The Standard Deviation Mirror Difference of the voxel intensities with the middle column of the x-axis as the symmetric axis \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Mirror\_Diff\_Y\_Mean&  The Mean Mirror Difference of the voxel intensities with the middle column of the y-axis as the symmetric axis \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Mirror\_Diff\_Y\_Median&The Median Mirror Difference of the voxel intensities with the middle column of the y-axis as the symmetric axis 
+		\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Mirror\_Diff\_Y\_Std& The Standard Deviation Mirror Difference of the voxel intensities with the middle column of the y-axis as the symmetric axis\\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Mirror\_Diff\_Z\_Mean&The Mean Mirror Difference of the voxel intensities with the middle column of the z-axis as the symmetric axis \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Mirror\_Diff\_Z\_Median& The Median Mirror Difference of the voxel intensities with the middle column of the z-axis as the symmetric axis \\
+		\cmidrule(r){1-1}\cmidrule(l){2-2}
+		Mirror\_Diff\_Z\_Std& The Standard Deviation of the Mirror Difference of the voxel intensities with the middle column of the z-axis as the symmetric axis \\
+		\bottomrule
+		\caption[DASOS's functionalities]{The three functionalities of DASOS}
+		\label{tbl:PriorsOutExplanation}	
+	\end{longtable}
+
+
+
+
+
 
 \subsubsection{Statistical Analysis}
 
