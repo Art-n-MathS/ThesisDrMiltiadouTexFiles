@@ -165,11 +165,12 @@ The study area is a native River Red Gum (Eucalyptus camaldulensis) forest  of s
 
 {\color{red} **Note: Please move to the Appendix now, because the following sections are not completed}
 
-\section{Methods and Algorithms}
+\section{Methods and Algorithms / Statistical Analysis}
 
 \par steps
 
 \begin{itemize}
+	\item Subtract DTM From full-waveform LiDAR
 	\item DASOS and 3D priors
 	\item Random Forest for identifying the most significant features
 	\item Nearest Neighbour 
@@ -177,6 +178,12 @@ The study area is a native River Red Gum (Eucalyptus camaldulensis) forest  of s
 	\item Remove Ground and noisy columns using Gaussian decomposition
 	\item Evaluation
 \end{itemize}
+
+\subsection{Subtract DTM from FW LiDAR}\label{sec:DTMsub}
+
+\par generating DTM beyond the scope of this research. The DTM is generated using the Quick Terrain Modeller from the discrete LiDAR using the parameters shown in Figure \ref{}. 
+
+DASOS has a feature for subtracting the DTM from the full-waveforms before generating the volumetric representation of the data. Figure \ref{} shows the DEM before and after the subtraction. 
 
 \subsubsection{DASOS and 3D priors}
 
@@ -272,12 +279,38 @@ The study area is a native River Red Gum (Eucalyptus camaldulensis) forest  of s
 		\label{tbl:PriorsOutExplanation}	
 	\end{longtable}
 
+	\par In the following section, the images and examples are taken from the Cylinder processed parameters but it done for all four test cases and cross validated using the 5 datasets division.
 
 
 
 
+\subsection{Random Forest}
+	\par Images and examples for Cylinder processed parameters but it done for all four test cases and cross validated using the 5 datasets division.
+	
+\subsection{Probabilistic Model}
 
-\subsubsection{Statistical Analysis}
+ \par After identifying the most significant feature
+ 
+ 
+ \subsection{Smoothing Filter and Local Maxima}
+ 
+ \par Once the probability field is created, we smooth the image and detect the local maxima.
+ 
+ \subsection{Ground Mask}
+ 
+ \par Great histogram of the height map generated using the 2D metrics of DASOS. 
+ 
+ \par Create three classes : ground, trees and noise
+ 
+ \par Because the DTM has been subtracted (Section \ref{sec:DTMsub}), the ground is easily separated from the trees. 
+ 
+ \par Mask out  ground and noise
+ 
+ \subsection{Threshold}
+ 
+ \par if a local maxima is found but the probability of being a dead is low then it is not a dead tree. This is defined by a user defined constant threshold. 
+ 
+
 
 \section{Results} 
 
