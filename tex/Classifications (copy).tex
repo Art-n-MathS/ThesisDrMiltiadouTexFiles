@@ -1,0 +1,197 @@
+\documentclass{subfiles}
+
+\begin{document}
+
+\section{Introduction}
+
+\subsection{The Importance of Dead Wood}
+
+\par The value of dead trees from a biodiversity management perspective is large. Once a tree dies, its contribution to our ecosystem continues. The woody structure remains for centuries and it contributes to forest regeneration while providing resources for numerous surrounding organisms \cite{Franklin1987}. As an indication, more than 4000 species inhabit dead wood in Finland \cite{Siitonen2001}, where an estimate of 1000 species has been extinct \cite{Hanski2000}. These species do not only include animals and birds but also organisms, like fungi. Fungi contributes to wood decaying, formation of hollows and biodiversity, which is an important factor for a resilient ecosystem \cite{Peterson2000}. Observing the changes of fungal diversity on decaying wood has an increased interest in science  \cite{Abrego2011} \cite{Stokland2011} \cite{Lonsdale2008} in order to ensure the continuous existence of decaying wood in forests. 
+
+
+
+
+\par Specifically in Australia, tree hollows play a significant role in managing biodiversity. Nearly all arboreal mammals rely on hollows with the exception of the Koala and perhaps Ringtail Possums that preferentially make a stick nest, but they use hollows as well. Additionally, a large number of Australian bird species rely on hollows for shelters \cite{Gibbons2002}. Nevertheless, Australia has no real hollow creators like the northern hemisphere (e.g. Woodpeckers), and therefore it relies predominantly on natural processes of limb breakage, insect and fungal attack when access points are provided through damage caused by wind, storms and fire. 
+\par This kind of hollows take hundreds of years to form and because of that it is more likely to exist on dead trees. In Australia, studies predict shortage of hollows for colonisation in the near future \cite{Lindenmayer2010} \cite{Goldingay2009}. Therefore automated detection of them plays a significant role in protecting those animals. As an indicator of the importance of hollows in managing biodiversity, a list of a few of the species that rely on hollows was provided by the Forestry Corporation of NSW. Those species are shown at Figure \ref{fig:Birds}. According to the Department of the Environment of Australian Government and the Government of Western Australia, six of them are  protected, threatened or close to extinct \cite{AustraliaExtinct1999}  \cite{AustraliaExtince2015}. Figure \ref{fig:Birds} shows the species from the provided list and the six protected species have a red border and their names are bold in the description. 
+
+\par For the aforementioned reasons, monitoring dead trees is essential for having a resilient ecosystem. Nevertheless, the distribution of dead trees significantly varies making detection of them difficult \cite{Kim2009}. Remote sensing approaches has been introduce to automate the process of monitoring forest and further increase the spatial resolution of the monitored area. The following section gives an overview of the related work undertaken in Remote Sensing. 
+
+
+
+\afterpage{
+    \begin{figure} 
+    	\centering
+    	\includegraphics[width=\textwidth]{img/Birds}
+    	\caption[Animals Closes to Exctinction]{A number of species that rely on tree hollows of which the red ones / bold ones are close to extinction: Kookaburra, Sulphur Crested Cockatoo, \textbf{Corella},  Crimson Rosella, Eastern Rosella,  Galah, Rainbow Lorikeet,  Musk Lorikeet, Little Lorikeet , Red-winged Parrot,  \textbf{Superb Parrot}, Cockatiel,   Australian Ringneck (Parrot),  Red-rumped Parrot,   Powerful Owl,    Sooty Ow,        Barking Owl, \textbf{Masked Owl},  \textbf{Barn Owl},  White-throated Treecreeper, Hollow Owl, \textbf{Brush-tailed Possum} (mammal) \footnotemark}
+    	\label{fig:Birds}
+    \end{figure}
+    \footnotetext{    	
+        The images of the birds were taken from the following links (Retrieved on the 27th of April 2016):  
+    	Kookaburra: \url{<http://tenrandomfacts.com/blue-winged-kookaburra/>}, 
+    	Sulphur Crested Cockatoo: \url{<http://aussiegal7.deviantart.com/art/Sulphur-Crested-Cockatoo-08-153341893>},
+    	Corella: \url{<http://www.theparrotplace.co.nz/all-about-parrots/long-billed-corella/},     	Superb Parrot: \url{<http://www.davidkphotography.com/?showimage=637>},
+    	Crimson Rosella: \url{<http://25.media.tumblr.com/tumblr_m3mo89c40r1r4t9h1o1_1280.jpg>},
+    	Eastern Rosella: \url{<http://2.bp.blogspot.com/-pYxw51WjSOY/UB-LEFgd2KI/AAAAAAAAAWg/9z60PUWE6TE/s1600/_GJS6601-as-Smart-Object-1.jpg>},
+    	Rainbow Lorikeet: \url{<https://www.reddit.com/r/pics/comments/328fvc/a_rainbow_lorikeet_found_in_coastal_regions/>},     	Musk Lorikeet: \url{<http://www.rymich.com/girraween/photos/animals/birds/medium/glossopsitta_concinna/glossopsitta_concinna_001.jpg>},     	Little Lorikeet: \url{<http://www.pbase.com/sjmurray/psittacidae>},     	Red-winged Parrot: \url{<https://www.pinterest.com/pin/395894623469889727/>}, Cockatiel: \url{<http://up.parsipet.ir/uploads/Cockatiels-for-sale.jpg>},     	Australian Ringneck (Parrot): \url{<http://ontheroadmagazine.com.au/wp-content/uploads/2015/09/Twenty-eight-parrot-2-min.jpg>},     	Red-rumped Parrot: \url{<http://parrotfacts.net/wp-content/uploads/Red-Rumped-Parrot-on-a-tree.jpg>},     	Powerful Owl: \url{<http://farm1.staticflickr.com/219/495796536_f78dac04c1.jpg>},     	Sooty Owl: \url{<ttp://www.mariewinn.com/marieblog/uploaded_images/screech2-738532.jpg},     	Barking Owl: \url{<http://www.pcpimages.com/Nature-and-Wildlife/Birds/i-7JKSTp5/1/L/owl\%20\%281\%20of\%201\%29-L.jpg>},     	Masked Owl: \url{<http://www.survival.org.au/images/birds/masked_owl_2_600.jpg>},  	Galah: \url{https://www.pinterest.com/pin/537546905498955709/>},   	White-throated Treecreeper: \url{<https://geoffpark.files.wordpress.com/2011/09/female-white-throated-treecreeper.jpg>}, Hollow Owl: \url{<http://www.mariewinn.com/marieblog/uploaded_images/screech2-738532.jpg>} }
+}
+
+
+
+
+
+\subsection{Related Work}
+
+\par Remote Sensing was introduced for automatically detecting dead trees, because fieldwork is time consuming considering their variance spread and the size of the relevant forests. From a classification perceptive, the task of identifying dead standing and dead fallen trees is different. Fallen trees are identified by detecting segments or line-like features on the terrain surface using LiDAR data \cite{Polewski2015} \cite{Mucke2013}. Regarding standing dead trees, their shape (reduced number of leaves or broken branches) \cite{Yao2012} and light reflectance (less green light illuminated) \cite{Pasher2009} are important factors for identifying them.
+
+
+\par Previous work on dead standing trees detection performs single tree crown delineation before health assessment \cite{Yao2012} \cite{Shendryk2016_DeadTrees}.Tree-crown delineation is usually done by detecting local maxima from the canopy height model (CHM) and then segmenting trees with watershed algorithm \cite{Popescu2003}. Improvements has been achieved by introducing markers controlled watershed \cite{Jing2012} and structural elements of tree crowns with different sizes \cite{Hu2014}. Additionally, Popescu and Zhao analyse the vertical distribution of the LiDAR points in conjunction with the local maximum filtering of CHM \cite{Popescu2008}.
+
+
+ \par  In the case of Eucalyptus, single tree detection is a challenge on its own, due to their irregular structure and multiple trunk splits. In other words, each tree trunks splits create a local maximum leading into over-segmentation when tree crowns are detected by local maxima filtering. Shendryk published a eucalyptus delineation algorithm that starts segmentation from bottom to top. In this paper, the trunks point cloud is separated from the leaves and individual trunks are identified before proceeding to crown segmentation \cite{Shendryk2016_treeDeliniation}. {\color{blue} Nevertheless, for that project only 17 flightlines of LiDAR data were collected. The density resolution starts from 12 points/$m^2$ and goes up to 36 points/$m^2$ around forested areas. For small research projects capturing this high resolution is ok, but for commercial use and larger areas, the density of data collected is above the optimal resolution for a cost effective versus quality acquisition \cite{Lovell2005}. The project of this thesis is much larger. The resolution of our acquired LiDAR data has an average of four pulses per square meter, which is considered an optimal resolution.} But because of the tree height (up to 43meters according to the fieldwork), a small amount of pulse intensity reached the trunks and the recordered waveform do not include enough information for individual trunk detection.  An example of this project's discrete LiDAR data is shown in Figure \ref{fig:NoTrunks} and the missing information about the trunks is depicted.
+ 
+   	\begin{figure} [h!]
+   		\centering
+   		\includegraphics[trim={7cm 0 1.7cm 0},clip,width=\textwidth]{img/TreesNoTrunks}
+   		\caption{LiDAR point cloud showing that there are very limited points reflected from tree trunks.}
+   		\label{fig:NoTrunks}
+   	\end{figure}
+   	
+
+{\color{red} ***Note read again to make sure it matches OK}
+\par The acquired data are full-waveform LiDAR data. Traditional ways of interpreting FW LiDAR data, suggests extraction of a denser points cloud using Gaussian decomposition ~\cite{Neuenschwander2009} ~\cite{Reitberger2008}. Nevertheless, in this project we uses the open source software DASOS. DASOS was influenced by Persson et al, 2005, who used voxelisation to visualise the waveforms ~\cite{Persson2005}. But, it does not only uses voxelisation for visualisations but also for extracting metrics useful in classification. It further normalises the intensities so that equal pulse length exists inside each voxel, making intensities more meaningful. It is further seems that the literature is moving towards voxelisation with promising results obtained at recent publication on tree species classification ~\cite{Cao2016}. 
+
+\par Here, it is introduced an approach for quick dead tree detection derived from the boost cascade approach \cite{Viola2001} but extended into 3D. This approach further contains similaries of the 3D tree shape signatures proposed by Dong, 2009, for distinguishing Oaks from Douglas fir tree crowns \cite{Dong2009}. 
+
+
+
+
+
+%\subsection{Potentially add Objectives???}
+
+	\begin{figure} [h!]
+		\centering
+		\includegraphics[width=0.965\textwidth]{img/Eucalyptus.png}
+		\caption{Structure of Red Gum Forest in south-eastern Australia.}
+		\label{fig:EucalyptusSize}
+	\end{figure}
+	
+	
+	
+
+
+\section{Materials and Methods}
+
+\subsection{Study Area}
+
+The study area is a native River Red Gum (Eucalyptus camaldulensis) forest  of size $542km^2$ in south-eastern Australia. The regeneration of the eucalyptus is extremely dependant in floods and therefore, their distribution in respect to density, health and age is highly variance \cite{Kerle2005}. Additionally, the height of Eucalyptus camaldulensis reaches up to 30-40m and their structural complexity is high with multiple trunk splits \cite{Wilson1995}. The size and structure of the forest, with a human as reference, is depicted in Figure \ref{fig:EucalyptusSize}, while examples of the variance shape of dead trees is shown in Figure \ref{fig:DeadTreesExamplePhotos}. 
+
+
+
+
+
+
+\subsection{Acquired full-waveform LiDAR data}
+
+\par Multiple-echo, full-waveform (FW) LiDAR data are supplied by RPS Australia East Pty Ltd. The data were acquired from 900m above ground level, using the Trimble AX60 Airborne LiDAR sensor, which was released in October 2013 \cite{Trimble}. The wavelength of the emitted laser was 1062nm, while the maximum scan angle was 60 degrees. Additionally, the pulse rate was 400kHz. The acquisition was held from the 6th of March till the 31st of March 2015.  The collected LiDAR were delivered into 206 flightlines, of which the 13 are cross runs used for geometric correction. There is also a 30\% of swath overlap. The point spacing along and across the track  is 0.48m, but the average point spacing is 4.3 points per square meter due to the overlap. Detailed information about FW LiDAR related concepts are given in section \ref{AcquireData}. Figure \ref{fig:DeadTreeInLiDAR} shows an example of a dead tree in respect to the acquired discrete LiDAR point cloud.  
+
+	\begin{figure} [h!]
+		\centering
+		\includegraphics[width=\textwidth]{img/DeadTreesExamplePhotos}
+		\caption{Example of dead trees indicating their variance in shape.}
+		\label{fig:DeadTreesExamplePhotos}
+	\end{figure}
+
+ \begin{figure} [h!]
+ 	\centering
+ 	\includegraphics[width=\textwidth]{img/DeadTreeInLiDAR}
+ 	\caption{Example of a dead tree in relation to the discrete LiDAR point cloud.}
+ 	\label{fig:DeadTreeInLiDAR}
+ \end{figure}
+
+
+
+\subsection{Field Data}
+
+\par The field data were collected in July 2015 during the winter season of Australia and they include tree and canopy related measurements on circular plots. There are 33 plots with radius 35.68m and area 0.4ha  allocated randomly inside the study area. On these plots, a total of 2386 trees were individually measured.  Tree measurements include the geo-location, the trunk diameter at the standard height of 1.3m (breast heigh), height, species and health conditions (i.e. dead or alive). The geo-location of each tree is defined by the magnetic bearing from the centroid of the plot in degrees (range $[1,360]$) and the distance from the centroid in meters. The northing and easting coordinates of the geo-location of each tree were calculated in post-processing. Here it worth mentioning that a single tree may be recorded as multiple trees if there is a trunk split bellow the breast height of 1.3m. Furthermore, 91.59\% are River Red Gum and the rest are Black Box (Eucalyptus largiflorens) and Wattle group (Acacia spp.).
+
+\par Inside the field data, there are 260 dead trees recorded. Nevertheless, not all of those trees are considered useful for biodiversity. Dead trees with big Diameter at Breast Height (DBH) are more likely to contain hollows and they are also easier to identified in the data. Trees with DBH smaller than the footprint spacing of the LiDAR data are not identifiable. Table \ref{tab:DBH} shows the number of dead and alive trees in respect to their DBH. 
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{| l || c | c | }
+		\hline		
+		\textbf{DBH} &\textbf{Dead Trees} & \textbf{Alive Trees }\\	
+		\hline			
+		\hline			
+		\textbf{>2000} & 0 & 1\\
+		\hline			
+		\textbf{1000-2000} & 7 & 21\\
+		\hline			
+		\textbf{600-1000} & 8 & 146\\
+		\hline			
+		\textbf{400-600} & 26 & 290\\
+		\hline			
+		\textbf{300-400} & 32 & 286\\
+		\hline			
+		\textbf{200-300} & 50 & 462\\
+		\hline			
+		\textbf{100-200} &125 & 904\\
+		\hline			
+		\textbf{<100} & 11 & 16\\
+		\hline			
+		\textbf{Total} & 260 & 2126 \\
+		
+		
+		
+		
+		\hline  
+	\end{tabular}
+	\caption{ Classification accuracy of each test case}
+	\label{tab:DBH}
+\end{table}
+
+\par Please note that the aforementioned field data were provided by Forestry Corporation of NSW, Wauchope, Australia and Interpine Ltd Group, New Zealand. For this thesis, a case study for collecting field data was conducted in New Forest, UK. This helped to better understand classification challenges in forestry applications. More information about this study is provided in Appendix \ref{Fieldwork}.
+
+\subsection{Methods and Algorithms}
+
+\par steps
+
+\begin{itemize}
+	\item DASOS and 3D priors
+	\item Random Forest for identifying the most significant features
+	\item Nearest Neighbour 
+	\item Thinning Algorithm
+	\item Remove Ground and noisy columns using Gaussian decomposition
+	\item Evaluation
+\end{itemize}
+
+\subsubsection{DASOS and 3D priors}
+
+
+
+\par like Viola but in 3D 
+
+\par the sets we create: 1. raw intensities 
+
+\par \textbf{figure}
+
+
+\subsubsection{The 3D-priors feature of DASOS}
+\par The 3D shape signatures were generated by getting the distance distribution of random LiDAR point pairs of the two tree crown classes: Oaks and Douglas \cite{Dong2009}
+
+\par Here it is worth mentioning that this project is the first application of the new feature of DASOS that was released on the 20th of January 2017 \cite{DASOS_v2}. 
+
+\par In this chapter, the 3rd feature of DASOS (Table \ref{tbl:functionalities}) is used for generating 3D priors characterising dead standing Eucalypt trees. These 3D priors are used for detecting dead standing Eucalypt trees in native Australian forests. 
+
+\subsubsection{Statistical Analysis}
+
+\section{Results} 
+
+		
+		
+\section{Discussion}
+
+
+
+
+\end{document}

@@ -287,12 +287,30 @@ DASOS has a feature for subtracting the DTM from the full-waveforms before gener
 \subsection{Random Forest}
 	\par Images and examples for Cylinder processed parameters but it done for all four test cases and cross validated using the 5 datasets division.
 	
+	
+	\par Random Forest failed to find relation between the 3D priors with the Raw Intensities due to the irregular shapes of Eucalyptus trees and probably due to the scan from different angles. Raw Intensities may be useful for identifying pine trees in commercial forest, where the variance between each other is smaller. 
+
+	
+	\par Therefore from here we only test processed intensities with 3D cylindrical and 3D  rectangular cuboid priors. 
+	
+	\par Identified the most significant features for detecting dead trees and then we build the following probabilistic model. 
+	
 \subsection{Probabilistic Model}
 
- \par After identifying the most significant feature
+\par We don't go straight to classification because in the testing data, we put a prior for each column and therefore many columns that contain dead trees are not marked correctly. And we wrote a probabilistic model using the most significant features identified by the random forest. 
+
+ \par k-nearest neighbour: distance from the centre of mean for each of the first 5 significant features 
  
  
- \subsection{Smoothing Filter and Local Maxima}
+ \par from that get grey scale field of the results 
+ 
+ 
+ 
+ \subsection{Filtering and Local Maxima}
+ 
+ \par Salt and pepper filter
+ 
+ \par Smoothing filter 
  
  \par Once the probability field is created, we smooth the image and detect the local maxima.
  
