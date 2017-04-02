@@ -301,10 +301,11 @@ DASOS has a feature for subtracting the DTM from the full-waveforms before gener
 \par We don't go straight to classification because in the testing data, we put a prior for each column and therefore many columns that contain dead trees are not marked correctly. And we wrote a probabilistic model using the most significant features identified by the random forest. 
 
  \par k-nearest neighbour: distance from the centre of mean for each of the first 5 significant features 
- 
- 
+ \par P = P(dead)/(P(dead)+P(alive)) 
  \par from that get grey scale field of the results 
- 
+
+
+
  
  
  \subsection{Filtering and Local Maxima}
@@ -313,10 +314,10 @@ DASOS has a feature for subtracting the DTM from the full-waveforms before gener
  
  \par Smoothing filter 
  
- \par Once the probability field is created, we smooth the image and detect the local maxima.
+
  
  \subsection{Ground Mask}
- 
+  \par threshold ground: Histogram of heights, because subtracted DTM,everything below 20 is considered ground. 
  \par Great histogram of the height map generated using the 2D metrics of DASOS. 
  
  \par Create three classes : ground, trees and noise
@@ -329,15 +330,39 @@ DASOS has a feature for subtracting the DTM from the full-waveforms before gener
  
  \par if a local maxima is found but the probability of being a dead is low then it is not a dead tree. This is defined by a user defined constant threshold. 
  
+  \par threshold values according to the probability of been a dead tree >0.62
+ 
+ \subsection{Segmentation}
+  \par remove pixels that have <3 neighbouring dead pixels and add those which have plenty around them
+  \par seed point growth segmentation algorithm
+  
+  \subsection{Assign dead tree position}
+  \par for each segment find the middle pixel and assign that as a dead tree
 
 
 \section{Results} 
 
+\par table: Dead tree / Closest Dead Tree id / Distance from Closest ID
+
+\par precision
+
+\par recall
 		
 		
 \section{Discussion}
 
+\par Dead tree detection is a difficult task due to the irregular shapes of the trees and different sizes. Here we produced this algorithm (pla pla) which is new because it doesn't need tree segmentation but has a lot of room for improvement. 
 
+Also don't know the accuracy of the tree position and as we can see at some heigh maps there are places where there are trees according to the fieldplots but the data clearly shown that there are not trees
+\section{Future Work}
 
+\begin{itemize}
+	\item Manually check and improve position of dead trees using visualisations of the data. In order to improve accuracy of test and evaluating data
+	\item Separate trees from field data according to their height because tree with different heights have different shape properties and the priors used had constant size
+	\item Create priors that have adjustable size according to the height of the tree	
+	\item After the seed growth algorithm, check the size of the segments and look into the possibility of merging two segments into one or dividing a segments into multiple sub-segments.
+	\item Test the results when only using dead trees for training data and not alive
+	\item The system is usually confused at the edges of the alive trees. Research on how this could be improved. 
+\end{itemize}
 
 \end{document}
