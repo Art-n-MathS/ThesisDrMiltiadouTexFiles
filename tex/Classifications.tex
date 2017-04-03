@@ -76,9 +76,13 @@ Here, it is introduced an approach for quick dead tree detection derived from th
 
 
 \section{Materials}
-In this section, information about the study area, the acquired remote sensing and field data are provided. Figure \ref{fig:StudyArea} depicts all of them on a map, while section \ref{sec:StudyArea}, \ref{sec:AcquiredData} and \ref{sec:fieldData} give technical information about them. 
+% In this section, information about the study area, the acquired remote sensing and field data are provided. Figure \ref{fig:StudyArea} depicts all of them on a map, while section \ref{sec:StudyArea}, \ref{sec:AcquiredData} and \ref{sec:fieldData} give technical information about them. 
 
-{\color{red} *** NEIL: What information?} 
+% {\color{red} *** NEIL: What information?} 
+
+\subsection{Study Area} \label{sec:StudyArea}
+
+The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptus camaldulensis) forest  of size $542km^2$ in south-eastern Australia. The regeneration of the eucalyptus is extremely dependant in floods and therefore, their distribution in respect to density, health and age is highly variance \cite{Kerle2005}. Additionally, the height of Eucalyptus camaldulensis reaches up to $30-40m$ and their structural complexity is high with multiple trunk splits \cite{Wilson1995}. The size and structure of the forest, with a human as reference, is depicted in Figure \ref{fig:EucalyptusSize}, while examples of the variance shape of dead trees is shown in Figure~\ref{fig:DeadTreesExamplePhotos}. 
 
 \begin{figure} [h!]
 	\centering
@@ -88,11 +92,6 @@ In this section, information about the study area, the acquired remote sensing a
 	\caption{The study area is depicted by green ($542km^2$), the yellow strips are the LiDAR flightlines and the red dots are the position of the field plots.{\color{red}**Note: this image many need to be removed due to confidentiality of the company. I will talk with them and hopefully it will be ok.}}
 	\label{fig:StudyArea}
 \end{figure}
-
-\subsection{Study Area} \label{sec:StudyArea}
-
-The study area is a native River Red Gum (Eucalyptus camaldulensis) forest  of size $542km^2$ in south-eastern Australia. The regeneration of the eucalyptus is extremely dependant in floods and therefore, their distribution in respect to density, health and age is highly variance \cite{Kerle2005}. Additionally, the height of Eucalyptus camaldulensis reaches up to $30-40m$ and their structural complexity is high with multiple trunk splits \cite{Wilson1995}. The size and structure of the forest, with a human as reference, is depicted in Figure \ref{fig:EucalyptusSize}, while examples of the variance shape of dead trees is shown in Figure~\ref{fig:DeadTreesExamplePhotos}. 
-
 
 \begin{figure} [h!]
 	\centering
@@ -194,6 +193,95 @@ DASOS has a feature for subtracting the DTM from the full-waveforms before gener
 
 \par In this chapter, the 3rd feature of DASOS (Table \ref{tbl:functionalities}) is used for generating 3D priors characterising dead standing Eucalypt trees. These 3D priors are used for detecting dead standing Eucalypt trees in native Australian forests. 
 
+	\begin{figure} [h!]			
+		\begin{subfigure}[t]{.49\textwidth}
+			
+			\centering
+			\includegraphics[width=\textwidth]{img/dead/c1_knn}
+			\caption{.}
+			\label{fig:c0_RandomForest}
+		\end{subfigure} \hfill
+		\begin{subfigure}[t]{.49\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{img/dead/c1_knn}
+			\caption{.} 
+			\label{fig:c1_knn}
+		\end{subfigure} \hfill
+		\begin{subfigure}[t]{.49\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{img/dead/c2_knn_SaltPepper}
+			\caption{} 
+			\label{fig:c2_SaltPepper}
+		\end{subfigure}
+			\begin{subfigure}[t]{.49\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{img/dead/c3_knn_smoothed}
+				\caption{} 
+				\label{fig:c3_Smoothed}
+			\end{subfigure}
+		\caption{ }  
+		\label{fig:RF_knn_salt_smooth} 
+	\end{figure}
+	
+		\begin{figure} [h!]			
+			\begin{subfigure}[t]{.49\textwidth}
+				
+				\centering
+				\includegraphics[width=\textwidth]{img/dead/c4_height}
+				\caption{.}
+				\label{fig:c4_height}
+			\end{subfigure} \hfill
+			\begin{subfigure}[t]{.49\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{img/dead/c5_histHeight}
+				\caption{.} 
+				\label{fig:c5_heightHist}
+			\end{subfigure} \hfill
+			\begin{subfigure}[t]{.49\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{img/dead/c6_groundThres}
+				\caption{} 
+				\label{fig:c6_groundMask}
+			\end{subfigure}
+			\begin{subfigure}[t]{.49\textwidth}
+				\centering
+				\includegraphics[width=\textwidth]{img/dead/c7_groundRemoved}
+				\caption{} 
+				\label{fig:c7_groundRemoved}
+			\end{subfigure}
+			\caption{ }  
+			\label{fig:GroundPixelsRemoval} 
+		\end{figure}
+		
+			\begin{figure} [h!]			
+				\begin{subfigure}[t]{.49\textwidth}
+					
+					\centering
+					\includegraphics[width=\textwidth]{img/dead/c8_thresDead}
+					\caption{.}
+					\label{fig:c8_deadThres}
+				\end{subfigure} \hfill
+				\begin{subfigure}[t]{.49\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{img/dead/c9_sharpFilter}
+					\caption{.} 
+					\label{fig:c9_sharpFilter}
+				\end{subfigure} \hfill
+				\begin{subfigure}[t]{.49\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{img/dead/c10_segmentationResults}
+					\caption{} 
+					\label{fig:c10_segmentation}
+				\end{subfigure}
+				\begin{subfigure}[t]{.49\textwidth}
+					\centering
+					\includegraphics[width=\textwidth]{img/dead/c10_segmentationResults}
+					\caption{} 
+					\label{fig:c11_results}
+				\end{subfigure}
+				\caption{ }  
+				\label{fig:dt_sf_segm_results} 
+			\end{figure}
 
 \par like Viola but in 3D 
 
