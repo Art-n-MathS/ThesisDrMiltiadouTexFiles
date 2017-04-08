@@ -124,7 +124,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 
 \subsection{Field Data}\label{sec:fieldData}
 
-\par The field data were collected in July 2015 during the winter season of Australia and they include tree and canopy related measurements on circular plots. There are 33 plots with radius 35.68m and area 0.4ha  allocated randomly inside the study area. On these plots, a total of 2386 trees were individually measured.  Tree measurements include the geo-location, the trunk diameter at the standard height of 1.3m (breast heigh), height, species and health conditions (i.e. dead or alive). The geo-location of each tree is defined by the magnetic bearing from the centroid of the plot in degrees (range $[1,360]$) and the distance from the centroid in meters. The northing and easting coordinates of the geo-location of each tree were calculated in post-processing. Here it worth mentioning that a single tree may be recorded as multiple trees if there is a trunk split bellow the breast height of 1.3m. Furthermore, 91.59\% are River Red Gum and the rest are Black Box (Eucalyptus largiflorens) and Wattle group (Acacia spp.).
+\par The field data were collected in July 2015 during the winter season of Australia and they include tree and canopy related measurements on circular plots. There are 33 plots with radius 35.68m and area 0.4ha  allocated randomly inside the study area. On these plots, a total of 2386 trees were individually measured.  Tree measurements include the geo-location, the trunk diameter at the standard height of 1.3m (breast heigh), height, species and health conditions (i.e. dead or alive). The geo-location of each tree is defined by the magnetic bearing from the centroid of the plot in degrees (range $[1,360]$) and the distance from the centroid in meters. The northing and easting coordinates of the geo-location of each tree were calculated in post-processing. 
 
 \par Inside the field data, there are 260 dead trees recorded. Nevertheless, not all of those trees are considered useful for biodiversity. Dead trees with big Diameter at Breast Height (DBH) are more likely to contain hollows. Additionally, trees with DBH smaller than the footprint spacing of the LiDAR data are not identifiable from the FW LiDAR data. Table \ref{tab:DBH} shows the number of dead and alive trees in respect to their DBH. 
 
@@ -165,6 +165,14 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 \par Please note that the aforementioned field data were provided by Forestry Corporation of NSW, Wauchope, Australia and Interpine Ltd Group, New Zealand. For this thesis, a case study for collecting field data was conducted in New Forest, UK. This helped to better understand classification challenges in forestry applications. More information about this study is provided in Appendix \ref{Fieldwork}.
 
 
+\subsection{Fieldplots Challenges}
+\par It worth mentioning the challenges of working with these fieldplots since they influences the quality of the classifier and the accuracy of the results. 
+\begin{enumerate}
+	\item A single tree may be recorded as multiple trees if there is a trunk split bellow the breast height of 1.3m. Furthermore, 91.59\% are River Red Gum and the rest are Black Box (Eucalyptus largiflorens) and Wattle group (Acacia spp.). 
+	\item {\color{red} Mention accuracy of data - add img of missplaced tree.}
+\end{enumerate}
+
+
 \section{Methods and Algorithms / Statistical Analysis}
 
 \par steps
@@ -181,121 +189,67 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 
 \subsection{Subtract DTM from FW LiDAR}\label{sec:DTMsub}
 
-\par generating DTM beyond the scope of this research. The DTM is generated using the Quick Terrain Modeller from the discrete LiDAR using the parameters shown in Figure \ref{}. 
+\par DASOS has a feature for subracting pre-calculated Digital Terrain Model (DTM) saved into .bil files. Generating DTM is beyond the scope of this research and the DTM files used, were provided by Interpine Ltd Group. The provided DTM files were generated using the Quick Terrain Modeller from the discrete LiDAR using the parameters shown in Figure \ref{fig:DTM_parameters}.
 
-DASOS has a feature for subtracting the DTM from the full-waveforms before generating the volumetric representation of the data. Figure \ref{} shows the DEM before and after the subtraction. 
+\begin{figure} [h!]
+	\centering
+	\includegraphics[width=\textwidth]{img/dead/DTM_parameters}
+	\caption{Parameters used in Quick TErrain Modeller to obtain the DTM used here.}
+	\label{fig:DTM_parameters}
+\end{figure}
+
+
+\par The subtraction of the DTM is done during the voxelisation (Section \ref{DASOS_Voxelisation}). The terrain height is subtracted from the position of the sample and then inserted into the volume. Please note that this terrain value is not subtracted from the origin of each pulse but from the position of each sample since the terrain value at the origin and the terrain value at the position of the sample may differ. Figure \ref{fig:height_minus_dtm} shows an example of a DEM generated before and after the subtraction using DASOS. 
+
+
+\begin{figure} [h!]			
+	\begin{subfigure}[t]{.478\textwidth}
+		
+		\centering
+		\includegraphics[width=\textwidth]{img/dead/height}
+		\caption{Before subtracting the DTM}
+		\label{fig:height}
+	\end{subfigure} \hfill
+	\begin{subfigure}[t]{.49\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{img/dead/height_dtm}
+		\caption{After subtracting the DTM} 
+		\label{fig:height_dtm}
+	\end{subfigure} \hfill
+	\caption{Showing the difference in the DEM before and after subtracting the terrain height. It is clearly shown that the ground in the right image is flat.}  
+	\label{fig:height_minus_dtm} 
+\end{figure}
+
 
 \subsubsection{DASOS and 3D priors}
 
-\par The 3D shape signatures were generated by getting the distance distribution of random LiDAR point pairs of the two tree crown classes: Oaks and Douglas \cite{Dong2009}
+\par Here, the 3rd feature of DASOS (Table \ref{tbl:functionalities}) is used for generating 3D priors characterising dead standing Eucalypt trees.  This section explains how this feature works and what the training/testing data were obtained using this feature of DASOS. 
 
-\par Here it is worth mentioning that this project is the first application of the new feature of DASOS that was released on the 20th of January 2017 \cite{DASOS_v2}. 
+\par  In a few words, the 3D priors contain local information of small areas within the voxelised FW LiDAR space. 
 
-\par In this chapter, the 3rd feature of DASOS (Table \ref{tbl:functionalities}) is used for generating 3D priors characterising dead standing Eucalypt trees. These 3D priors are used for detecting dead standing Eucalypt trees in native Australian forests. 
+The priors are exported into .csv files for easy manipulation into software packages for statistical analysis like R and matlab. For example, a 3D prior could contain information about a the shape of a dead tree. There are two options about the information exported and two options for the shape of the priors.  
 
-	\begin{figure} [h!]			
-		\begin{subfigure}[t]{.49\textwidth}
-			
-			\centering
-			\includegraphics[width=\textwidth]{img/dead/c1_knn}
-			\caption{.}
-			\label{fig:c0_RandomForest}
-		\end{subfigure} \hfill
-		\begin{subfigure}[t]{.49\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{img/dead/c1_knn}
-			\caption{.} 
-			\label{fig:c1_knn}
-		\end{subfigure} \hfill
-		\begin{subfigure}[t]{.49\textwidth}
-			\centering
-			\includegraphics[width=\textwidth]{img/dead/c2_knn_SaltPepper}
-			\caption{} 
-			\label{fig:c2_SaltPepper}
-		\end{subfigure}
-			\begin{subfigure}[t]{.49\textwidth}
-				\centering
-				\includegraphics[width=\textwidth]{img/dead/c3_knn_smoothed}
-				\caption{} 
-				\label{fig:c3_Smoothed}
-			\end{subfigure}
-		\caption{ }  
-		\label{fig:RF_knn_salt_smooth} 
-	\end{figure}
-	
-		\begin{figure} [h!]			
-			\begin{subfigure}[t]{.49\textwidth}
-				
-				\centering
-				\includegraphics[width=\textwidth]{img/dead/c4_height}
-				\caption{.}
-				\label{fig:c4_height}
-			\end{subfigure} \hfill
-			\begin{subfigure}[t]{.49\textwidth}
-				\centering
-				\includegraphics[width=\textwidth]{img/dead/c5_histHeight}
-				\caption{.} 
-				\label{fig:c5_heightHist}
-			\end{subfigure} \hfill
-			\begin{subfigure}[t]{.49\textwidth}
-				\centering
-				\includegraphics[width=\textwidth]{img/dead/c6_groundThres}
-				\caption{} 
-				\label{fig:c6_groundMask}
-			\end{subfigure}
-			\begin{subfigure}[t]{.49\textwidth}
-				\centering
-				\includegraphics[width=\textwidth]{img/dead/c7_groundRemoved}
-				\caption{} 
-				\label{fig:c7_groundRemoved}
-			\end{subfigure}
-			\caption{ }  
-			\label{fig:GroundPixelsRemoval} 
-		\end{figure}
-		
-			\begin{figure} [h!]			
-				\begin{subfigure}[t]{.49\textwidth}
-					
-					\centering
-					\includegraphics[width=\textwidth]{img/dead/c8_thresDead}
-					\caption{.}
-					\label{fig:c8_deadThres}
-				\end{subfigure} \hfill
-				\begin{subfigure}[t]{.49\textwidth}
-					\centering
-					\includegraphics[width=\textwidth]{img/dead/c9_sharpFilter}
-					\caption{.} 
-					\label{fig:c9_sharpFilter}
-				\end{subfigure} \hfill
-				\begin{subfigure}[t]{.49\textwidth}
-					\centering
-					\includegraphics[width=\textwidth]{img/dead/c10_segmentationResults}
-					\caption{} 
-					\label{fig:c10_segmentation}
-				\end{subfigure}
-				\begin{subfigure}[t]{.49\textwidth}
-					\centering
-					\includegraphics[width=\textwidth]{img/dead/c10_segmentationResults}
-					\caption{} 
-					\label{fig:c11_results}
-				\end{subfigure}
-				\caption{ }  
-				\label{fig:dt_sf_segm_results} 
-			\end{figure}
+The 3D shape signatures were generated by getting the distance distribution of random LiDAR point pairs of the two tree crown classes: Oaks and Douglas \cite{Dong2009}
 
-\par like Viola but in 3D 
 
-\par the sets we create: 1. raw intensities 
+
+
+
+
 
 \par Figure \ref{fig:DASOSsPriors}
 
 
- \begin{figure} [h!]
+\begin{figure} [h!]
 	\centering
 	\includegraphics[width=\textwidth]{img/dead/DASOSsPriors}
 	\caption{This figure shows what priors were created for testing and how they are divided for cross validation.}
 	\label{fig:DASOSsPriors}
 \end{figure}
+
+
+
+\par By the end it is worth mentioning that the dead tree detection is the first application of the 3D priors feature of DASOS, which was released on the 20th of January 2017 \cite{DASOS_v2}. 
 
 \newpage
 	\begin{longtable}
@@ -384,6 +338,39 @@ DASOS has a feature for subtracting the DTM from the full-waveforms before gener
 	
 	\par Identified the most significant features for detecting dead trees and then we build the following probabilistic model. 
 	
+	
+	\begin{figure} [h!]			
+		\begin{subfigure}[t]{.49\textwidth}
+			
+			\centering
+			\includegraphics[width=\textwidth]{img/dead/c0_random_forest}
+			\caption{.}
+			\label{fig:c0_RandomForest}
+		\end{subfigure} \hfill
+		\begin{subfigure}[t]{.49\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{img/dead/c1_knn}
+			\caption{.} 
+			\label{fig:c1_knn}
+		\end{subfigure} \hfill
+		\begin{subfigure}[t]{.49\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{img/dead/c2_knn_SaltPepper}
+			\caption{} 
+			\label{fig:c2_SaltPepper}
+		\end{subfigure}
+		\begin{subfigure}[t]{.49\textwidth}
+			\centering
+			\includegraphics[width=\textwidth]{img/dead/c3_knn_smoothed}
+			\caption{} 
+			\label{fig:c3_Smoothed}
+		\end{subfigure}
+		\caption{ }  
+		\label{fig:RF_knn_salt_smooth} 
+	\end{figure}
+	
+	
+	
 \subsection{Probabilistic Model}
 
 \par We don't go straight to classification because in the testing data, we put a prior for each column and therefore many columns that contain dead trees are not marked correctly. And we wrote a probabilistic model using the most significant features identified by the random forest. 
@@ -396,16 +383,11 @@ DASOS has a feature for subtracting the DTM from the full-waveforms before gener
 
  
  
- \subsection{Filtering and Local Maxima}
- 
- \par Salt and pepper filter
- 
- \par Smoothing filter 
- 
 
  
+ 
  \subsection{Ground Mask}
-  \par threshold ground: Histogram of heights, because subtracted DTM,everything below 20 is considered ground. 
+ \par threshold ground: Histogram of heights, because subtracted DTM,everything below 20 is considered ground. 
  \par Great histogram of the height map generated using the 2D metrics of DASOS. 
  
  \par Create three classes : ground, trees and noise
@@ -413,6 +395,73 @@ DASOS has a feature for subtracting the DTM from the full-waveforms before gener
  \par Because the DTM has been subtracted (Section \ref{sec:DTMsub}), the ground is easily separated from the trees. 
  
  \par Mask out  ground and noise
+ \begin{figure} [h!]			
+ 	\begin{subfigure}[t]{.49\textwidth}
+ 		
+ 		\centering
+ 		\includegraphics[width=\textwidth]{img/dead/c4_height}
+ 		\caption{.}
+ 		\label{fig:c4_height}
+ 	\end{subfigure} \hfill
+ 	\begin{subfigure}[t]{.49\textwidth}
+ 		\centering
+ 		\includegraphics[width=\textwidth]{img/dead/c5_histHeight}
+ 		\caption{.} 
+ 		\label{fig:c5_heightHist}
+ 	\end{subfigure} \hfill
+ 	\begin{subfigure}[t]{.49\textwidth}
+ 		\centering
+ 		\includegraphics[width=\textwidth]{img/dead/c6_groundThres}
+ 		\caption{} 
+ 		\label{fig:c6_groundMask}
+ 	\end{subfigure}
+ 	\begin{subfigure}[t]{.49\textwidth}
+ 		\centering
+ 		\includegraphics[width=\textwidth]{img/dead/c7_groundRemoved}
+ 		\caption{} 
+ 		\label{fig:c7_groundRemoved}
+ 	\end{subfigure}
+ 	\caption{ }  
+ 	\label{fig:GroundPixelsRemoval} 
+ \end{figure}
+ 
+ 
+ \subsection{Filtering and Local Maxima}
+ \par Salt and pepper filter
+ \par Smoothing filter 
+ 
+
+ 
+ \begin{figure} [h!]			
+ 	\begin{subfigure}[t]{.49\textwidth}
+ 		
+ 		\centering
+ 		\includegraphics[width=\textwidth]{img/dead/c8_thresDead}
+ 		\caption{.}
+ 		\label{fig:c8_deadThres}
+ 	\end{subfigure} \hfill
+ 	\begin{subfigure}[t]{.49\textwidth}
+ 		\centering
+ 		\includegraphics[width=\textwidth]{img/dead/c9_sharpFilter}
+ 		\caption{.} 
+ 		\label{fig:c9_sharpFilter}
+ 	\end{subfigure} \hfill
+ 	\begin{subfigure}[t]{.49\textwidth}
+ 		\centering
+ 		\includegraphics[width=\textwidth]{img/dead/c10_segmentationResults}
+ 		\caption{} 
+ 		\label{fig:c10_segmentation}
+ 	\end{subfigure}
+ 	\begin{subfigure}[t]{.49\textwidth}
+ 		\centering
+ 		\includegraphics[width=\textwidth]{img/dead/c10_segmentationResults}
+ 		\caption{} 
+ 		\label{fig:c11_results}
+ 	\end{subfigure}
+ 	\caption{ }  
+ 	\label{fig:dt_sf_segm_results} 
+ \end{figure}
+ 
  
  \subsection{Threshold}
  
@@ -428,7 +477,8 @@ DASOS has a feature for subtracting the DTM from the full-waveforms before gener
   \par for each segment find the middle pixel and assign that as a dead tree
 
 
-\section{Results} 
+\newpage
+\section{Evaluation} 
 
 \par table: Dead tree / Closest Dead Tree id / Distance from Closest ID
 
