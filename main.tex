@@ -47,6 +47,10 @@
 \newcommand*{\ie}{i.e.\@\xspace}
 \newcommand*{\etal}{\textit{et~al.}\@\xspace}
   
+  % for itemisation within table
+  \usepackage{booktabs}% http://ctan.org/pkg/booktabs
+  \newcommand{\tabitem}{~~\llap{\textbullet}~~}
+  
 \makeatletter
 \def\hlinewd#1{%
 	\noalign{\ifnum0=`}\fi\hrule \@height #1 %

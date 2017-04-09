@@ -124,7 +124,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 
 \subsection{Field Data}\label{sec:fieldData}
 
-\par The field data were collected in July 2015 during the winter season of Australia and they include tree and canopy related measurements on circular plots. There are 33 plots with radius 35.68m and area 0.4ha  allocated randomly inside the study area. On these plots, a total of 2386 trees were individually measured.  Tree measurements include the geo-location, the trunk diameter at the standard height of 1.3m (breast heigh), height, species and health conditions (i.e. dead or alive). The geo-location of each tree is defined by the magnetic bearing from the centroid of the plot in degrees (range $[1,360]$) and the distance from the centroid in meters. The northing and easting coordinates of the geo-location of each tree were calculated in post-processing. 
+\par The field data were collected in July 2015 during the winter season of Australia and they include tree and canopy related measurements on circular plots. There are 33 plots with radius 35.68m and area 0.4ha  allocated randomly inside the study area. On these plots, a total of 2386 trees were individually measured.  Tree measurements include the geo-location, the trunk diameter at the standard height of 1.3m (breast heigh), height, species and health conditions (i.e. dead or alive). The geo-location of each tree is defined by the magnetic bearing from the centroid of the plot in degrees (range $[1,360]$) and the distance from the centroid in meters. The northing and easting coordinates of the geo-location of each tree were calculated in post-processing. Here is worth mentioning that a single tree may be recorded as multiple trees if there is a trunk split bellow the breast height of 1.3m. Furthermore, 91.59\% are River Red Gum and the rest are Black Box (Eucalyptus largiflorens) and Wattle group (Acacia spp.). 
 
 \par Inside the field data, there are 260 dead trees recorded. Nevertheless, not all of those trees are considered useful for biodiversity. Dead trees with big Diameter at Breast Height (DBH) are more likely to contain hollows. Additionally, trees with DBH smaller than the footprint spacing of the LiDAR data are not identifiable from the FW LiDAR data. Table \ref{tab:DBH} shows the number of dead and alive trees in respect to their DBH. 
 
@@ -152,10 +152,6 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 		\textbf{<100} & 11 & 16\\
 		\hline			
 		\textbf{Total} & 260 & 2126 \\
-		
-		
-		
-		
 		\hline  
 	\end{tabular}
 	\caption{Number of trees according to their DBH. {\color{red}**Note: I think it is in centimeter but I will confirm it with the company and add it afterwards. }}
@@ -164,14 +160,38 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 
 \par Please note that the aforementioned field data were provided by Forestry Corporation of NSW, Wauchope, Australia and Interpine Ltd Group, New Zealand. For this thesis, a case study for collecting field data was conducted in New Forest, UK. This helped to better understand classification challenges in forestry applications. More information about this study is provided in Appendix \ref{Fieldwork}.
 
+{\color{red} *** NEIL : everything from here is new ***}
 
-\subsection{Fieldplots Challenges}
-\par It worth mentioning the challenges of working with these fieldplots since they influences the quality of the classifier and the accuracy of the results. 
-\begin{enumerate}
-	\item A single tree may be recorded as multiple trees if there is a trunk split bellow the breast height of 1.3m. Furthermore, 91.59\% are River Red Gum and the rest are Black Box (Eucalyptus largiflorens) and Wattle group (Acacia spp.). 
-	\item {\color{red} Mention accuracy of data - add img of missplaced tree.}
-\end{enumerate}
+\section{Challenges}
+\par This section focuses on the challenges faced while working on the detection of dead standing eucalyptuses. Table \ref{tab:ClassificationChallenges} underlines the challenges, categorised into three groups: the nature of the study area, the acquired data and the field data. All these challenges influence the quality of the classifier and the accuracy of the results. 
 
+
+\begin{table}[!h]
+	\centering
+	\begin{tabular}{| p{0.3\linewidth} ||  p{0.3\linewidth} ||  p{0.3\linewidth} | }
+		\hline		
+		\textbf{Study Area} &\textbf{Acquired Data} & \textbf{Field Data}\\	
+		\hline			
+		\hline
+		\tabitem 	The study area is a native eucalyptus forest. Native forests contain trees of different ages and heights. The height of a dead tree could be within the range of [1.5,40] meters.\newline
+		\tabitem The density of the forest is highly variance. Sometimes the testing/training priors of the small dead trees may contain information from either nearby alive trees or ground.  \newline 
+		\tabitem A tree may have dead branches but still be alive. \newline
+		\tabitem Eucalyptus trees have irregular shapes and multiple trunk splits making tree delineation to require very dense acquired data. 
+		 &
+		  \tabitem The pulse density of the acquired data does not allow bottom to top tree delineation. Crown detection from DEM (top) leads to over-segmentation due to the multiple trunk-splits. We, therefore, investigate the performance of object detection algorithms that do not require tree delineation.\newline
+		  \tabitem An important factor of identifying dead trees is the light reflectance, but for this project this kind of data (i.e. coloured imagery) was acquired. Therefore, the classifier is only trained on tree shapes. But tree shape is not the only relevance, since a tree may not have leaves but still be alive.				 
+		 & 
+         \tabitem If a tree has a trunk split below the 1.3m height, then it is recorded as multiple trees within the field data. This confers inconsistency of the "one tree" concept.  \newline
+		 \tabitem They contain small trees, which are non detectable from the acquired data. \newline
+		 \tabitem The accuracy of the geo-spatial positions is unknown. Even though it is claimed to be in centimetres, there are trees clearing appearing on the ground once visualised on top of the DEM.
+		  
+		 \\
+	
+		\hline  
+	\end{tabular}
+	\caption{The Classification challenges of automated detection of dead eucalyptuses}
+	\label{tab:ClassificationChallenges}
+\end{table}
 
 \section{Methods and Algorithms / Statistical Analysis}
 
@@ -194,7 +214,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 \begin{figure} [h!]
 	\centering
 	\includegraphics[width=\textwidth]{img/dead/DTM_parameters}
-	\caption{Parameters used in Quick TErrain Modeller to obtain the DTM used here.}
+	\caption{Parameters used in Quick Terrain Modeller to obtain the DTM used here.}
 	\label{fig:DTM_parameters}
 \end{figure}
 
@@ -207,13 +227,13 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 		
 		\centering
 		\includegraphics[width=\textwidth]{img/dead/height}
-		\caption{Before subtracting the DTM}
+		\caption{The DEM before subtracting the DTM}
 		\label{fig:height}
 	\end{subfigure} \hfill
 	\begin{subfigure}[t]{.49\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{img/dead/height_dtm}
-		\caption{After subtracting the DTM} 
+		\caption{The DEM after subtracting the DTM} 
 		\label{fig:height_dtm}
 	\end{subfigure} \hfill
 	\caption{Showing the difference in the DEM before and after subtracting the terrain height. It is clearly shown that the ground in the right image is flat.}  
@@ -481,11 +501,10 @@ The 3D shape signatures were generated by getting the distance distribution of r
 \newpage
 \section{Evaluation} 
 
-\par table: Dead tree / Closest Dead Tree id / Distance from Closest ID
+   \subsection{Distance Related Evaluation}
 
-\par precision
 
-\par recall
+   \subsection{Pixelwise Evaluation}
 		
 		
 \section{Discussion}
