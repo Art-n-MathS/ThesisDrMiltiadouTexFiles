@@ -1,85 +1,42 @@
-\documentclass{article}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{authblk}
-\usepackage{hyperref}
-\usepackage{booktabs}
-\usepackage{enumitem}
-\usepackage{geometry}
-\usepackage{graphicx}
-\usepackage[utf8]{inputenc}
-\usepackage[english]{babel}
-
-%big table of DASOS
-\usepackage{longtable}
-\usepackage{cite}
-\usepackage{mathtools}
-\usepackage{array}
-\usepackage[dvipsnames]{xcolor}
-\usepackage[export]{adjustbox}
-% end of big table
-
-\setlength{\parindent}{0em}
-\setlength{\parskip}{0.65em}
-\renewcommand{\baselinestretch}{1.4}
-\usepackage{titlesec}
-%\newcommand{\sectionbreak}{\clearpage}
-
-
-\newcommand*{\eg}{e.g.\@\xspace}
-\newcommand*{\ie}{i.e.\@\xspace}
-\newcommand*{\etal}{\textit{et~al.}\@\xspace}
+%\documentclass{article}
+%\usepackage[T1]{fontenc}
+%\usepackage[utf8]{inputenc}
+%\usepackage{authblk}
+%\usepackage{hyperref}
+%\usepackage{booktabs}
+%\usepackage{enumitem}
+%\usepackage{geometry}
+%\usepackage{graphicx}
+%\usepackage[utf8]{inputenc}
+%\usepackage[english]{babel}
 
 
 
 
+
+
+\documentclass{subfiles}
 
 \begin{document}
-
-\begin{titlepage}
-	\title{\textbf{User Guide of the 2nd Version of DASOS}}
-	\date {20/01/2017}
-	\author [1,2,3]{Milto Miltiadou\thanks{Corresponding author and main programmer.}}
-	\author [1]{Neil DF Campbell}
-	\author [1]{Matthew Brown}
-	\author [3]{Susana Gonzalez Aracil}
-	\author [2]{Mark Warren}
-	\author [2]{Daniel Clewley}
-	\author [1]{Darren Cosker}
-	\author [2]{Michael Grant}
-	\affil[1]{The Centre for Digital Entertainment, University of Bath, UK}
-	\affil[2]{NERC Airborne Research Facility, Plymouth Marine Laboratory, UK}
-	\affil[3]{Interpine Group Ltd, Rotorua, NZ}
-	\renewcommand\Authands{and }
-	\renewcommand{\floatpagefraction}{1}%
-
-
- \maketitle
-  
-
-\end{titlepage}
-
-    
-\newpage
-	\setcounter{secnumdepth}{0}
-	\section{Acknowledgments}
-
-	\par Above all, I would like to express my great gratitude to my industrial supervisors Dr. Michael Grant who had supported me continuously during my research and gave me the freedom to create a project of my own interest.
-	\par Then, I would like to thanks Dr. Matthew Brown, who helped me during my first years of my studies by giving me valuable and informative feedback. He was always there to keep me working on the right track. 
-	\par 	Equally important is my current supervisor Dr. Neil DF Campbell and he is not to be missed from the acknowledgements.
-	\par Furthermore, special thanks are given to Dr. Mark Warren, Dr. Daniel Crewely, Dr. Darren Cosker, MSc Susana Gonzalez Aracil and Dr. Ross Hill who occasionally advised me during my studies.
-	\par It further worth giving credits to my data providers, the Natural Environment Research Council’s Airborne Research and Survey Facility (NERC ARSF) and Interpine Group Ltd. 
-	\par Last but not least, I am extremely grateful to my funding organisations, the Centre for Digital Entertainement and Plymouth Marine Laboratory, who supported financially and consequently made this research possible. 
-	
-	 \section{Disclaimer}
-	\par DASOS was developed to support an EngD thesis and, as research software, is not intended to cover all file formats or be tightly optimised.
-	\newline\newline
-	Identified bugs and a list of potential improvements can be found here:
-	\url{<https://docs.google.com/spreadsheets/d/10yE5p463cLA_GtKkyiaWEzScW7N9cVxbPs5y0muXuZY/edit?usp=sharing>}
-	\setcounter{secnumdepth}{0}
-	
 		
-		
+
+	\section{Introduction} \label{DASOS_Introduction}
+	
+	\par FW LiDAR systems have been available for a number of years but there still very few uses of FW LiDAR data. NERC-ARF has been acquiring airborne data for the UK and overseas since 2010 and it has more than 100 clients of new and archived data. Many clients request FW LiDAR data to be acquired, but despite the significant number of requests,the majority of research still only uses discrete LIDAR. Some of the factors regarding this slow takeup are:
+	\begin{itemize}
+		\item Typically FW datasets are 5 – 10 times larger than discrete data, with data sizes in the range of 50GB – 2.5TB GB for a single area of interest. NERC-ARF's datasets are up to 100GB each because most clients are research institutes but for commercial purposes each FW dataset is a couple of TB.
+		\item Existing workflows are only able to work with the discrete data since the increased amount of information recorded within the FW LiDAR makes handling the quantity of data very challenging.
+	\end{itemize}
+	
+	\par The open source software DASOS was developed to encourage foresters to use the FW LiDAR data. DASOS was named after the Greek word "$\delta\acute{a}\sigma o\varsigma$" (=forest) and it was firstly presented at the 36th International Symposium of Remote Sensing of the Enviroment, 2015. The main way of interpreting FW LiDAR data in DASOS is fundamentally different from the state-of-art available software packages. In a few words, the FW LiDAR data are voxelised by inserting the wave samples into a 3D discrete density volume. It accumulates intensity values from multiple shots and stores them into a 3D regular grid, resolving this way the problem with the sinusoidal footprints pattern of the Leica system. For more information please refer to the related paper at \url{<https://www.researchgate.net/publication/277347868_Alignment_of_hyperspectral_imagery_and_full-waveform_LIDAR_data_for_visualisation_and_classification_purposes>}
+	
+	\par This user guide aims to give an in depth understanding of DASOS's functionalities. In a few words there are three functionalities of DASOS: 
+	\begin{enumerate}
+		\item the construction of 3D polygon meshes; 
+		\item the generation of 2D metrics aligned with hyperspectral images and
+		\item the characterisation of objects using feature vectors. 
+	\end{enumerate}
+	
 		\section{License} \label{License}
 		
 		\par DASOS is released under the GNU General Public Licence, Version 3. The full description of the usage licence is available here:\url{<https://github.com/Art-n-MathS/DASOS/blob/master/License.txt>}
@@ -95,29 +52,8 @@
 		\par The 1$^{st}$ sample dataset provided for testing was collected by the NERC Airborne Research and Survey Facility (ARSF). Copyright is held by the UK Natural Environment Research Council (NERC). The data are free for non-commercial use, but NERC-ARSF must be acknowledged in any publications, software or other media that make use of these data.
 		
 		\par The 2$^{nd}$ sample dataset provided by Interpine Group Ltd. Copyright is held by Interpine Group Ltd and the data are free for non-commercial use, but Interpine Group Ltd must be acknowledged for any publications, software or other media that make use of these data. 
-
-\newpage
-    \tableofcontents	 
-    
-\newpage  
-	\setcounter{secnumdepth}{3}
-	\section{Introduction} \label{Introduction}
-	
-	\par FW LiDAR systems have been available for a number of years but there still very few uses of FW LiDAR data. NERC-ARF has been acquiring airborne data for the UK and overseas since 2010 and it has more than 100 clients of new and archived data. Many clients request FW LiDAR data to be acquired, but despite the significant number of requests,the majority of research still only uses discrete LIDAR. Some of the factors regarding this slow takeup are:
-	\begin{itemize}
-		\item Typically FW datasets are 5 – 10 times larger than discrete data, with data sizes in the range of 50GB – 2.5TB GB for a single area of interest. NERC-ARF's datasets are up to 100GB each because most clients are research institutes but for commercial purposes each FW dataset is a couple of TB.
-		\item Existing workflows are only able to work with the discrete data since the increased amount of information recorded within the FW LiDAR makes handling the quantity of data very challenging.
-	\end{itemize}
-	
-	\par The open source software DASOS was developed to encourage foresters to use the FW LiDAR data. DASOS was named after the Greek word "$\delta\acute{a}\sigma o\varsigma$" (=forest) and it was firstly presented at the 36th International Symposium of Remote Sensing of the Enviroment, 2015. The main way of interpreting FW LiDAR data in DASOS is fundamentally different from the state-of-art available software packages. In a few words, the FW LiDAR data are voxelised by inserting the wave samples into a 3D discrete density volume. It accumulates intensity values from multiple shots and stores them into a 3D regular grid, resolving this way the problem with the sinusoidal footprints pattern of the Leica system. For more information please refer to the related paper at \url{<https://www.researchgate.net/publication/277347868_Alignment_of_hyperspectral_imagery_and_full-waveform_LIDAR_data_for_visualisation_and_classification_purposes>}
-	
-	\par This user guide aims to give an in depth understanding of DASOS's functionalities. In a few words there are three functionalities of DASOS: 
-	\begin{enumerate}
-		\item the construction of 3D polygon meshes; 
-		\item the generation of 2D metrics aligned with hyperspectral images and
-		\item the characterisation of objects using 3D priors/signatures. 
-	\end{enumerate}
-	
+		
+		
 
 	
 	\section{Installation Guide} \label{Installation}
@@ -170,22 +106,22 @@
 	
 	\begin{enumerate}
 			\item The generation of 3D polygonal meshes (Section \ref{PolygonalMesh})
-			\item The 2D metrics aligned with Hyperspectral Imagery (Section \ref{Alignment}
-			\item The 3D priors for local inspection of data (Sub-section \ref{3Dpriors})		
+			\item The 2D metrics aligned with Hyperspectral Imagery (Section \ref{DASOS_Alignment}
+			\item The feature vectors for local inspection of data (Sub-section \ref{3Dpriors})		
 	\end{enumerate}
 	
 		At the end of this guide, there is a list of limitations and the dependencies. 
 	
 	\subsection{Inputs}\label{inputs}
-	\par The inputs are divided into FW LiDAR, Hyperspectral and fieldplots. The FW LiDAR are compulsory for all the functionalities of DASOS. The Hyperpsectral Inputs are optional for the 1st and 2nd output of DASOS (3D polygonal meshes and 2D metrics), while the fieldplots option is compulsory for the 3rd option, the 3D priors. 
+	\par The inputs are divided into FW LiDAR, Hyperspectral and fieldplots. The FW LiDAR are compulsory for all the functionalities of DASOS. The Hyperpsectral Inputs are optional for the 1st and 2nd output of DASOS (3D polygonal meshes and 2D metrics), while the fieldplots option is compulsory for the 3rd option, the feature vectors. 
 	
-	\par Table  \ref{table:DASOS_inputs} explains the tags for loading the FW LiDAR files files. Please note that it is compulsory to load one of those options. If more than one FW LiDAR files are loaded then it is essential to keep consistency between projects; load only one type of full-waveform LiDAR data simultaneously. Table \ref{table:DASOS_optional_inputs} outlines how the hyperspectral imagery is loaded, how to subtract a pre-calculated DTM and also how the file with fieldplots is loaded if the 3rd output option is chosen (3D priors).
+	\par Table  \ref{table:DASOS_inputs} explains the tags for loading the FW LiDAR files files. Please note that it is compulsory to load one of those options. If more than one FW LiDAR files are loaded then it is essential to keep consistency between projects; load only one type of full-waveform LiDAR data simultaneously. Table \ref{table:DASOS_optional_inputs} outlines how the hyperspectral imagery is loaded, how to subtract a pre-calculated DTM and also how the file with fieldplots is loaded if the 3rd output option is chosen (feature vectors).
 	
 		
 	\begin{table}[!htbp]
 	{
 		\centering
-		\begin{tabular}{|p{3.4cm}|p{10.7cm}|}
+		\begin{tabular}{|p{3.4cm}|p{10.1cm}|}
 			\toprule
 			\textbf{Tags}  & \textbf{Description}  \\
 			\midrule
@@ -195,7 +131,7 @@
 				\cmidrule(r){1-1}\cmidrule(l){2-2}
 			-volume <file> &   loads an exported volume, generated using DASOS, instead of reading a LAS or pulsewave file. \\
 				\cmidrule(r){1-1}\cmidrule(l){2-2}
-			-vols <dir> &   loads all the exported volume that are inside the given directory "dir". This option must and only be used for generating 3D priors (Section \ref{3Dpriors}). \\
+			-vols <dir> &   loads all the exported volume that are inside the given directory "dir". This option must and only be used for generating feature vectors (Section \ref{3Dpriors}). \\
 		    \bottomrule
 		\end{tabular}
 		\caption{DASOS fundamental file inputs}
@@ -206,7 +142,7 @@
 	
 	\begin{table}
 		\centering
-		\begin{tabular}{|p{3.4cm}|p{10.7cm}|}
+		\begin{tabular}{|p{3.4cm}|p{10.1cm}|}
 			\toprule
 			\textbf{Tags}  & \textbf{Description}  \\
 			\midrule
@@ -220,7 +156,7 @@
 			-dtm <dtmFileName> & loads a pre-calculated DTM and subtracts it from the position of each waveform sample before importing it to the volume. Please note that the DTM file format must be .bil and saved into float pointing numbers. Potential further file format limitations may exist. This is optional. \\
 			\midrule
 			\midrule
-			-csv <fieldplots.csv>  &  The input csv file that lists all the trees from a number of field-plot. This is a compulsory input for generating 3D priors;
+			-csv <fieldplots.csv>  &  The input csv file that lists all the trees from a number of field-plot. This is a compulsory input for generating feature vectors;
 				\\
 			\bottomrule
 		\end{tabular}
@@ -236,7 +172,7 @@
 			
 			\begin{table}[!htbp]
 			\centering
-				\begin{tabular}{|p{2.8cm}|p{11.3cm}|}
+				\begin{tabular}{|p{2.8cm}|p{10.7cm}|}
 					\toprule
 					\textbf{Tags}  & \textbf{Description}  \\
 					\midrule
@@ -257,13 +193,13 @@
 			
 			\begin{figure} [h!]
 				\centering
-				\includegraphics[width=.575\textwidth]{img/SelectingRegionOfInterest}
+				\includegraphics[width=.65\textwidth]{tex/Appendices/img/SelectingRegionOfInterest}
 				\caption{Selecting Region of Interest}
 				\label{fig:SelectingRegionOfInterest}
 			\end{figure}			
 			\begin{figure} [h!]
 				\centering
-				\includegraphics[width=.72\textwidth]{img/DASOS}
+				\includegraphics[width=.85\textwidth]{tex/Appendices/img/DASOS}
 				\caption{Effect of modifying the user defined parameters; voxel length, isolevel and noise level.}
 				\label{fig:DASOS}
 			\end{figure}	
@@ -279,14 +215,14 @@
 			\par The main outputs are the following:
 			\begin{enumerate}
 				\item \textbf{Polygonal Meshes}: exported into an .obj which is a standard graphics format that stores the vertices, edges and faces of the polygon. An image is also exported if hyperspectral data are loaded. (Section \ref{PolygonalMesh})
-				\item \textbf{2D Metrics}: information about the scanned area in .asc format. If hyperspectral Images are loaded then aligned metrics from both datasets are available. (Section \ref{Alignment})
-				\item \textbf{3D Priors}: exported into .csv files. Each row of the spreadsheet contains information about a local 3D cylinderal or cubic area. (Section \ref{3Dpriors})
+				\item \textbf{2D Metrics}: information about the scanned area in .asc format. If hyperspectral Images are loaded then aligned metrics from both datasets are available. (Section \ref{DASOS_Alignment})
+				\item \textbf{List of Feature Vectors}: exported into .csv files. Each row of the spreadsheet contains information about a local 3D cylinderal or cubic area. (Section \ref{3Dpriors})
 			\end{enumerate} 
 		
-		The three suplementary outputs are explained in Table \ref{table:supTags} while the main outputs are explained in Sections \ref{PolygonalMesh}, \ref{Alignment} and \ref{3Dpriors} respectively.
+		The three suplementary outputs are explained in Table \ref{table:supTags} while the main outputs are explained in Sections \ref{PolygonalMesh}, \ref{DASOS_Alignment} and \ref{3Dpriors} respectively.
 		\begin{table}[!htbp]
 			\centering
-			\begin{tabular}{|p{2.9cm}|p{11.2cm}|}
+			\begin{tabular}{|p{2.9cm}|p{10.8cm}|}
 				\toprule
 				\textbf{Tags}  & \textbf{Description}  \\
 				\midrule
@@ -309,7 +245,7 @@
         
         
 		\begin{longtable}
-			{|p{2.5cm}|p{5.8cm}|p{5.8cm}|}
+			{|p{2.5cm}|p{5.2cm}|p{5.8cm}|}
 				\toprule
        			\multicolumn{3}{|c|}{\textbf{1st Main Output: 3D Polygon Mesh Generation }} \\
        			\midrule
@@ -325,12 +261,12 @@
 	
 	\newpage
 	
-	 	\subsubsection{2D Metrics Aligned with Hyperspectral Imagery}\label{Alignment}
+	 	\subsubsection{2D Metrics Aligned with Hyperspectral Imagery}\label{DASOS_Alignment}
 	 	
 	 	
 	 	
 			\begin{longtable}	 	
-		 	{|p{3.1cm}|p{11cm}|}
+		 	{|p{3.2cm}|p{10.4cm}|}
 	 			\toprule
 	 			\multicolumn{2}{|c|}{\textbf{2nd Main Output: Generation of 2D metrics}} \\
 	 			\multicolumn{2}{|c|}{\textbf{aligned with hyperspectral imagery }} \\
@@ -365,14 +301,14 @@
 	 	\end{longtable}
 	 	
 	 
-	 	
+	 	\newpage
 	 		\begin{longtable}
-	 				{| p{8.5cm}  | p{5.6cm} | }
+	 				{| p{7.9cm}  | p{5.6cm} | }
 	 			\toprule
 	 		\textbf{Metric Description}&\textbf{Example} \\ 
 	 		
 			\midrule
-	 		\textbf{HEIGHT: } \newline The distance between the top non-empty voxel and the lower boundaries of the volume.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/HEIGHT}}  \\ 
+	 		\textbf{HEIGHT (DEM): } \newline The distance between the top non-empty voxel and the lower boundaries of the volume. & \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/HEIGHT}}  \\ 
 	 		
 	 		\cmidrule(r){1-1}\cmidrule(l){2-2}
 	 		\textbf{THICKNESS: } \newline The distance between  the  first  and  last  non  empty  voxels  in every   column of the   3D   volume.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/THICKNESS}} \\ 
@@ -423,7 +359,7 @@
 	 		\end{longtable}
 	 		
 	 	\newpage
-		\subsubsection{3D Priors}\label{3Dpriors}
+		\subsubsection{List of Feature Vectors}\label{3Dpriors}
 		\par This is useful for characterising object inside the 3D space (e.g. trees). For each column of the voxelised FW LiDAR, information around its local area are exported. 
 		
 		
@@ -431,10 +367,10 @@
 		
 		
 		\begin{longtable}
-		 	{|p{3.1cm}|p{11cm}|}
+		 	{|p{3.1cm}|p{10.5cm}|}
 						
 			\toprule
-			\multicolumn{2}{|c|}{\textbf{3rd Main Output: 3D Priors - Inputs }} \\
+			\multicolumn{2}{|c|}{\textbf{3rd Main Output: List of Feature Vectors - Inputs }} \\
 			\midrule
 		
 			\textbf{Tags} & \textbf{Description} \\ 
@@ -453,31 +389,31 @@
 		
 		  \begin{figure} [h!]
 		  	\centering
-		  	\includegraphics[width=0.45\textwidth]{img/fieldplot}
+		  	\includegraphics[width=0.45\textwidth]{tex/Appendices/img/fieldplot}
 		  	\caption{Example of fieldplot input}
 		  	\label{fig:fieldplot}
 		  \end{figure}	
 		
-		\par Additionally, the size and shape of the prior is user defined and Table \ref{tbl:PriorsParameters} lists all the related, modifiable parameters.
+		\par {\color{blue} Additionally, the size and shape of the investigated area from where the features are extracted is user defined and Table \ref{tbl:PriorsParameters} lists all the related, modifiable parameters.}
 		
 					\newpage
 			\begin{longtable}
 				{|p{3.1cm}|p{11cm}|}
 				
 				\toprule
-				\multicolumn{2}{|c|}{\textbf{3rd Main Output: 3D Priors - Parameters }} \\
+				\multicolumn{2}{|c|}{\textbf{3rd Main Output: List of Feature Vectors - Parameters }} \\
 				\midrule
 				
 				\textbf{Tags} & \textbf{Description} \\ 
 				\cmidrule(r){1-1}\cmidrule(l){2-2}
 				-column <label> & the label of the column that defines the class of each entry (e.g. <label> = isDead) \\
 				\cmidrule(r){1-1}\cmidrule(l){2-2}
-				-class <className or ALL> & the name of the class (e.g. dead or alive) of interest or ALL. If a class is chosen, then only the columns that contain a tree of that class are taken into consideration; a prior is exported for each tree that belongs to this class only. The ALL option is the area of interest and generates a template for each column that lies inside the voxelised space. \\
+				-class <className or ALL> & the name of the class (e.g. dead or alive) of interest or ALL. If a class is chosen, then only the columns that contain a tree of that class are taken into consideration; a feature list is exported for each tree that belongs to this class only. The ALL option is the area of interest and generates a template for each column that lies inside the voxelised space. \\
 				
 				\cmidrule(r){1-1}\cmidrule(l){2-2}
-				-ttype  square <x> <y> <z> & generates a squared prior of size x, y, z voxels. The systems finds the first non empty voxel starting from the top of the column. By default it moves one voxel upwards and sets that to be the top of the prior. It is highly recommended to use odd numbers, otherwise the centre of the prior will be wrongly set and unpredicted output values may occur. 		\\		
+				-ttype  square <x> <y> <z> & generates a feature vector derived from a cuboid area of size x, y, z voxels. The systems finds the first non empty voxel starting from the top of the column. By default it moves one voxel upwards and sets that to be the top of the cuboid/cylinder. It is highly recommended to use odd numbers, otherwise the centre of the cuboid/cylinder will be wrongly set and unpredicted output values may occur. 		\\		
 				\cmidrule(r){1-1}\cmidrule(l){2-2}
-				-ttype cylinder <h> <r> & generates a cylindrical template with height h and diameter $(2 \times r + 1)$ voxels and height $h$. The systems finds the first non empty voxel starting from the top of the column. By default it moves one voxel upwards and sets that to be the top of the prior. \\
+				-ttype cylinder <h> <r> & generates a cylindrical template with height h and diameter $(2 \times r + 1)$ voxels and height $h$. The systems finds the first non empty voxel starting from the top of the column. By default it moves one voxel upwards and sets that to be the top of the cuboid/cylinder. \\
 				\cmidrule(r){1-1}\cmidrule(l){2-2}
 				-mheight <n> & moves the template into the y-axis $n$ voxels upwards instead of one which is the default. The value $n$ must be a positive number.\\
 				\cmidrule(r){1-1}\cmidrule(l){2-2}
@@ -491,22 +427,22 @@
 				\begin{longtable}
 					{|p{3.1cm}|p{11cm}|}
 					\toprule
-					\multicolumn{2}{|c|}{\textbf{3rd Main Output: 3D Priors  - Outputs }} \\
+					\multicolumn{2}{|c|}{\textbf{3rd Main Output: List of Feature Vectors  - Outputs }} \\
 					\midrule
 					\textbf{Tags} & \textbf{Description} \\ 
 					\cmidrule(r){1-1}\cmidrule(l){2-2}
-					-ocsv <nameStart> & For each .vol file found in the given directory (using -vols), a csv file is exported. The name of each file exported is:\newline <nameStart> + <volFileName> + ”.csv” \newline and it contains the priors generated from the corresponding volume \\
+					-ocsv <nameStart> & For each .vol file found in the given directory (using -vols), a csv file is exported. The name of each file exported is:\newline <nameStart> + <volFileName> + ”.csv” \newline and it contains the list of the feature vectors generated from the corresponding volume \\
 					\bottomrule
-					\caption{Explanation of the tag that exports 3D priors}
+					\caption{Explanation of the tag that exports the list of feature vectors}
 					\label{tbl:PriorsOutputs}	
 				\end{longtable}
-	     Figure \ref{fig:PriorExample} shows examples of two priors exported: one with processed parameters and one with raw intensities. In each .csv file exported, each line is a prior. The first column is the ID of the prior as it defined during run time. The second and third columns define the centroids of each prior. The other columns contain either processed or raw parameters. If they are processed, then information like mean height and standard deviation of heights are listed. Table \ref{tbl:PriorsOutExplanation} is a full list of all the proccessed parameters. If the parameters are raw, then the corresponding voxel intensity values are exported. The label of each voxel is "v\_x\_y\_z", where "v\_0\_0\_0" is the lower voxel of the prior and it has the minimum easting and norming of the prior as well. 
+	     Figure \ref{fig:PriorExample} shows examples of two exported list of feature vectors: one with processed parameters and one with raw intensities. In each .csv file exported, each line is a feature vector. The first column is its ID as it defined during run time. The second and third columns define the centroids of each investigated local area (cuboid/cylinder). The other columns contain either processed or raw parameters. If they are processed, then information like mean height and standard deviation of heights are listed. Table \ref{tbl:PriorsOutExplanation} is a full list of all the proccessed parameters. If the parameters are raw, then the corresponding voxel intensity values are exported. The label of each voxel is "v\_x\_y\_z", where "v\_0\_0\_0" is the lower voxel of the cuboid/cylinder and it has the minimum easting and northing it as well. 
 	     	
 	
 	     \begin{figure} [h!]
 	     	\centering
-	     	\includegraphics[width=0.93\textwidth]{img/PriorsBoth}
-	     	\caption{Example of .csv files with priors exported. }
+	     	\includegraphics[width=0.93\textwidth]{tex/Appendices/img/PriorsBoth}
+	     	\caption{Example of .csv files with a list of feature vectors exported. }
 	     	\label{fig:PriorExample}
 	     \end{figure}		
 	
@@ -514,13 +450,14 @@
 		
 		\newpage
 		\begin{longtable}
-			{|p{4.65cm}|p{9.45cm}|}
+			{|p{4.65cm}|p{8.85cm}|}
 			\toprule
-			\multicolumn{2}{|c|}{\textbf{Explanation of the 3D priors Output with the Processed Intensities}} \\
+			\multicolumn{2}{|c|}{\textbf{Explanation of the List of Feature Vectors Output }} \\
+				\multicolumn{2}{|c|}{\textbf{ with the Processed Intensities}} \\
 			\midrule
 			\textbf{Label} & \textbf{Description} \\ 
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
-			Height\_Middle\_Column& The height of the middle column of the prior
+			Height\_Middle\_Column& The height of the middle column of the cuboid/cylinder
 			\\
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
 			Height\_Mean& The Mean height of all the columns included in the template\\
@@ -536,9 +473,9 @@
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
 			Sum\_Int\_Diff\_Z& The Mirror Summed Difference of the intensities using the middle column in the z-axis as the axis of symmetry\\
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
-			Max\_Int& The maximum intensity found inside the prior\\
+			Max\_Int& The maximum intensity found inside the cuboid/cylinder\\
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
-			Min\_Int& The minimum intensity found inside the prior\\
+			Min\_Int& The minimum intensity found inside the cuboid/cylinder\\
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
 			Ave\_Int& The average intensity of the voxels that contain an intensity above the isolevel\\
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
@@ -552,7 +489,7 @@
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
 			Dis\_Std& The Standard Deviation of the distances between the central voxel and every voxel that contains an intensity above the isolevel\\
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
-			Top\_Patch\_Len\_Middle\_Col& The length of the top patch of the middle column of the prior\\
+			Top\_Patch\_Len\_Middle\_Col& The length of the top patch of the middle column of the cuboid/cylinder\\
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
 			Top\_Patch\_Len\_Mean& The Mean length of all the top patches\\
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
@@ -579,19 +516,17 @@
 			\cmidrule(r){1-1}\cmidrule(l){2-2}
 			Mirror\_Diff\_Z\_Std& The Standard Deviation of the Mirror Difference of the voxel intensities with the middle column of the z-axis as the symmetric axis \\
 			\bottomrule
-			\caption{Explanation of the processed parameter exported within a 3D prior}
+			\caption{Explanation of the processed parameter exported within a feature vector}
 			\label{tbl:PriorsOutExplanation}	
 		\end{longtable}
 		
-			
-	
-	\newpage
+		
 	\section{Exercises}\label{exercises}
 	
 	   	\subsection{Sample Data}
 	   	These exercises will give you an in depth understanding of DASOS, while working with real examples. At first, copy the folder \verb|"DASOS_userGuide"| into your \verb|C:\| drive. This folder is available to download from \url{<https://github.com/Art-n-MathS/DASOS/tree/master/DASOS_win>}: To ease typing, all the example commands are given in the ExerciseCommands.bat file, which can be opened in a text editor.
 	   	
-	   	There are three datasets provided for the following exercises and they are available at: \url{<https://www.dropbox.com/sh/hzpl16gue5xvjmb/AADQsJOsqKkx0lCX4mJjvBPVa?dl=0>}. Please copy the data inside the directory <DASOS/DASOS\_win/SampleDATA> check that the following files are included:
+	   	There are three datasets provided for the following exercises and they are available at: \url{<https://www.dropbox.com/sh/hzpl16gue5xvjmb/AADQsJOsqKkx0lCX4mJjvBPVa?dl=0>} and \url{<  		https://plymouthmarinelaboratory.webex.com/plymouthmarinelaboratory/j.php?MTID=m305f59dda16e653b2946c6a3b00e93f4>}. Please copy the data inside the directory <DASOS/DASOS\_win/SampleDATA> check that the following files are included:
 	   	
 	   	\begin{enumerate}
 	   		\item 1$^{st}$ sample dataset inside < \verb|C:\DASOS_userGuide\SampleDATA\DATASET_1|>: 
@@ -642,33 +577,33 @@
 	   	\subsection{Exercises}
 		\subsubsection{Deciding Noise Threshold}
 		The following examples export the amplitudes of 12 pulses into a .csv file to help us decide what noise threshold to use. \newline\newline
-		\verb|$:DASOS -las ..\SampleDATA\DATASET_1\LDR-FW-FW10_01-201009821.LAS -exportPulses 12|\newline \verb|   ..\LAS21pulsesSamples.csv|
+		\verb|$:DASOS -las ..\SampleDATA\DATASET_1\LDR-FW-FW10_01-201009821.LAS |\newline \verb| -exportPulses 12   ..\LAS21pulsesSamples.csv|
 		\newline\newline
 		\verb|$: DASOS -las ..\SampleDATA\DATASET_2\Australia_2.las -exportPulses 12|\newline \verb|   ..\Australia_2_pulsesSamples.csv|
 				
 		\subsubsection{Exporting metrics from DASOS}
 		The following commands export a height map into .asc files. These files can be used in QGIS. This will give us the location of the flightlines and the relation between them.
 		\newline\newline
-		\verb|$: DASOS -las ..\SampleDATA\DATASET_2\Australia_2.las -nl 6 -vl 2 -map height|\newline \verb|   ..\Australia_2_vl2_height|				
+		\verb|$: DASOS -las ..\SampleDATA\DATASET_2\Australia_2.las -nl 6 -vl 2 -map |\newline \verb| height   ..\Australia_2_vl2_height|				
 		\newline\newline
-		\verb|$: DASOS -las ..\SampleDATA\DATASET_2\Australia_3.las -nl 6 -vl 2 -map height|\newline \verb|   ..\Australia_3_vl2_height|
+		\verb|$: DASOS -las ..\SampleDATA\DATASET_2\Australia_3.las -nl 6 -vl 2 -map|\newline \verb| height   ..\Australia_3_vl2_height|
 		\newline\newline
 		Generating a single map at the beginning is useful for deciding which flightlines lie inside the area of interest. 
 		
 		\subsubsection{Loading Multiple Flightlines}
 		As mentioned before, for loading multiple flightlines it is suggested to manually define the boundaries of the area of interest. The following command loads two flightlines, generates a volume from the area of interest and exports it into the Australia2-3.vol file.
 		\newline\newline
-		\verb|$: DASOS -las ..\SampleDATA\DATASET_2\Australia_3.las|\newline \verb|   ..\SampleDATA\DATASET_2\Australia_2.las -nl 6 -vl 2 -iso 4 -userLimits 6199990 |\newline \verb| 6199639  762405 761951 -exportVolume c ..\Australia2-3.vol|
+		\verb|$: DASOS -las ..\SampleDATA\DATASET_2\Australia_3.las|\newline \verb|   ..\SampleDATA\DATASET_2\Australia_2.las -nl 6 -vl 2 -iso 4 -userLimits |\newline \verb| 6199990  6199639  762405 761951 -exportVolume c ..\Australia2-3.vol|
 		
 		\subsubsection{Exporting Metrics}
 		The following command loads the pre-computed volume and creates a height map and all the FW related metrics. Please note that height is also a FW related metric, therefore it will be created twice. \newline
-		\verb|$: DASOS -volume ..\Australia2-3.vol -map height ..\Australia2-3 -map all_fw|\newline \verb|   ..\Australia2-3|
+		\verb|$: DASOS -volume ..\Australia2-3.vol -map height ..\Australia2-3 -map |\newline \verb|all_fw   ..\Australia2-3|
 		
 		\subsubsection{Subtracting Pre-computed Digital Terrain Model}
 		The next command loads two LAS files, a pre-computed DTM file is subtracted from the wave samples' positions while the volume is created, the volume is exported into the \verb|Australia2-3_dtm.vol| file and finally it exports a height metric.\newline
 		Please note that when a DTM is introduced, a new volume must be created. Since the volumetric files are raster data and contain no information about pulses.
 		\newline\newline 		
-		\verb|$: DASOS -las ..\SampleDATA\DATASET_2\Australia_3.las|\newline \verb|  ..\SampleDATA\DATASET_2\Australia_2.las   -dtm |\newline \verb| ..\SampleDATA\DATASET_2\Australia_2_dtm.bil -nl 6 -vl 2 -iso 4 -userLimits  |\newline \verb| 6199990  6199639 762405 761951 -exportVolume c ..\Australia2-3_dtm.vol -map |\newline \verb| height   ..\Australia2-3_vl2_dtm_height|
+		\verb|$: DASOS -las ..\SampleDATA\DATASET_2\Australia_3.las|\newline \verb|  ..\SampleDATA\DATASET_2\Australia_2.las   -dtm |\newline \verb| ..\SampleDATA\DATASET_2\Australia_2_dtm.bil -nl 6 -vl 2 -iso 4|\newline \verb| -userLimits   6199990  6199639 762405 761951 -exportVolume |\newline \verb|c ..\Australia2-3_dtm.vol -map  height   ..\Australia2-3_vl2_dtm_height|
 		\newline\newline
 		You may then use the same volume to export more metrics:\newline
 		\verb|$: DASOS -volume ..\Australia2-3_dtm.vol -map AVERAGE_HEIGHT_DIFFERENCE |\newline \verb|   ..\Australia2-3_dtm_AVG_height_diff|
@@ -684,7 +619,7 @@
 		DASOS create 3D polygon representation using the '-obj' tag. The 3D polygon representations are exported into .obj format, which can be visualised using animation software packages. For this workshop we are using Meshlab because it is a free tool and it can handle millions of triangles.\newline
 		Meshlab is available to download from here: \url{<http://meshlab.sourceforge.net/>} and it is also included into our working directory \verb|"DASOS_userGuide"|.\newline
 		An example of generating polygons is given below:\newline
-		\verb|$: DASOS -las ..\SampleDATA\DATASET_1\LDR-FW-FW10_01-201009821.LAS -nl 20 -vl 1.7 |\newline \verb| -obj   ..\LAS21.obj -exportVolume c ..\LAS21_vl1.7.vol|\newline
+		\verb|$: DASOS -las ..\SampleDATA\DATASET_1\LDR-FW-FW10_01-201009821.LAS -nl 20|\newline \verb| -vl 1.7  -obj   ..\LAS21.obj -exportVolume c ..\LAS21_vl1.7.vol|\newline
 		The generated volume is also saved because we need it for the following exercises. 
 		
 		
@@ -695,21 +630,22 @@
 	    \verb|$: DASOS -volume ..\LAS21_vl1.7.vol -bil |\newline \verb| ..\SampleDATA\DATASET_1\e098211b_masked.bil -igm |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_osgn.igm -fodis |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_FODIS.bil -rgb 240 78 23 -obj |\newline \verb|   LAS21_coloured.obj|\par 
 	    \par The LAS21.obj file will be saved into the current directory, which in our case is: \newline \verb|C:\DASOS_userGuide\DASOS|. 
 	    \par Please note that the following command should give the same results, but as mentioned before importing an exported volume is faster than generating from scratch. \newline
-	    \verb|$: DASOS -las ..\SampleDATA\DATASET_1\LDR-FW-FW10_01-201009821.LAS -nl 20 -vl 1.7 |\newline \verb| -bil    ..\SampleDATA\DATASET_1\e098211b_masked.bil -igm  |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_osgn.igm -fodis |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_FODIS.bil -rgb 240 78 23 -obj |\newline \verb| LAS21_coloured.obj|
+	    \verb|$: DASOS -las ..\SampleDATA\DATASET_1\LDR-FW-FW10_01-201009821.LAS -nl 20 |\newline \verb|-vl 1.7  -bil    ..\SampleDATA\DATASET_1\e098211b_masked.bil -igm  |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_osgn.igm -fodis |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_FODIS.bil -rgb 240 78 23 -obj |\newline \verb| LAS21_coloured.obj|
 	    
 	    \par An examplre of generating aligned metrics is given below. The NDVI map is quite slow, so we may need to wait a bit for that.\newline
 	    \verb|$: DASOS -volume ..\LAS21_vl1.7.vol -bil |\newline \verb| ..\SampleDATA\DATASET_1\e098211b_masked.bil -igm |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_osgn.igm -fodis |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_FODIS.bil -map hyperspectral 140 |\newline \verb|..\LAS21_band140 -map    height ..\LAS21_height -map NDVI ..\LAS21_ndvi|
 	    
 	    \subsubsection{All Commands Together}
 	    \par Of course, we are able to use multiple outputs into a single command, even though that's not recommended due to the long processing time. An example of merging previous commands into one is given below:\newline
-	    \verb|$: DASOS -las ..\SampleDATA\DATASET_1\LDR-FW-FW10_01-201009821.LAS -nl 20 -vl 1.7|\newline \verb| -bil    ..\SampleDATA\DATASET_1\e098211b_masked.bil -igm  |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_osgn.igm -fodis |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_FODIS.bil -rgb 240 78 23 -obj|\newline \verb| LAS21_coloured.obj -map |\newline \verb|   hyperspectral 140 ..\LAS21_band140 -map  height ..\LAS21_height -map NDVI |\newline \verb|..\LAS21_ndvi   -exportVolume ..\LAS21_vl1.7.vol|\newline
+	    \verb|$: DASOS -las ..\SampleDATA\DATASET_1\LDR-FW-FW10_01-201009821.LAS -nl 20 |\newline \verb|-vl 1.7 -bil    ..\SampleDATA\DATASET_1\e098211b_masked.bil -igm  |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_osgn.igm -fodis |\newline \verb|   ..\SampleDATA\DATASET_1\e098211b_FODIS.bil -rgb 240 78 23 -obj|\newline \verb| LAS21_coloured.obj -map |\newline \verb|   hyperspectral 140 ..\LAS21_band140 -map  height ..\LAS21_height -map|\newline \verb| NDVI ..\LAS21_ndvi   -exportVolume ..\LAS21_vl1.7.vol|\newline
 	    
-	    \subsection{Exporting 3D priors from exported voxelised FW LiDAR}
-	    \par This examples takes as input two test .vol files and a fieldplot file. The file "myTestVol\_flat.vol" contains a flat surface, while inside the "myTestVol\_.vol" the middle column of the first dead tree that is defined inside the "testFieldplot.csv" is one voxel higher. The covered area of the two .vol files is identical and for that reason the fieldplot circle lies inside both files. The following commands produce the processed priors of dead trees and the raw priors of all the columns.
-	    \newpage
-	   \verb|$: DASOS -vols ..\SampleDATA\DATASET\_3  -icsv |\newline \verb|..\SampleDATA\DATASET_3\testFieldplot.csv -eparameters processed -column isDead |\newline \verb|-class dead -ttype square 3 3 5 -ocsv templatesProcessedCuboid |
-	   
-	   \verb|$: DASOS -vols ..\SampleDATA\DATASET_3  -icsv |\newline \verb|..\SampleDATA\DATASET_3\testFieldplot.csv -eparameters raw -column isDead -class|\newline \verb| ALL -ttype cylinder 5 3 -ocsv templatesALLRawCylinder|
+	    \subsection{Exporting feature vectors from exported voxelised FW LiDAR}
+	    \par This examples takes as input two test .vol files and a fieldplot file. The file named "myTestVol\_flat.vol" contains a flat surface, while inside the "myTestVol\_.vol" the middle column of the first dead tree that is defined inside the "testFieldplot.csv" is one voxel higher. The covered area of the two .vol files is identical and for that reason the fieldplot circle lies inside both files. The following command produces a list of vectors with features derived after processing the voxel intensities of the cuboids that contain dead trees according to the input field data:
+
+	   \verb|$: DASOS -vols ..\SampleDATA\DATASET\_3  -icsv |\newline \verb|..\SampleDATA\DATASET_3\testFieldplot.csv -eparameters processed -column |\newline \verb|isDead -class dead -ttype square 3 3 5 -ocsv templatesProcessedCuboid |
+	   \newline
+	   \par The following command produces a list of vectors with the voxel intensities of cylinders that contain dead trees according to the input field data: \newline
+	   \verb|$: DASOS -vols ..\SampleDATA\DATASET_3  -icsv |\newline \verb|..\SampleDATA\DATASET_3\testFieldplot.csv -eparameters raw -column|\newline \verb| isDead -class ALL -ttype cylinder 5 3 -ocsv templatesALLRawCylinder|
 	   
 	  	
 		
@@ -726,12 +662,11 @@
 	    For full bug reports and under development improvements please check the following link:\newline
 	    \url{<https://docs.google.com/spreadsheets/d/10yE5p463cLA_GtKkyiaWEzScW7N9cVxbPs5y0muXuZY/edit?usp=sharing>}
 	    
-	\newpage
 	\section{Related Forums and Social Media}
 	    Online social media are used for sharing DASOS updates and discussing issues or potential improvements. Information about DASOS can be found in the following:
 	    \begin{itemize}
 	    \item Google Groups: DASOS - the native full-waveform (FW) LiDAR software\newline
-	    \url{https://groups.google.com/forum/#!forum/dasos---the-native-full-waveform-fw-lidar-software}\newline
+	    \url{<https://groups.google.com/forum/#!forum/dasos---the-native- full-waveform-fw-lidar-software>}\newline
 	    This group is used for bringing potential issues and possible improvements up in discussion.
 	    \item Blogger: ART \verb|&| M@thS\newline
 	    \url{<http://miltomiltiadou.blogspot.co.nz/2015/03/las13vis.html>}\newline
@@ -740,8 +675,4 @@
 	    Milto Miltiadou's twitter, where all the updates and news of DASOS are published.  
 	    \end{itemize}	
 	    
-	    	\addcontentsline{toc}{chapter}{Bibliography}
-	    	\bibliographystyle{ieeetr}
-	    	\bibliography{/home/milto/Documents/Writing/mybib}{}
-	    	
 \end{document}

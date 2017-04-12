@@ -92,7 +92,7 @@
 	
 		\par So far, an overview of existing software packages supporting FW LiDAR was given (Section \ref{LiDARsoftwares}) and it was explained how DASOS differs from them by voxelising the waveforms (Section \ref{Voxelisation}). In this section, the three main functionalities of DASOS are described in Tables \ref{tbl:functionality1}, \ref{tbl:functionality2} and \ref{tbl:functionalities}.
 		
-	  	\par Each functionality is linked to a number of thesis sections, which describe the algorithms implemented and related applications. {\color{blue} In a few words, the 3D visualisations are useful in forestry for reducing fieldwork and improving planning of field trips (e.g. checking whether a road passes through a fieldplot area). The 2D metrics allow simultaneous interpretation of FW LiDAR data and hyperspectral imagery. They could also be used in GIS software. In this thesis, they are used for generating tree coverage maps. Last but not least the priors enable 3D feature detection and they are used for detecting dead standing trees.}
+	  	\par Each functionality is linked to a number of thesis sections, which describe the algorithms implemented and related applications. {\color{blue} In a few words, the 3D visualisations are useful in forestry for reducing fieldwork and improving planning of field trips (e.g. checking whether a road passes through a fieldplot area). The 2D metrics allow simultaneous interpretation of FW LiDAR data and hyperspectral imagery. They could also be used in GIS software. In this thesis, they are used for generating tree coverage maps. Last but not least the vector features that enable 3D feature detection and they are used for detecting dead standing trees.}
 
         		\begin{longtable}
         			{| p{0.08\linewidth}|p{0.3\linewidth}  | p{0.4\linewidth} | p{0.1\linewidth}|  }
@@ -136,7 +136,7 @@
         			%%
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3& \textbf{L0 - Height: } \newline The distance between the top non-empty voxel and the lower boundaries of the volume.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/HEIGHT}} & .asc \\ 
+        		LAS1.3& \textbf{L0 - Digital Elevation Model - DEM: } \newline The distance between the top non-empty voxel and the lower boundaries of the volume.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/HEIGHT}} & .asc \\ 
         		
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
         		LAS1.3& \textbf{L1 - Thickness: } \newline The distance between  the  first  and  last  non  empty  voxels  in every   column of the   3D   volume.& \raisebox{-\totalheight}{\adjincludegraphics[width=\linewidth,trim={{.1\width} 0 {.25\width} 0},clip]{img/metrics/THICKNESS}} & .asc \\ 
@@ -205,15 +205,15 @@
         		\toprule
         		\multicolumn{4}{|c|}{\textbf{Third Functionality: 3D Priors / Signatures }} \\
         		\toprule
-        		\multicolumn{4}{|c|}{The 3D priors/signatures characterise objects or local areas in 3D.}  \\
-        		\multicolumn{4}{|c|}{In Section \ref{Classifications}, the 3D priors are run over the volume}\\
-       			\multicolumn{4}{|c|}{for detecting dead standing trees }\\
+        		\multicolumn{4}{|c|}{The list of feature vectors that characterise objects or local areas in 3D.}  \\
+        		\multicolumn{4}{|c|}{In Section \ref{Classifications}, the list of feature vectors are used as priors and are run over}\\
+       			\multicolumn{4}{|c|}{the volume for detecting dead standing trees }\\
         		\toprule
         		\textbf{Input}&\textbf{Description} & \textbf{Output Example} & \textbf{Output Format} \\ 
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 & \textbf{3D Priors} \newline with raw intensities & Please Look at Figure \ref{fig:PriorRaw} & .csv \\
+        		LAS1.3 & \textbf{List of feature vectors} \newline with raw intensities & Please Look at Figure \ref{fig:PriorRaw} & .csv \\
         		\cmidrule(r){1-1}\cmidrule(lr){2-2}\cmidrule(lr){3-3}\cmidrule(l){4-4}
-        		LAS1.3 & \textbf{3D Priors} \newline with processed intensities & Please Look at Figure \ref{fig:PriorProcessed}  & .csv \\
+        		LAS1.3 & \textbf{List of feature vectors} \newline with processed intensities & Please Look at Figure \ref{fig:PriorProcessed}  & .csv \\
         		
         		
         		\bottomrule
@@ -230,13 +230,13 @@
         	\begin{figure} [h!]
         		\centering
         		\includegraphics[width=\textwidth]{img/PriorsRaw}
-        		\caption{Example of .csv files with priors exported. These priors contain the raw intensities of the voxels.}
+        		\caption{{\color{blue}Example of an exported .csv file that contains a list of feature vectors with raw voxel intensities}}
         		\label{fig:PriorRaw}
         	\end{figure}		
         	\begin{figure} [h!]
         		\centering
         		\includegraphics[width=\textwidth]{img/PriorsProcessed}
-        		\caption{Example of .csv files with priors exported. These priors contains proccessed information about the the local area of interest (i.e. spread of non empty voxels). }
+        		\caption{{\color{blue}Example of exported .csv file that contains a list of feature vectors with processed information about voxels' intensities.}}
         		\label{fig:PriorProcessed}
         	\end{figure}	
         	
@@ -244,9 +244,7 @@
 	   	
 	 
 	   \newpage
-	   	
-	   	\par It is further worth stating that detailed information about DASOS is provided at: \url{<http://miltomiltiadou.blogspot.co.uk/2015/03/las13vis.html>}.   This link also indicates how to download DASOS, the complete user-guide and the source code, as well as where to seek support while using it.
-	   	 
+	   	\par {\color{blue}The complete user guide of DASOS is given in Appendix \ref{DASOS_userGuide}. The user guide gives an in-depth explanation on how to use the available commands and variables to generate 3D coloured polygonal meshes, 2D metrics algined with hyperspectral imagery and lists of feature vectors.  It also provides information on how to download DASOS with its source code and on what relevant forums exists for providing support.} 
 	   
 	  \section{Summary and Discussion} \label{DASOS-Vol-Summary}
 	  

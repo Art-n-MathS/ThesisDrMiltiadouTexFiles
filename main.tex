@@ -4,9 +4,13 @@
 
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
+\usepackage[toc,page]{appendix}
+
 
 \usepackage{authblk}
 \usepackage{hyperref}
+\usepackage[hyphenbreaks]{breakurl}
+\usepackage{authblk}
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{geometry}
@@ -31,6 +35,14 @@
 \usepackage{ifpdf}
 
 \usepackage[dvipsnames]{xcolor}
+
+
+% for multiple appendices
+\makeatletter
+\@addtoreset{chapter}{part}
+\@addtoreset{@ppsaveapp}{part}
+\makeatother
+
 \usepackage[export]{adjustbox}
 \usepackage{bbding}
 
@@ -193,16 +205,16 @@
   
    	
 		\newpage
-		\appendix
-	\chapter{DASOS user guide}\label{DASOS_userGuide}
-	%	 	\subfile{tex/Appendices/DASOS_userGuide_v2_mggr.tex}
 		\thispagestyle{empty}
 		\newpage
-		
+				
+				
+	\begin{appendices}
+	\chapter{DASOS's user guide, released on the 20th of January 2017}\label{DASOS_userGuide}
+		 	\subfile{tex/Appendices/DASOS_userGuide_v2_mggr.tex}
 	\chapter{Case Study: Field Work in New Forest}\label{Fieldwork}
-%		\subfile{tex/Appendices/FieldWork1.tex} 
+		\subfile{tex/Appendices/FieldWork1.tex} 
 		\newpage
-	
-
+	\end{appendices}
     
 \end{document}
