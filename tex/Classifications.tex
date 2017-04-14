@@ -319,7 +319,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 	
 		\begin{figure} [h!]			
 				\centering
-				\includegraphics[width=.49\textwidth]{img/dead/c0_random_forest}
+				\includegraphics[width=.67\textwidth]{img/dead/c0_random_forest}
 				\caption{Importance of variables, identified using Random Forest.}
 				\label{fig:c0_RandomForest}
 		\end{figure}
@@ -328,7 +328,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 	
 	
 	
-\subsection{Weighted K-Nearest Neighbour with positive and negative samples}
+\subsection{Probabilistic Field derived from Weighted K-Nearest Neighbours Algorithm }
 
 
 \par Once the ten most significant variables are identified using the Random Forest, the $k-$nearest neighbour algorithm is applied to generate a probabilistic field. As mentioned in Section \ref{sec:3DpriorsGeneration}, from DASOS we export training feature vectors of dead and alive trees. There are positive training feature vectors from dead trees and negative feature vectors for alive trees. To reduce bias, the number of dead and alive trees used are the same for each test case. 
@@ -404,7 +404,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
 
  
  
-  \subsection{Filtering and Smoothing}\label{sec:filtering}
+  \subsection{Filtering}\label{sec:filtering}
   As shown in Figure Figure \ref{fig:c1_knn}, there is Salt and Pepper noise because of empty columns existing within the volume. This noise is removed using a median filter which assigns to every empty pixel the median value of its non-empty neighbouring pixels  (Figure \ref{fig:c2_SaltPepper}). A smoothing filter is further applying for further noise reduction (Figure \ref{fig:c3_Smoothed}). 
 
 	 \begin{figure} [h!]				   
@@ -426,7 +426,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
 
  \newpage
  \subsection{Removing Ground Pixels}\label{sec:groundMask}
- \par Removing the ground pixels is a trivial task because the DTM has already subtracted from the data and therefore the height of the ground is approximately constant. A histogram of the height values was generated. As shown in Figure \ref{fig:c5_heightHist}, there are the three well-defined classes (ground, trees and noise). The ground and noise are removed using simple thresholding. This processed is illustrated in Figure \ref{fig:GroundPixelsRemoval}.
+ \par Removing the ground pixels is a trivial task because the DTM has already subtracted from the data and therefore the height of the ground is approximately constant. A histogram of the height values was generated. As shown in Figure \ref{fig:c5_heightHist}, there are the three well-defined classes (ground, trees and noise). The ground and noise are removed using two thresholds. This processed is illustrated in Figure \ref{fig:GroundPixelsRemoval}.
 
  \begin{figure} [h!]			
  	\begin{subfigure}[t]{.49\textwidth}
@@ -461,7 +461,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
  
 
 
- \subsection{Threshold, Filtering, Segmentation and Position Assignment }\label{sec:Segmentation}
+ \subsection{Dead and Alive Threshold, Filtering, Segmentation and Position Assignment }\label{sec:Segmentation}
 
   \par In order to obtain the positions of the dead trees, there are four steps left:
   \begin{enumerate}
@@ -471,7 +471,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
   	\item Position assignment 
   \end{enumerate}
   
-  \par Up to this stage, we have an image of the probabilistic field and the ground has been removed (Figure \ref{fig:c7_groundRemoved}). After that a threshold for separating dead and alive pixels is chosen using the training data and the alive pixels are removed (Figure \ref{fig:c8_deadThres}). The output image contains pixels which are classified as dead by are away from the rest. To reduce over-detection of dead trees, these pixels are filtered out (Figure \ref{fig:c9_sharpFilter}). Afterwards, the pixels are grouped into trees relatively to their neighbouring pixels using a seed growth segmentation algorithm (Figure \ref{fig:c10_segmentation}). By the end, it is assumed that each segment is a dead tree and its position is calculated by the average of geo-spatial location of its pixels (Figure \ref{fig:c11_results}). 
+  \par Up to this stage, we have an image of the probabilistic field and the ground has been removed (Figure \ref{fig:c7_groundRemoved}). After that a threshold for separating dead and alive pixels is chosen using the training data and the alive pixels are removed (Figure \ref{fig:c8_deadThres}). The output image contains pixels which are classified as dead by are away from the rest. To reduce over-detection of dead trees, these pixels are filtered out (Figure \ref{fig:c9_sharpFilter}). Afterwards, the pixels are grouped into trees relatively to their neighbouring pixels using a seed growth segmentation algorithm (Algorithm \ref{alg:seedGrownth} and Figure \ref{fig:c10_segmentation}). By the end, it is assumed that each segment is a dead tree and its position is calculated by the average of geo-spatial location of its pixels (Figure \ref{fig:c11_results}). 
  
  
 
@@ -506,10 +506,27 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
   \end{figure}
   
 
- 
+ \begin{algorithm}
+ 	\caption{Seed growth algorithm for segmenting pixels classified as dead}
+ 	\label{alg:seedGrownth}
+ 	\centering
+ 	\begin{algorithmic}[1]
+ 		\State $P \gets $ all pixels classified as dead  %\boldsymbol{
+ 		\State $s \gets $ 0 
+ 		\While { not reached the end of set P}
+        \State get next pixel $\boldsymbol{p} \in P$ that doesn't belong to a segment
+ 		\State  Pixel $\boldsymbol{p} $ belongs to segment $s$
+ 		\State  find $K(\boldsymbol{p_1},\dots, \boldsymbol{p_n})$ such that $K \subseteq P$ and every $\boldsymbol{p_i} \in K$ is a neighbour of $\boldsymbol{p}$
+ 		\State  every $ \boldsymbol{p_i} \in K $ belongs to segment $s$ 
+ 		\State $ \forall \space \boldsymbol{p_i} \in K $, $\boldsymbol{p} \gets \boldsymbol{p_i}$ and repeat from line 5
+ 		\State all pixels of segment $s$ has been labelled
+ 		\State $s \gets s + 1 $
+ 		\EndWhile
+ 	\end{algorithmic}
+ \end{algorithm}
 
 
-\newpage\newpage\newpage
+
 \section{Evaluation {\color{red} *** The following are not ready yet}} 
 
 
