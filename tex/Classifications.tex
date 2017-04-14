@@ -198,8 +198,8 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 \par This section provides an explanation of the algorithms implemented. An overview of the work flow is given here: 
 \begin{enumerate}
 	\item Subtraction of the Digital Terrain Model (DTM) from the FW LiDAR data
-	\item {\color{blue} Generation of testing and training feature vectors using DASOS}
-	\item Identification of the most important variables of the 3D priors using random forest
+	\item {\color{blue} Generation of training feature vectors characterising dead and alive trees, as well as testing samples of unknown population
+	\item Identification of the most important relevant features using random forest}
 	\item Generation of a probabilistic field using a weighted k-nearest neighbour (KNN) algorithm. 
 	\item Filtering 
 	\item Height histogram and ground pixels removal
@@ -208,7 +208,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 
 \subsection{Subtract DTM from FW LiDAR}\label{sec:DTMsub}
 
-\par DASOS has a feature for subracting pre-calculated Digital Terrain Model (DTM) saved into .bil files. Generating a DTM is beyond the scope of this research and the DTM files used were provided by Interpine Ltd Group. The provided DTM files were generated using the Quick Terrain Modeller from discrete LiDAR using the parameters shown in Figure \ref{fig:DTM_parameters}.
+\par A feature was implemented in DASOS for subracting pre-calculated Digital Terrain Model (DTM) saved into .bil files. Generating a DTM is beyond the scope of this research and the DTM files used were provided by Interpine Ltd Group. The provided DTM files were generated using the Quick Terrain Modeller from discrete LiDAR using the parameters shown in Figure \ref{fig:DTM_parameters}.
 
 \begin{figure} [h!]
 	\centering
@@ -218,7 +218,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 \end{figure}
 
 
-\par The subtraction of the DTM is done during the voxelisation (Section \ref{DASOS_Voxelisation}). The terrain height is subtracted from the position of the sample before it is inserted into the volume. Please note that this terrain value is not subtracted from the origin of each pulse but from the position of each sample since the terrain value at the origin and the terrain value at the position of a sample may differ. 
+\par The subtraction of the DTM is done during the voxelisation (Section \ref{DASOS_Voxelisation}). The terrain height is subtracted from the position of the sample before it is inserted into the volume. Please note that each terrain value is not subtracted from the origin of its pulse but from the position of each sample since the terrain value at the origin and the terrain value at the position of a sample may differ. 
 \par Figure \ref{fig:height_minus_dtm} shows an example of a DEM generated before and after the subtraction using DASOS. 
 
 
@@ -343,7 +343,7 @@ The outputs of function $f(x_n) \in \{\textrm{0, 1} \}$. The value $0$ indicates
 T : (\boldsymbol{t_1}, 1), (\boldsymbol{t_2}, 0), (\boldsymbol{t_3}, 0), (\boldsymbol{t_4}, 1) . ...... (\boldsymbol{t_n}, 1)
 \end{eqnarray}
 
-\par Every feature vector  $\boldsymbol{t_q} \in T$ contains the $10$ most important features exported from DASOS, as they were identified from the Random Forest algorithm ($\boldsymbol{t}={t_1, t_2, \dots , t_10}$). Additionally, every feature is associated with a weight value according to its importance ($\boldsymbol{w}={w_1,w_2, \dots ,w_10} $). Additionally:
+\par Every feature vector  $\boldsymbol{t_q} \in T$ contains the $10$ most important features exported from DASOS, as they were identified from the Random Forest algorithm ($\boldsymbol{t}=\{t_1, t_2, \dots , t_{10}\}$). Additionally, every feature is associated with a weight value according to its importance ($\boldsymbol{w}=\{w_1,w_2, \dots ,w_{10} \} $). Additionally:
 
 
 \begin{gather*}
@@ -367,17 +367,17 @@ w_{10} \\
 \end{gather*}
 
 
-\par Let's define a data vector $\boldsymbol{x}=(x_1,\dots,x_10)$ of an unknown population. We want to calculate the probability of vector $\boldsymbol{x}$ to belong to the dead trees population. At first, the weighted Euclidean distance from $\boldsymbol{x}$ to every $\boldsymbol{t_q} \in T$ is calculated as follow:
+\par Let's define a data vector $\boldsymbol{x}=(x_1,\dots,x_10)$ of an unknown population. How do we calculate the probability of vector $\boldsymbol{x}$ to belong to the dead trees population? At first, the weighted Euclidean distance from $\boldsymbol{x}$ to every $\boldsymbol{t_q} \in T$ is calculated as follow:
 \begin{equation} 
 d(\boldsymbol{t_q},\boldsymbol{x}) = \sqrt{\sum_{i=1}^{10}{ \Big(w_i \times (t_{qi}-x_i)^2 \Big)}}
 \end{equation}
 
 
-\par Then the k-nearest training samples are selected. In this project $k=7$ was considered reasonable considering the size of each testing case, but in the further testing could be done to test how well the algorithm performs in relation to $k$. The nearest $7$ indices of the training samples are selected as follow:
+\par Then the $k-$nearest training samples are selected. In this project $k=7$ was considered reasonable in respect to the size of each testing case. In the future, testing different values of $k$ could evaluate how well the algorithm performs in relation to $k$. The nearest $7$ indices of the training samples are selected as follow:
 \begin{equation} 
 q = \operatornamewithlimits{argmin}_{\boldsymbol{t} \in T} d(\boldsymbol{t},\boldsymbol{x})
 \end{equation}
-\par The dataset $V=\{\boldsymbol{v_1}, \boldsymbol{v_2},\dots, \boldsymbol{v_7}\} $ is a subset of the training samples $T$ and contains the k-nearest indices to $x$. The dataset $V$ may contains samples derived from either dead trees, alive trees or both. 
+\par The dataset $V=\{\boldsymbol{v_1}, \boldsymbol{v_2},\dots, \boldsymbol{v_7}\} $ is a subset of the training samples $T$ and contains the k-nearest indices to $\boldsymbol{x}$. The dataset $V$ may contains samples derived from either dead trees, alive trees or both. 
 
 
 \par For each $\boldsymbol{v_i} \in V$ a weight $\boldsymbol{u_i}$ is calculated:
@@ -388,12 +388,12 @@ u_i = \frac{1}{d(\boldsymbol{t_i}, \boldsymbol{i})}
 \par By the end, the probability of a dead tree is given by the following equation: 
 
 \begin{equation} 
-P(\textrm{dead}) =  \frac{\sum_{i=1}^{k}{ \Big(u \times \delta \big(1,f(\boldsymbol{v_i})\big)\Big)}}{ \sum_{i=1}^{k}{\Big(u \times \delta \big(1,f(\boldsymbol{v_i})\big)\Big)} + \sum_{i=1}^{k}{ \Big(u \times \delta \big(0,f(\boldsymbol{v_i})\big)\Big)}}
+P(\textrm{dead}) =  \frac{\sum_{i=1}^{k}{ \Big(u_i \times \delta \big(1,f(\boldsymbol{v_i})\big)\Big)}}{ \sum_{i=1}^{k}{\Big(u_i \times \delta \big(1,f(\boldsymbol{v_i})\big)\Big)} + \sum_{i=1}^{k}{ \Big(u_i \times \delta \big(0,f(\boldsymbol{v_i})\big)\Big)}}
 \end{equation}
 
 where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ otherwise. 
 
-\par For each column of the voxelised FW LiDAR data, a testing data vector $x$ is created and its probability of been dead is calculated. Figure \ref{fig:c1_knn} shows the probability field the dead trees population. The big circle is the location of the fieldplot and the small circles are the locations of the dead trees. Please note that the white spots contain no data. Those spots appear either when no LiDAR pulse passes through a column or when the pre-defined height of the shape used to calculate the corresponding feature vector is bigger than the digital elevation of this point. 
+\par For each column of the voxelised FW LiDAR data, a testing data vector $\boldsymbol{x}$ is created and its probability of been dead is calculated. Figure \ref{fig:c1_knn} shows the probability field the dead trees population. The big circle is the location of the fieldplot and the small circles are the locations of the dead trees. Please note that the white spots contain no data. Those spots appear either when no LiDAR pulse passes through a column or when the pre-defined height of the shape used to calculate the corresponding feature vector is bigger than the elevation of this point. 
 
  				\begin{figure} [h!]			
  					\centering
@@ -405,7 +405,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
  
  
   \subsection{Filtering}\label{sec:filtering}
-  As shown in Figure Figure \ref{fig:c1_knn}, there is Salt and Pepper noise because of empty columns existing within the volume. This noise is removed using a median filter which assigns to every empty pixel the median value of its non-empty neighbouring pixels  (Figure \ref{fig:c2_SaltPepper}). A smoothing filter is further applying for further noise reduction (Figure \ref{fig:c3_Smoothed}). 
+  As shown in Figure Figure \ref{fig:c1_knn}, there is Salt and Pepper noise. This noise is removed using a median filter which assigns to every empty pixel the median value of its non-empty neighbouring pixels  (Figure \ref{fig:c2_SaltPepper}). A smoothing filter is further applying for further noise reduction (Figure \ref{fig:c3_Smoothed}). 
 
 	 \begin{figure} [h!]				   
 	   \begin{subfigure}[t]{.49\textwidth}
@@ -426,7 +426,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
 
  \newpage
  \subsection{Removing Ground Pixels}\label{sec:groundMask}
- \par Removing the ground pixels is a trivial task because the DTM has already subtracted from the data and therefore the height of the ground is approximately constant. A histogram of the height values was generated. As shown in Figure \ref{fig:c5_heightHist}, there are the three well-defined classes (ground, trees and noise). The ground and noise are removed using two thresholds. This processed is illustrated in Figure \ref{fig:GroundPixelsRemoval}.
+ \par Removing the ground pixels is a trivial task because the DTM has already subtracted from the data and therefore the height of the ground is approximately constant. A histogram of the height values was generated. As shown in Figure \ref{fig:c5_heightHist}, there are three well-defined classes (ground, trees and noise). The ground and noise are removed using two thresholds. This processed is illustrated in Figure \ref{fig:GroundPixelsRemoval}.
 
  \begin{figure} [h!]			
  	\begin{subfigure}[t]{.49\textwidth}
@@ -463,7 +463,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
 
  \subsection{Dead and Alive Threshold, Filtering, Segmentation and Position Assignment }\label{sec:Segmentation}
 
-  \par In order to obtain the positions of the dead trees, there are four steps left:
+  \par In order to obtain the estimated positions of the dead trees, there are four steps left:
   \begin{enumerate}
   	\item Thresholding 
   	\item Filtering
@@ -471,7 +471,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
   	\item Position assignment 
   \end{enumerate}
   
-  \par Up to this stage, we have an image of the probabilistic field and the ground has been removed (Figure \ref{fig:c7_groundRemoved}). After that a threshold for separating dead and alive pixels is chosen using the training data and the alive pixels are removed (Figure \ref{fig:c8_deadThres}). The output image contains pixels which are classified as dead by are away from the rest. To reduce over-detection of dead trees, these pixels are filtered out (Figure \ref{fig:c9_sharpFilter}). Afterwards, the pixels are grouped into trees relatively to their neighbouring pixels using a seed growth segmentation algorithm (Algorithm \ref{alg:seedGrownth} and Figure \ref{fig:c10_segmentation}). By the end, it is assumed that each segment is a dead tree and its position is calculated by the average of geo-spatial location of its pixels (Figure \ref{fig:c11_results}). 
+  \par Up to this stage, we have an image of the probabilistic field and the ground has been removed (Figure \ref{fig:c7_groundRemoved}). After that a threshold for separating dead and alive pixels is chosen using the training data and the alive pixels are removed (Figure \ref{fig:c8_deadThres}). The output image contains out-liners; pixels which are classified as dead but have no neigbouring pixels classified as dead. To reduce over-detection of dead trees, these pixels are filtered out (Figure \ref{fig:c9_sharpFilter}). Afterwards, the pixels are grouped into trees relatively to their neighbouring pixels using a seed growth segmentation algorithm (Algorithm \ref{alg:seedGrownth} and Figure \ref{fig:c10_segmentation}). By the end, it is assumed that each segment $S$ is a dead tree and its position is calculated by taking the average geo-spatial location of the pixels that belong in segment $S$ (Figure \ref{fig:c11_results}). 
  
  
 
@@ -514,10 +514,9 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
  		\State $P \gets $ all pixels classified as dead  %\boldsymbol{
  		\State $s \gets $ 0 
  		\While { not reached the end of set P}
-        \State get next pixel $\boldsymbol{p} \in P$ that doesn't belong to a segment
- 		\State  Pixel $\boldsymbol{p} $ belongs to segment $s$
+        \State get next pixel $\boldsymbol{p} \in P$ that is not assigned to a segment
+ 		\State  Assign pixel $\boldsymbol{p} $ to segment $s$
  		\State  find $K(\boldsymbol{p_1},\dots, \boldsymbol{p_n})$ such that $K \subseteq P$ and every $\boldsymbol{p_i} \in K$ is a neighbour of $\boldsymbol{p}$
- 		\State  every $ \boldsymbol{p_i} \in K $ belongs to segment $s$ 
  		\State $ \forall \space \boldsymbol{p_i} \in K $, $\boldsymbol{p} \gets \boldsymbol{p_i}$ and repeat from line 5
  		\State all pixels of segment $s$ has been labelled
  		\State $s \gets s + 1 $
