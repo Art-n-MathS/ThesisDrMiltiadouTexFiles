@@ -19,7 +19,7 @@
 	
 	 \begin{figure} [h!]
 	 	\centering
-	 	\includegraphics[width=.8\textwidth]{img/RayTracing}
+	 	\includegraphics[width=0.56\textwidth]{img/RayTracing}
 	 	\caption{Ray-tracing illustration}
 	 	\label{fig:Raytracing}
 	 \end{figure}
@@ -32,7 +32,7 @@
 
 In computer graphics, objects can be defined using a function rather than being constructed from primitives. Those objects are called either implicit or algebraic. Implicit representation of objects enables a mathematical definition of the 3D discrete density volume generated from the FW LiDAR data (Section \ref{Voxelisation}). 
 
-\par Algebraic objects were firstly introduced in computer graphics by Blinn in 1982 \cite{Blinn1982} to enable the definition of complex objects without saving a large amount of primitives; in some cases, primitives cannot accurate represent a shape (e.g. a sphere cannot be represented fully by a triangle mesh). Each object is defined by a function $ \mathit{f(X)} $ and the iso-surface value $\alpha$. The iso-surface value (iso-level) defines the boundaries of the object; for an object $ [f(x),a]$ every n-dimensional point $ \mathit{X} $  that lies on the surface of the object satisfies the condition $ \mathit{f(X)=\alpha }  $. To be more accurate, the following rules apply according to Pasko et al. \cite{Pasko1994}: 
+\par Algebraic objects were firstly introduced in computer graphics by Blinn in 1982 \cite{Blinn1982} to enable the definition of complex objects without saving a large amount of primitives; in some cases, primitives cannot accurate represent a shape (e.g. a sphere cannot be represented fully by a triangle mesh). Each object is defined by a function $ \mathit{f(X)} $ and an iso-surface value $\alpha$. The iso-surface value (iso-level) defines the boundaries of the object; for an object $ [f(x),a]$ every n-dimensional point $ \mathit{X} $  that lies on the surface of the object satisfies the condition $ \mathit{f(X)=\alpha }  $. To be more accurate, the following rules apply according to Pasko et al. \cite{Pasko1994}: 
 \begin{itemize}
 	\item $	\mathrm{f(X) = \alpha }$ , when $X$ lies on the surface of the algebraic object
 	\item $	\mathrm{f(X) > \alpha }$ , when $X$ lies inside the algebraic object and
@@ -41,16 +41,12 @@ In computer graphics, objects can be defined using a function rather than being 
 
 \par Regarding the algebraic representation of the 3D voxelised FW LiDAR data, X is a three dimensional point $\mathit{(x, y, z) }$ representing the longitude, latitude and height respectively and ${f(X)}$ is a function that takes  $\mathit{X}$ as input and returns the accumulated intensity value of the voxel that  $\mathit{X}$ lies inside. {\color{Fuchsia} Also, the iso-surface value $\mathit{\alpha }$ is a user defined parameter. Even though it closely related to the noise threshold used for filtering during voxelisation (Section \ref{Voxelisation}), it is different. The noise threshold filters low intensity samples before the volume is constructed, while the iso-surface value defines the boundaries of the object and it can be modified after the voxelisation because it doesn't affect the intensity values of the 3D voxelised FW LiDAR. Figure \ref{fig:SwitchingVisParameters} demonstrates how the iso-level parameter affects the output of the surface reconstruction of the voxelised FW LiDAR data in comparison to the noise filtering}.
 
-{\color{red} **NEIL: for the purple part: We need to be careful here - on I explained a while ago, hte numbers you are putting in the voxels are appropriate since you average. }
-
-
 \section {Surface Reconstruction with the Marching Cubes Algorithm}\label{sec:SurfaceReconstruction}
 
 \par Even though algebraic representation is beneficial in reducing storage memory, visualising implicit objects is not straight forward, since they contain no discrete values. As described above in rendering volumes, this problem can be addressed either by direct rendering or surface reconstruction (Section \ref{sec:RenderingApproaches}). 
 
 \par The Marching Cubes algorithm is an algorithm that extracts an iso-surface from the implicit volumetric field as a polygonal mesh using a look up table. Let’s assume that $f(X)$ defines an implicit object. At first the space is divided into cubes. Each cube is defined by eight corner points and each corner point lies either inside or outside the iso-surface. By enumerating all the possible cases and linearly interpolating the intersections along the edges, the surface of the implicit iso-surface is constructed \cite{Lorensen1987}. {\color{Fuchsia} The output is a polygonal mesh, a number of adjacent triangles constructed according to the user-defined iso-surface value $\alpha$  of the implicit object.
 	
-	{\color{red} for the next paragraph (again, perhaps a diagram)}
 \par  The normals\footnote{ A normal is a vector that is perpendicular to the surface of a polygonal mesh. In graphics, the normals are important for calculating light illumination and each vertex is associated with one for smooth rendering of surfaces.} are calculated afterwards.} According to Lorensen and Cline \cite{Lorensen1987}, the normal of each vertex is calculated by measuring the local gradient change. Even though this work well on smooth object (e.g. a sphere defined by its equation), because of the high gradient changes in the voxelised FW LiDAR data this algorithm results into normals pointing into inconsistent directions. This is a problem because when the normals are not consistent, the surface of the object appears rough. For that reason, in DASOS the normal of each vertex is derived by the average normal of its adjacent triangles. 
 
 
@@ -90,7 +86,7 @@ In computer graphics, objects can be defined using a function rather than being 
 \end{enumerate}
 
  
-\par Aside from computer-based visualisation, it is even possible to 3D print the meshes using something like MakerBot.  There are some difficulties as the meshes are not manifold\footnote{ A non-manifold polygonal object may have triangle below the outside surface of the object} (figure \ref{fig:3Dprinting}). Simplification of the mesh would have eased the processing of the .obj file in MakerBot. 
+\par Aside from computer-based visualisation, it is even possible to 3D print the meshes using MakerBot.  There are some difficulties as the meshes are not manifold\footnote{ A non-manifold polygonal object may have triangle below the outside surface of the object} (Figure \ref{fig:3Dprinting}). Simplification of the mesh would have eased the processing of the .obj file in MakerBot. 
  
 
   
