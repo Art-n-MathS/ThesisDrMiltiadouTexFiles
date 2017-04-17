@@ -190,7 +190,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 	\label{tab:ClassificationChallenges}
 \end{table}
 
-\section{Methods and Algorithms}
+\section{Methods and Algorithms}\label{sec:Methodology}
 
 \par This section provides an explanation of the algorithms implemented. An overview of the work flow is given here: 
 \begin{enumerate}
@@ -474,7 +474,6 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
 
   \begin{figure} [h!]			
   	\begin{subfigure}[t]{.49\textwidth}
-  		
   		\centering
   		\includegraphics[width=\textwidth]{img/dead/c8_thresDead}
   		\caption{Thresholding dead from alive trees}
@@ -540,20 +539,22 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
 
 
    \subsection{Distance Related Evaluation}
+    
+   Regarding the this evaluation, there are three different test undertaken: whether the increased training samples improves dead tree detection, what shape (cylinder or cuboid) performs better and comparison with the random prediction. 
    
    
-\begin{table}[!htbp]
+   \par Table \ref{tab:CylinderResults} shows the precission and recall percentage achieved using a cylindrical shape extract features for the likelihood.  The D1, D2, ... , D5 corresponds the five divided datasets as they were explained earlier  for the cross-validation. The D\_1\_2\_3 uses all the training samples from D1, D2 and D3 to train the classifier. As shown on the corresponding charts (Figure \ref{fig:Precision_Cylinder} for precision and \ref{fig:Recall_Cylinder}), the increased amount of training samples do not improve the prediction. On the one hand, more samples contains for dead trees that could be similar to the ones that we want to predict. But on the other hand, as mention in the challenges (Section \ref{sec:ClassficationChallenges}, the field data contain noise and therefore the increased noise compensate the value of the increased samples which could have improved the results. A more selective and clean training dataset, that would include trees of similar height and less noise would have definitely improved the results. 
+   
+   
+\begin{table}[h!]
 	% increase table row spacing, adjust to taste
-	\renewcommand{\arraystretch}{1.3}
+  	 \renewcommand{\arraystretch}{1.1}
 	% if using array.sty, it might be a good idea to tweak the value of
 	% \extrarowheight as needed to properly center the text within the cells
-	
 	\centering
-	% Some packages, such as MDW tools, offer better commands for making tables
-	% than the plain LaTeX2e tabular which is used here.
+	\small
 	\begin{tabular}{|P{2.1cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|}
-		\hline
-		
+	\hline		
 		\multicolumn{11}{|c|}{ \textbf{Precision (\%)}}	\\ \hline
 		Distance (m)	&	1	&	2	&	3	&	4	&	5	&	6	&	7	&	8	&	9	&	10	\\ \hline
 D1	&	7.29	&	12.15	&	16.1	&	24.31	&	32.21	&	38.9	&	47.11	&	49.84	&	56.23	&	58.35	\\ \hline
@@ -579,31 +580,30 @@ D\_1\_2\_3	&	0	&	0	&	6.17	&	7.33	&	8.88	&	10.03	&	12.74	&	20.84	&	21.62	&	33.59	
 
    \begin{figure} [h!]
    	\centering
-   	\includegraphics[width=\textwidth]{img/dead/results/Precision_Cylinder}
-   	\caption{}
+   	\includegraphics[width=0.87\textwidth]{img/dead/results/Precision_Cylinder}
+   	\caption[Precision results obtained using a cylindrical shape]{Precision results obtained using a cylindrical shape within the voxelised FW LiDAR to extract features. Dataset D\_1\_2\_3 is the dataset that contains more training samples than the rest.}
    	\label{fig:Precision_Cylinder}
-   \end{figure}
-   
+   \end{figure}   
      \begin{figure} [h!]
      	\centering
-     	\includegraphics[width=\textwidth]{img/dead/results/Recall_Cylinder}
-     	\caption{}
+     	\includegraphics[width=0.87\textwidth]{img/dead/results/Recall_Cylinder}
+     	\caption[Recall results obtained using a cylindrical shape]{Recall results obtained using a cylindrical shape within the voxelised FW LiDAR to extract features. Dataset D\_1\_2\_3 is the dataset that contains more training samples than the rest.}
      	\label{fig:Recall_Cylinder}
      \end{figure}
      
-     
-\begin{table}[!htbp]
+     \par The second comparison is whether a cuboid or a cylindrical shape performs better in extracting useful features for detecting dead tress. The previous Table \ref{tab:CylinderResults} and Figures \ref{fig:Precision_Cylinder} and \ref{fig:Recall_Cylinder} show the results of the prediction using a cylindrical shape to extract features, while Table \ref{tab:CuboidResults} and Figures \ref{fig:Precision_Cuboid} and \ref{fig:Recall_Cuboid} show the results obtained using the cuboid shape. The average results are very close but the cuboid shape has a wider range of good and bad results. It is reasonable for the cylindrical shape to perform better because trees do not have corners and therefore the information retrieved with the cuboid may not be as accurately. Nevertheless, the cuboid shape is slightly bigger and this could be the justification of the wider range of good/bad results. Since it is a bit bigger it may collect better information from big trees but contain more noise in respect to small trees. Therefore, the size of the trees plays a significant role for the quality of the classifier even though in this research we assume equally size trees.  
+      
+\begin{table}[h!]
 	% increase table row spacing, adjust to taste
-	\renewcommand{\arraystretch}{1.3}
+	\renewcommand{\arraystretch}{1.1}
 	% if using array.sty, it might be a good idea to tweak the value of
 	% \extrarowheight as needed to properly center the text within the cells
-	
+	\small
 	\centering
 	% Some packages, such as MDW tools, offer better commands for making tables
 	% than the plain LaTeX2e tabular which is used here.
 	\begin{tabular}{|P{2.1cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|P{0.75cm}|}
 		\hline
-		
 		\multicolumn{11}{|c|}{ \textbf{Precision (\%)}}	\\ \hline
 Distance (m)	&	1	&	2	&	3	&	4	&	5	&	6	&	7	&	8	&	9	&	10	\\ \hline
 D1	&	7.78	&	10.47	&	14.07	&	24.85	&	32.63	&	40.11	&	47.9	&	53.59	&	59.28	&	61.97	\\ \hline
@@ -623,28 +623,31 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
 	\caption{Distance based evaluation: This table gives the percentage of precision and recall achieved using the Cuboid shape to extract features.}
 	\label{tab:CuboidResults}
 \end{table}
-
+\newpage
         \begin{figure} [h!]
         	\centering
-        	\includegraphics[width=\textwidth]{img/dead/results/Precision_Cuboid}
-        	\caption{}
+        	\includegraphics[width=0.87\textwidth]{img/dead/results/Precision_Cuboid}
+        	\caption[Precision results obtained using a cuboid shape]{Precision results obtained using a cuboid shape within the voxelised FW LiDAR to extract features. Dataset D\_1\_2\_3 is the dataset that contains more training samples than the rest.}
         	\label{fig:Precision_Cuboid}
         \end{figure}
     
         \begin{figure} [h!]
         	\centering
-        	\includegraphics[width=\textwidth]{img/dead/results/Recall_Cuboid}
-        	\caption{}
+        	\includegraphics[width=0.87\textwidth]{img/dead/results/Recall_Cuboid}
+        	\caption[Recall results obtained using a cuboid shape]{Recall results obtained using a cuboid shape within the voxelised FW LiDAR to extract features. Dataset D\_1\_2\_3 is the dataset that contains more training samples than the rest.}
         	\label{fig:Recall_Cuboid}
         \end{figure}
+        
+        
+        \par The last comparison is in relation to the random. The random dataset distributed randomly within the area of a plot the approximately the same number of dead trees existed. These random location were evaluated the same way as the as the predicted result using the methodology explained in Section \ref{sec:Methodology}. The average results obtained using a cylindrical shape, a cuboid shape and the random are shown in Table \ref{tab:AveRanResults} and Figures \ref{fig:Precision_AveRan} and \ref{fig:Recall_AveRan}. Please note that the size of the shapes used is $7.2m$ diameter or $7.2m$ width. Therefore, prediction above this distance are above te desire resolution of prediction. From those figures, it is clearly showed that the methodology proposed performs better than the random. This is important because it is an indication that forest health assessment, including dead trees detection, is possible without tree delineation. Of course, the is a new research direction and many improvements could be done; some of them are mentioned after the discussion in the following section. 
     
         
-\begin{table}[!htbp]
+\begin{table}[h!]
 	% increase table row spacing, adjust to taste
-	\renewcommand{\arraystretch}{1.3}
+	\renewcommand{\arraystretch}{1.1}
 	% if using array.sty, it might be a good idea to tweak the value of
 	% \extrarowheight as needed to properly center the text within the cells
-	
+	\small
 	\centering
 	% Some packages, such as MDW tools, offer better commands for making tables
 	% than the plain LaTeX2e tabular which is used here.
@@ -670,9 +673,11 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
 	\label{tab:AveRanResults}
 \end{table}
 
+\newpage
+
            \begin{figure} [h!]
            	\centering
-           	\includegraphics[width=\textwidth]{img/dead/results/Precision_AveRan}
+           	\includegraphics[width=0.87\textwidth]{img/dead/results/Precision_AveRan}
            	\caption{}
            	\label{fig:Precision_AveRan}
            \end{figure}
@@ -680,7 +685,7 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
            
            \begin{figure} [h!]
            	\centering
-           	\includegraphics[width=\textwidth]{img/dead/results/Recall_AveRan}
+           	\includegraphics[width=0.87\textwidth]{img/dead/results/Recall_AveRan}
            	\caption{}
            	\label{fig:Recall_AveRan}
            \end{figure}
