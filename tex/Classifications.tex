@@ -486,9 +486,14 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
   	\begin{subfigure}[t]{.49\textwidth}
   		\centering
   		\includegraphics[width=\textwidth]{img/dead/c9_sharpFilter}
-  		\caption{} 
+  		\caption{Noise Reduction} 
   		\label{fig:c9_sharpFilter}
   	\end{subfigure} \hfill
+  \caption{Thresholding and filtering }  
+  \label{fig:dt_sf} 
+  \end{figure}
+  
+  \begin{figure} [h!]			
   	\begin{subfigure}[t]{.49\textwidth}
   		\centering
   		\includegraphics[width=\textwidth]{img/dead/c10_segmentationResults}
@@ -501,8 +506,8 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
   		\caption{The estimated dead tree positions (brown dots)} 
   		\label{fig:c11_results}
   	\end{subfigure}
-  	\caption{Thresholding, filtering, segmentation and calculating the dead trees' position. }  
-  	\label{fig:dt_sf_segm_results} 
+  	\caption{Segmentation and calculating the dead trees' position. }  
+  	\label{fig:segm_results} 
   \end{figure}
   
 
@@ -526,12 +531,15 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
 
 
 
-\section{Evaluation {\color{red} *** The following are not ready yet}} 
+\section{Evaluation} 
+
+\subsection{Pixelwise Evaluation}
+
 
 
    \subsection{Distance Related Evaluation}
 
-\afterpage{
+\newpage
    \begin{figure} [h!]
    	\centering
    	\includegraphics[width=\textwidth]{img/dead/results/Precision_Cylinder}
@@ -545,8 +553,8 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
      	\caption{}
      	\label{fig:Recall_Cylinder}
      \end{figure}
-    }
-     \afterpage{
+    
+
         \begin{figure} [h!]
         	\centering
         	\includegraphics[width=\textwidth]{img/dead/results/Precision_Cuboid}
@@ -560,9 +568,9 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
         	\caption{}
         	\label{fig:Recall_Cuboid}
         \end{figure}
-    }
+    
         
-        \afterpage{
+
            \begin{figure} [h!]
            	\centering
            	\includegraphics[width=\textwidth]{img/dead/results/Precision_AveRan}
@@ -577,10 +585,9 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
            	\caption{}
            	\label{fig:Recall_AveRan}
            \end{figure}
-           }
+           
 
-   \subsection{Pixelwise Evaluation}
-		
+
 		
 \section{Discussion}
 
