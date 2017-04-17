@@ -528,20 +528,12 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
 
 
 \section{Evaluation} 
-\par The results are evaluated into two different ways: 
-\begin{itemize}
-	\item Firstly, the predicted locations of the dead trees are evaluated in relation to their distance from the actual dead trees. Example of output is given in Figure \ref{fig:c11_results}. 
-	\item Secondly, a pixelwise evaluation is done using the image produced with the prediction of whether a column from the voxelised FW LiDAR contains information from a dead tree or not. Example of output result is given in Figure \ref{fig:c9_sharpFilter}.	
-\end{itemize}
-
-\par Both results have been cross-validated using the fieldplots division depicted in Figure \ref{fig:DASOSsPriors}. The 50 field plots are divided into 5 datasets and each dataset uses 10 plots for testing and the rest 40 for evaluation. Additionally, an extra dataset that uses 30 plots for training and 20 for evaluation was created to check whether the increase amount of training samples improves the precision and recall of the results. For each dataset, feature vectors of processed and raw intensities are generated. But Random Forest failed to identify important variable from the feature vectors with the raw intensities due to the irregular shapes of the dead trees. For that reason, results were only obtained from processed voxel intensity values. The feature vectors with raw intensities should be used in other application where trees/object shapes are similar. Additionally, for the second evaluation a random set of results was generated for comparison. This random prediction uses the probability of a squared meter to contain a dead tree or not and the number of dead trees assigned to it is approximately the same as the number of dead trees that exist within the field data.
 
 
-
-   \subsection{Distance Related Evaluation}
     
-   Regarding the this evaluation, there are three different test undertaken: whether the increased training samples improves dead tree detection, what shape (cylinder or cuboid) performs better and comparison with the random prediction. 
+\par The results are evaluated according to the predicted locations of the dead trees and their distance from the actual dead trees. There are three different test undertaken during evaluation: whether the increased training samples improves dead tree detection, what shape (cylinder or cuboid) performs better and comparison with a random prediction. 
    
+   \par Please note that, the results have been cross-validated using the fieldplots division depicted in Figure \ref{fig:DASOSsPriors}. The 50 field plots are divided into 5 datasets and each dataset uses 10 plots for testing and the rest 40 for evaluation. Additionally, an extra dataset that uses 30 plots for training and 20 for evaluation was created to check whether the increase amount of training samples improves the precision and recall of the results. For each dataset, feature vectors of processed and raw intensities are generated. But Random Forest failed to identify important variable from the feature vectors with the raw intensities due to the irregular shapes of the dead trees. For that reason, results were only obtained from processed voxel intensity values. The feature vectors with raw intensities should be used in other application where trees/object shapes are similar. Additionally, a random set of results was generated for comparison. This random prediction uses the probability of a squared meter to contain a dead tree or not and the number of dead trees assigned to it is approximately the same as the number of dead trees that exist within the field data.
    
    \par Table \ref{tab:CylinderResults} shows the precission and recall percentage achieved using a cylindrical shape extract features for the likelihood.  The D1, D2, ... , D5 corresponds the five divided datasets as they were explained earlier  for the cross-validation. The D\_1\_2\_3 uses all the training samples from D1, D2 and D3 to train the classifier. As shown on the corresponding charts (Figure \ref{fig:Precision_Cylinder} for precision and \ref{fig:Recall_Cylinder}), the increased amount of training samples do not improve the prediction. On the one hand, more samples contains for dead trees that could be similar to the ones that we want to predict. But on the other hand, as mention in the challenges (Section \ref{sec:ClassficationChallenges}, the field data contain noise and therefore the increased noise compensate the value of the increased samples which could have improved the results. A more selective and clean training dataset, that would include trees of similar height and less noise would have definitely improved the results. 
    
@@ -591,6 +583,7 @@ D\_1\_2\_3	&	0	&	0	&	6.17	&	7.33	&	8.88	&	10.03	&	12.74	&	20.84	&	21.62	&	33.59	
      	\label{fig:Recall_Cylinder}
      \end{figure}
      
+     \newpage
      \par The second comparison is whether a cuboid or a cylindrical shape performs better in extracting useful features for detecting dead tress. The previous Table \ref{tab:CylinderResults} and Figures \ref{fig:Precision_Cylinder} and \ref{fig:Recall_Cylinder} show the results of the prediction using a cylindrical shape to extract features, while Table \ref{tab:CuboidResults} and Figures \ref{fig:Precision_Cuboid} and \ref{fig:Recall_Cuboid} show the results obtained using the cuboid shape. The average results are very close but the cuboid shape has a wider range of good and bad results. It is reasonable for the cylindrical shape to perform better because trees do not have corners and therefore the information retrieved with the cuboid may not be as accurately. Nevertheless, the cuboid shape is slightly bigger and this could be the justification of the wider range of good/bad results. Since it is a bit bigger it may collect better information from big trees but contain more noise in respect to small trees. Therefore, the size of the trees plays a significant role for the quality of the classifier even though in this research we assume equally size trees.  
       
 \begin{table}[h!]
@@ -690,36 +683,40 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
            	\label{fig:Recall_AveRan}
            \end{figure}
            
-\subsection{Pixelwise Evaluation}
+%\subsection{Pixelwise Evaluation}
 
-\begin{figure} [h!]
-	\centering
-	\includegraphics[width=0.49\textwidth]{img/dead/results/PixewiseEvaluationPlot}
-	\caption{Example of plot created for the pixelwise evaluation. The grey pixels indicate areas with dead trees, black is non dead trees and white is either outside the plot or the evaluation blank area because the size of the dead trees is unknown.}
-	\label{fig:Pixelwise_evaluation_plot}
-\end{figure}
+%\begin{figure} [h!]
+%	\centering
+%	\includegraphics[width=0.49\textwidth]{img/dead/results/PixewiseEvaluationPlot}
+%	\caption{Example of plot created for the pixelwise evaluation. The grey pixels indicate areas with dead trees, black is non dead trees and white is either outside the plot or the evaluation blank area because the size of the dead trees is unknown.}
+%	\label{fig:Pixelwise_evaluation_plot}
+%\end{figure}
 
 
 		
-\section{Discussion}
+\section{Conclusions and Future Work}
 
-\par Dead tree detection is a difficult task due to the irregular shapes of the trees and different sizes. Here we produced this algorithm (pla pla) which is new because it doesn't need tree segmentation but has a lot of room for improvement. 
-
-Also don't know the accuracy of the tree position and as we can see at some heigh maps there are places where there are trees according to the fieldplots but the data clearly shown that there are not trees
+\par The importance of dead wood in forest in large from managing biodiversity. The study area of these project is a native Australian forest with Red River Gum (Eucalyptus) trees, where shortage of hollows for colonisation is predicted and dead trees are more likely to be aged and have hollows. 
 
 
 
-\par Here it is worth mentioning that the dead tree detection is the first application of DASOS's 3D priors. 
+\par Previous work on health assesment of forest uses tree delineation but this cannot be applied to eucalyptuses due to their irregular shapes. Additionally the density of the acquired LiDAR data makes bottom to top delineation impossible since information about the trunks are missing. Therefore, this thesis investigates the possibility of detecting dead trees from voxelised FW LiDAR data without tree delineation. 
 
-\section{Future Work}
+\par Field data were provided by Forestry Cooperation of NSW, Australia and Interpine Ltd group, New Zealand. The GPS positions of the dead and alive trees within the plots are given but the accuracy is unknown since from the DEM is shown that some trees are not predictable from the data due to their small size. 
+
+\par We use DASOS to extract feature vectors characterising the dead and alive trees and we run them over the volume to generate a 2D image for each testing plot with the probability of a pixel to be a dead tree or not. The ground is afterwards removed and a threshold is defined to separate pixels from dead and alive trees. By the end a seed grown algorithm is used to identify each segment and assign a position for every predicted tree. 
+
+\par Cross validation is used to validate the predicted position of the results. Overall, there are three outcomes. The increase amount of training samples do not improve the results of the classification, probably because while the training datasets becomes bigger the noise increases as well. The feature vectors derived from cylindrical shape are more reliable because the range of the recall and precision percentage was more smaller. By the end, the most important outcome is that the results was clearly better than random prediction, justifying this way that it is possible to identify dead trees without tree delineation.
+
+\par  Nevertheless, this is the first research attempting health forest assesment without tree delineation and this research direction is in early stages and therefore many improvements could be done: 
 
 \begin{itemize}
-	\item Manually check and improve position of dead trees using visualisations of the data. In order to improve accuracy of test and evaluating data
-	\item Separate trees from field data according to their height because tree with different heights have different shape properties and the priors used had constant size
-	\item Create priors that have adjustable size according to the height of the tree	
-	\item After the seed growth algorithm, check the size of the segments and look into the possibility of merging two segments into one or dividing a segments into multiple sub-segments.
-	\item Test the results when only using dead trees for training data and not alive
-	\item The system is usually confused at the edges of the alive trees. Research on how this could be improved. 
+	\item Manually check and improve position of dead trees using visualisations of the data. In order to improve accuracy of test and evaluating data.
+	\item Separate trees from field data according to their height because tree with different heights have different properties and the size of the objects represented by feature vectors used had constant size.
+	\item Make the size of the object adjustable and derive features that are not height dependant 
+	\item Or categorise the trees according to their size and use objects with different sizes. 
+	\item After the application of the seed growth algorithm, check the size and shape of the segments and look into the possibility of merging two segments into a single tree or dividing big segments into multiple dead tree prediction.
+	\item The system is usually confused at the edges of the alive trees. Research on how this could be improved. Possibly add negative samples from ground and edges of alive trees. 
 \end{itemize}
 
 
