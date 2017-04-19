@@ -128,6 +128,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 
 \begin{table}[!h]
 	\centering
+	\label{tab:DBH}
 	\begin{tabular}{| l || c | c | }
 		\hline		
 		\textbf{DBH (cm)} &\textbf{Dead Trees} & \textbf{Alive Trees }\\	
@@ -240,7 +241,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 
 \subsection{Generating feature vectors using DASOS}\label{sec:3DpriorsGeneration}
 
-\par The feature vectors is a new feature of DASOS (version 2), which was released on the 20th January 2017 \cite{DASOS_v2}. The dead tree detection is its first application. This feature is useful for characterising object inside the 3D space (e.g. trees). For each column of interest within the voxelised FW LiDAR data, information around its local area are exported as feature vector. Multiple feature vectors are listed within .csv files for easy manipulation into software packages specialised in statistical analysis like R and matlab. There are two types of exported information from these local areas: processed and raw. If the processed option is chosen, then information like the distribution of non-empty voxels and the standard deviation of heights are listed. A sample of the exported processed information along with explanations is given in Table \ref{tab:DASOSpriorsExplanationDead}, while the entire list is provided within the Appendix \ref{DASOS_userGuide}. If the exported parameters are raw, then the corresponding intensity values of the local area's voxels are exported. {\color{blue} Additionally, there are two available shapes of the local area from where the features are extracted (the cuboid and the cylinder). The size of shape is also user defined. Here, the aforementioned feature of DASOS is used for generating feature vectors used as a likelihood in the classifier. }
+\par The feature vectors is a new feature of DASOS (version 2), which was released on the 20th January 2017 \cite{DASOS_v2}. The dead tree detection is its first application. This feature is useful for characterising object inside the 3D space (e.g. trees). For each column of interest within the voxelised FW LiDAR data, information around its local area are exported as feature vector. Multiple feature vectors are listed within .csv files for easy manipulation into software packages specialised in statistical analysis like R and matlab. There are two types of exported information from these local areas: processed and raw. If the processed option is chosen, then information like the distribution of non-empty voxels and the standard deviation of heights are listed. A sample of the exported processed information along with explanations is given in Table \ref{tab:DASOSpriorsExplanationDead}, while the entire list is provided within the Appendix \ref{DASOS_userGuide}. If the exported parameters are raw, then the corresponding intensity values of the local area's voxels are exported. {\color{blue} Additionally, there are two available shapes of the local area from where the features are extracted (the cuboid and the cylinder). The size of each shape is user defined. Here, the aforementioned feature of DASOS is used for generating feature vectors used as a likelihood in the classifier. }
 
 
 \begin{table}[!h]
@@ -307,10 +308,10 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 \subsection{Random Forest}\label{sec:RandomForest}
 	
 	
-	\par Random Forest is able to identify the importance of predicting variables. At first, it generates multiple regression trees by randomly sampling the data at its nodes and choosing the best predicting variables for each sampled data. The variable importance is then defined according to influence it has to the classification once this variable is modified and the rest remain unchanged \cite{Liaw2002}. In this project, the R package is used for finding the most relevant feature of the 3D priors (Section \ref{sec:3DpriorsGeneration} in identifying dead trees. 
+	\par Random Forest is able to identify the importance of predicting variables. At first, it generates multiple regression trees by randomly sampling the data at its nodes and choosing the best predicting variables for each sampled data. The variable importance is then defined according to the influence it has to the classification once this variable is modified and the rest remain unchanged \cite{Liaw2002}. In this project, the R package is used for finding the most relevant features of the vectors exported from DASOS (Section \ref{sec:3DpriorsGeneration} in identifying dead trees. 
 
 	
-	\par At this point, it worth highlighting that Random Forest failed to find relation between the 3D priors with the "Raw Intensities" due to the irregular shapes of Eucalyptus trees and the variant scan angle of each field plot. Nevertheless, "Raw Intensities" may be useful for other classification, e.g. pine trees in commercial forest, where their shape variance is smaller.
+	\par At this point, it worth highlighting that Random Forest failed to find relation between the 3D priors with the "Raw Intensities" due to the irregular shapes of Eucalyptus trees and the variant scan angle of each field plot. Nevertheless, "Raw Intensities" may be useful for other classification problems; e.g. pine trees in commercial forest, where their shape variance is smaller.
 	
 	\par Regarding the "Processed Intensities", Figure \ref{fig:c0_RandomForest} shows a list with the variable importance according to Random Forest and Table \ref{tab:DASOSpriorsExplanationDead} gives the explanation of each important variable identified. The most important one is the standard deviation of height. This is reasonable since the canopy of dead trees has bigger height variance in comparison to alive trees whose canopy is leafy. Please note that in Figure \ref{fig:c0_RandomForest} the union of all datasets is used and that the significant features slightly vary depending on each sub dataset used.  
 	
@@ -377,7 +378,7 @@ q = \operatornamewithlimits{argmin}_{\boldsymbol{t} \in T} d(\boldsymbol{t},\bol
 \par The dataset $V=\{\boldsymbol{v_1}, \boldsymbol{v_2},\dots, \boldsymbol{v_7}\} $ is a subset of the training samples $T$ and contains the k-nearest indices to $\boldsymbol{x}$. The dataset $V$ may contains samples derived from either dead trees, alive trees or both. 
 
 
-\par For each $\boldsymbol{v_i} \in V$ a weight $\boldsymbol{u_i}$ is calculated:
+\par For each $\boldsymbol{v_i} \in V$ a distance-weight $\boldsymbol{u_i}$ is calculated:
 \begin{equation} 
 u_i = \frac{1}{d(\boldsymbol{t_i}, \boldsymbol{i})}
 \end{equation}
@@ -390,7 +391,7 @@ P(\textrm{dead}) =  \frac{\sum_{i=1}^{k}{ \Big(u_i \times \delta \big(1,f(\bolds
 
 where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ otherwise. 
 
-\par For each column of the voxelised FW LiDAR data, a testing data vector $\boldsymbol{x}$ is created and its probability of been dead is calculated. Figure \ref{fig:c1_knn} shows the probability field of each column to belong to the dead trees population. The big circle is the location of the field plot and the small circles are the locations of the dead trees. Please note that the white spots contain no data. Those spots appear either when no LiDAR pulse passes through a column or when the pre-defined height of the shape used to calculate the corresponding feature vector is bigger than the elevation of this point. 
+\par For each column of the voxelised FW LiDAR data, a testing data vector $\boldsymbol{x}$ is created and its probability of been dead is calculated. Figure \ref{fig:c1_knn} shows the probability field of each column to belong to the dead trees population. The big circle is the location of the field plot and the small circles are the locations of the dead trees. Please note that the white spots contain no data. Those spots appear either when no LiDAR pulse passes through a column or when the pre-defined height of the shape used to calculate the corresponding feature vector is bigger than the elevation at this point. 
 
  				\begin{figure} [h!]			
  					\centering
@@ -468,7 +469,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
   	\item Position assignment 
   \end{enumerate}
   
-  \par Up to this stage, we have an image of the probabilistic field and the ground has been removed (Figure \ref{fig:c7_groundRemoved}). After that a threshold for separating dead and alive pixels is chosen using the training data and the alive pixels are removed (Figure \ref{fig:c8_deadThres}). The output image contains out-liners; pixels which are classified as dead but have no neigbouring pixels classified as dead. To reduce over-detection of dead trees, these pixels are filtered out (Figure \ref{fig:c9_sharpFilter}). Afterwards, the pixels are grouped into trees relatively to their neighbouring pixels using a seed growth segmentation algorithm (Algorithm \ref{alg:seedGrownth} and Figure \ref{fig:c10_segmentation}). By the end, it is assumed that each segment $S$ is a dead tree and its position is calculated by taking the average geo-spatial location of the pixels that belong in segment $S$ (Figure \ref{fig:c11_results}). 
+  \par Up to this stage, we have an image of the probabilistic field and the ground has been removed (Figure \ref{fig:c7_groundRemoved}). After that a threshold for separating dead and alive pixels is chosen using the training data and the alive pixels are removed (Figure \ref{fig:c8_deadThres}). The output image contains out-liners; pixels which are classified as dead but have no neigbouring pixels classified as dead. To reduce over-detection of dead trees, these pixels are filtered out (Figure \ref{fig:c9_sharpFilter}). Afterwards, the pixels are grouped into trees relatively to their neighbouring pixels using a seed growth segmentation algorithm (Algorithm \ref{alg:seedGrownth} and Figure \ref{fig:c10_segmentation}). By the end, it is assumed that each segment $S$ is a dead tree and its position is calculated by taking the average geo-spatial location of the pixels that belong to segment $S$ (Figure \ref{fig:c11_results}). 
  
  
 
@@ -632,7 +633,7 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
         \end{figure}
         
         \newpage
-        \par The last comparison is in relation to the random. For each field plot, a random dataset is generated with randomly distributed locations of potential dead trees. The sum of these locations is approximately as the same number of dead trees that exist within the 50 field plots. These random location were evaluated the same way as the as the predicted result using the methodology explained in Section \ref{sec:Methodology}. The average results obtained using a cylindrical shape, a cuboid shape and the random dataset are shown in Table \ref{tab:AveRanResults} and Figures \ref{fig:Precision_AveRan} and \ref{fig:Recall_AveRan}. Please note that the dimensions of the shapes used are $7.2m$ diameter or $7.2m$ width for cylinder and cuboid respectively. Therefore, prediction above this distance are above te desire resolution of prediction. From those figures, it is clearly showed that the methodology proposed performs better than the random. This is an important outcome; it is an indication that forest health assessment, including dead trees detection, is possible to be done without tree delineation. Of course, the is a new research direction and many improvements could be done; some of them are mentioned after at the end of the following section. 
+        \par The last comparison is in relation to the random. For each field plot, a random dataset is generated with randomly distributed locations of potential dead trees. The sum of these locations is approximately the same as the number of dead trees that exist within the 50 field plots. These random location were evaluated the same way as the as the predicted result. The average results obtained using a cylindrical shape, a cuboid shape and the random dataset are shown in Table \ref{tab:AveRanResults} and Figures \ref{fig:Precision_AveRan} and \ref{fig:Recall_AveRan}. Please note that the dimensions of the shapes used are $7.2m$ diameter or $7.2m$ width for cylinder and cuboid respectively. Therefore, prediction above this distance are above te desire resolution of prediction. From those figures, it is clearly showed that the methodology proposed performs better than the random. This is an important outcome; it is an indication that forest health assessment, including dead trees detection, is possible to be done without tree delineation. Of course, this is a new research direction and many improvements could be done; some of them are mentioned after at the end of the following section. 
     
         
 \begin{table}[h!]
@@ -694,17 +695,17 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
 		
 \section{Conclusions and Future Work}
 
-\par The importance of dead wood our ecosystem in large and it is monitor for managing biodiversity. The study area of these project is a native Australian forest with Red River Gum (Eucalyptus) trees, where shortage of hollows available for colonisation is predicted. Dead trees are more likely to be aged and have hollows and therefore detecting them is essential for protecting their habitants. 
+\par The importance of dead wood in our ecosystem is large and it is monitored for managing biodiversity. The study area of these project is a native Australian forest with Red River Gum (Eucalyptus) trees, where shortage of hollows available for colonisation is predicted. Dead trees are more likely to be aged and have hollows and therefore detecting them is essential for protecting their inhabitants. 
 
 
 
 \par In this chapter, a new direction of detecting dead standing eucalyptuses was proposed. Previous work on forest health assessment uses tree delineation but this leads to over-segmentation when applied to eucalyptuses due to their irregular shapes and multiple trunk splits. Additionally the density of the acquired LiDAR data makes bottom to top delineation impossible since information about the trunks are missing. Therefore, this thesis investigates the possibility of detecting dead trees from voxelised FW LiDAR data without tree delineation. 
 
-\par Field data were provided by Forestry Cooperation of NSW, Australia and Interpine Ltd group, New Zealand. The GPS positions of the dead and alive trees within the plots are given but the data contain an unknown amount of noise; from the DEM is shown that some trees are positioned on the ground. Additionally, other trees are not predictable from the acquired data due to their small size. 
+\par Field data were provided by Forestry Cooperation of NSW, Australia and Interpine Ltd group, New Zealand. The GPS positions of the dead and alive trees within the plots are given but the data contain an unknown amount of noise; from the DEM is shown that some trees are positioned on the ground. Additionally, some trees listed within the field data are not predictable from the acquired data due to their small size. 
 
 \par Regarding the methodology, DASOS is firstly used to extract feature vectors characterising dead and alive trees. Then those feature vectors are run over the volume to generate a 2D image for each testing plot with the probability of a pixel to be a dead tree or not. Salt and pepper noise removal and smoothing filters are applied. The ground is afterwards removed and a threshold is defined to separate pixels containing dead and alive trees. Then extra filtering is applied and a seed growth algorithm is used to label each segment. Each segment corresponds to a dead tree prediction and its estimated location is the average position of the pixels that belong to the segment. 
 
-\par Cross validation is used to validate the predicted position of the results. Overall, there are three outcomes. The increase amount of training samples do not improve the results of the classification, probably because while the training datasets increases, the noise increases as well. The feature vectors derived from cylindrical shape are more reliable because the range of the recall and precision percentages was smaller. By the end, the most important outcome is that the results was clearly better than random prediction, justifying this way that it is possible to identify dead trees without tree delineation.
+\par The results has been cross-validated. Overall, there are three outcomes. The increase amount of training samples do not improve the results of the classification, probably because while the training datasets increases, the noise increases as well. The feature vectors derived from cylindrical shape are more reliable because the range of the recall and precision percentages was smaller. By the end, the most important outcome is that the results was clearly better than random prediction, justifying this way that it is possible to identify dead trees without tree delineation.
 
 \par  Nevertheless, this is the first research attempting health forest assessment without tree delineation and this direction is in early research stages. Therefore many improvements could be done. Some improvements are proposed here: 
 
@@ -712,7 +713,7 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
 	\item Manually check and improve position accuracy of dead trees using visualisations of the field and acquired FW LiDAR data. 
 	\item Separate trees from field data according to their height. Trees with different heights have different shape properties. In this research, the size of the shapes used to derive the feature vectors was constant.
 	\item Make the size of the object adjustable and derive features that are not height dependant.
-	\item Or categorise the trees according to their size and derive a sets of feature vectors according to the height of the trees.
+	\item Or categorise the trees according to their size and derive a sets of training feature vectors according to the height of the trees.
 	\item After the application of the seed growth algorithm, check the size and shape of the segments and look into the possibility of merging two segments into a single tree or dividing big segments into multiple dead tree.
 	\item The system is usually confused at the edges of the alive trees. Adding negative samples from ground and edges of alive trees could further improve prediction. 
 \end{itemize}

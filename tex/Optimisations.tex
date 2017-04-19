@@ -40,7 +40,7 @@ Summarising previous aforemonetioned related work (Section \ref{LiDARsoftwares})
 
 
 
-\par This thesis compares six approaches for handling and polygonising voxelised full-waveform LiDAR data. The first three approaches use data structures from the literature and the scan line Marching Cubes algorithm. An explanation of their functionalities is given at Table \ref{tab:DataStructuresScanline}. The last three approaches are more complicated because they take into consideration the chunks of empty voxels and ignore them during surface reconstruction. A brief summary of them is given in Table \ref{tab:DataStructuresOptimised} and an in-depth explanation is given in Sections \ref{sec:IVopt} \ref{sec:OctreeMaxMin} \ref{sec:ITopt} . Please note that the "1D Array" is the original implementation, while each one of the other five approaches tackles at least one of the aforementioned challenges (Section \ref{sec:Opt:Challenges}). 
+\par This thesis compares six approaches for handling and polygonising voxelised full-waveform LiDAR data. The first three approaches use data structures from the literature including the scan line Marching Cubes algorithm. An explanation of their functionalities is given at Table \ref{tab:DataStructuresScanline}. The last three approaches are more complicated because they take into consideration the chunks of empty voxels and ignore them during surface reconstruction. A brief summary of them is given in Table \ref{tab:DataStructuresOptimised} and an in-depth explanation is given in Sections \ref{sec:IVopt} \ref{sec:OctreeMaxMin} \ref{sec:ITopt} . Please note that the `1D Array' is the original implementation, while each one of the other five approaches tackles at least one of the aforementioned challenges (Section \ref{sec:Opt:Challenges}). 
 
 
 
@@ -80,7 +80,7 @@ Summarising previous aforemonetioned related work (Section \ref{LiDARsoftwares})
 		\hline
 		\textbf{Integral Volumes} &	\textbf{Octree Max and Min} & \textbf{Integral Tree}  \\
 		\hlinewd{1.5pt}
-		This data structure is an extension of `Integral Images' to 3D. It was firstly presented at the CGVC conference as part of this thesis. Using Integral Volumes, the sum of any cuboid area is calculated in constant time. By repeatedly dividing the space into cuboids, big empty spaces are quickly identified and ignored during the surface reconstruction. \newline(Section \ref{sec:IVopt}) &	In this approach, the values are saved into an octree, but the surface reconstruction is build along the tree. This is slightly different than a traditional octree, because at each branch node its max and min values are saved. This way, areas that are completely full or empty are identified during traversal before reaching the leaves of the trees. (Section \ref{sec:OctreeMaxMin})  & It is a combination of octree and integral volumes; the sum of a given branch is given at constant time. That was an attempt to combine the idea of `Integral Images' and octrees. Nevertheless, traversal time and backtracking for finding neighbouring voxels still exists. (Section \ref{sec:ITopt})\\	
+		This data structure is an extension of `Integral Images' to 3D. It was firstly presented at the CGVC conference as part of this thesis ~\cite{Miltiadou2016}. Using Integral Volumes, the sum of any cuboid area is calculated in constant time. By repeatedly dividing the space into cuboids, big empty spaces are quickly identified and ignored during the surface reconstruction. \newline(Section \ref{sec:IVopt}) &	In this approach, the values are saved into an octree, but the surface reconstruction is build along the tree. This is slightly different than a traditional octree, because at each branch node its max and min values are saved. This way, areas that are completely full or empty are identified during traversal before reaching the leaves of the trees. (Section \ref{sec:OctreeMaxMin})  & It is a combination of octree and integral volumes; the sum of a given branch is given at constant time. That was an attempt to combine the idea of `Integral Images' and octrees. Nevertheless, traversal time and backtracking for finding neighbouring voxels still exists. (Section \ref{sec:ITopt})\\	
 		\hline
 	\end{tabular}
 	\caption{Description of the Three Optimisation Attempts}
@@ -104,7 +104,7 @@ The `Integral Volumes' optimisation is based on the idea of Integral Images, whi
 \end{figure}
 
 
-In this thesis, we extend `Integral Images' to `Integral Volumes' and use them to quickly identify aion using depth cameras online \cite{Nievner2016voxelHashing}. Most of those data structure optimisations are based on GPU processing, but they are still very relevant.nd ignore big chunks of empty voxels during polygonisation. The following section explains the mathematics behind `Integral Volumes', while sections \ref{sec:IVoptApproach}  and \ref{sec:IVcodeDetails} give an in depth description about the algorithms invented. 
+In this thesis, we extend `Integral Images' to `Integral Volumes' and use them to quickly identify and ignore big chunks of empty voxels during polygonisation. The following section explains the mathematics behind `Integral Volumes', while sections \ref{sec:IVoptApproach}  and \ref{sec:IVcodeDetails} give an in depth description about the algorithms invented. 
 
 \subsection{Extending Integral Images to Integral Volumes}\label{sec:extendingIV}
 
@@ -487,7 +487,7 @@ S = A[*p+k-1]-A[*p-1]
 		\hline
 	\end{tabular}
 	
-	\caption{Summarising the addressed challenges and the properties of all the data structures implemented.The numbers of the first four columns correspond to the challenges described in Section \ref{sec:Opt:Challenges}}
+	\caption{Summarising the addressed challenges and the properties of all the data structures implemented. The numbers of the first four columns correspond to the challenges described in Section \ref{sec:Opt:Challenges}}
 	\label{tab:DataStructuresProperties}
 \end{table}
 
@@ -702,7 +702,7 @@ S = A[*p+k-1]-A[*p-1]
 	\item Elements are accessed in constant time while traversing a tree requires at least O(log n) time, when the tree is balanced, and up to O(n) for unbalanced trees.
 	\item The size of the volume is the original cuboid while any octree data structure requires a cubic space that is a power of two. This results into extending the boundaries of the 3D voxelised FW LiDAR, including big empty areas and building deeper and unbalanced trees (increased traversal time).
 	\item Neighbours finding is faster than octrees since no backtracking is required. 
-	\item Checking whether a surface is crossing the edges of an empty area is much faster using the `Integral Volumes' because the sum of any volume is calculated in constant time. Therefore checking whether the neighbours are empty as well is trivial. While for the `Octree Max/Min' and `Integral Tree' data structures, it's required to loop through all the voxels at the edges of an empty branch to avoid generating holes. 
+	\item Checking whether a surface is crossing the edges of an empty area is much faster using the `Integral Volumes' because the sum of any volume is calculated in constant time. Therefore checking whether the neighbours are empty as well is trivial. While for the `Octree Max/Min' and `Integral Tree' data structures, it's required to loop through all the voxels at the edges of an empty branch to avoid  holes. 
 \end{itemize}
 
 \par Regarding the `Voxel Hashing', faster results were expected than the `Octree' because it doesn't require traversal for reaching elements, but it's very likely to have more memory jumps, considering that the implementation of the octree structures keeps the children of every branch coherent in memory for faster interpretation. Additionally, during the expansion of hashed tables, many reallocation occurs. 
