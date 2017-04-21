@@ -196,8 +196,8 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 \par This section provides an explanation of the algorithms implemented. An overview of the work flow is given here: 
 \begin{enumerate}
 	\item Subtraction of the Digital Terrain Model (DTM) from the FW LiDAR data
-	\item {\color{blue} Generation of training feature vectors characterising dead and alive trees, as well as testing samples of unknown population
-	\item Identification of the most important relevant features using random forest}
+	\item Generation of training feature vectors characterising dead and alive trees, as well as testing samples of unknown population
+	\item Identification of the most important relevant features using random forest
 	\item Generation of a probabilistic field using a weighted k-nearest neighbour (KNN) algorithm. 
 	\item Filtering 
 	\item Height histogram and ground pixels removal
@@ -241,7 +241,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 
 \subsection{Generating feature vectors using DASOS}\label{sec:3DpriorsGeneration}
 
-\par The feature vectors is a new feature of DASOS (version 2), which was released on the 20th January 2017 \cite{DASOS_v2}. The dead tree detection is its first application. This feature is useful for characterising object inside the 3D space (e.g. trees). For each column of interest within the voxelised FW LiDAR data, information around its local area are exported as feature vector. Multiple feature vectors are listed within .csv files for easy manipulation into software packages specialised in statistical analysis like R and matlab. There are two types of exported information from these local areas: processed and raw. If the processed option is chosen, then information like the distribution of non-empty voxels and the standard deviation of heights are listed. A sample of the exported processed information along with explanations is given in Table \ref{tab:DASOSpriorsExplanationDead}, while the entire list is provided within the Appendix \ref{DASOS_userGuide}. If the exported parameters are raw, then the corresponding intensity values of the local area's voxels are exported. {\color{blue} Additionally, there are two available shapes of the local area from where the features are extracted (the cuboid and the cylinder). The size of each shape is user defined. Here, the aforementioned feature of DASOS is used for generating feature vectors used as a likelihood in the classifier. }
+\par The feature vectors is a new feature of DASOS (version 2), which was released on the 20th January 2017 \cite{DASOS_v2}. The dead tree detection is its first application. This feature is useful for characterising object inside the 3D space (e.g. trees). For each column of interest within the voxelised FW LiDAR data, information around its local area are exported as feature vector. Multiple feature vectors are listed within .csv files for easy manipulation into software packages specialised in statistical analysis like R and matlab. There are two types of exported information from these local areas: processed and raw. If the processed option is chosen, then information like the distribution of non-empty voxels and the standard deviation of heights are listed. A sample of the exported processed information along with explanations is given in Table \ref{tab:DASOSpriorsExplanationDead}, while the entire list is provided within the Appendix \ref{DASOS_userGuide}. If the exported parameters are raw, then the corresponding intensity values of the local area's voxels are exported. Additionally, there are two available shapes of the local area from where the features are extracted (the cuboid and the cylinder). The size of each shape is user defined. Here, the aforementioned feature of DASOS is used for generating feature vectors used as a likelihood in the classifier. 
 
 
 \begin{table}[!h]
@@ -291,7 +291,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 
 \par Within the field data, some plots exist on two flightlines due to the overlapping of the flights. Overlaps happen at the edges of the flightlines and their scan angle significantly varies. For that reason,  each unique set of field plots and corresponding flightlines is considered as a test/training plot. This results into $50$ plots. These plots were randomly divided into $5$ equal training datasets. Another dataset was also created by merging the first, second and third dataset in order to check whether the increased training data improves the classification accuracy.
 
-\par {\color{blue} The feature vectors generated for each field plot are divided into two categories (processed and raw intensities) and two sub-categories (cylinder and cuboid shape), resulting into four types of feature vectors per plot. For each type, three .csv files are generated. The first one contains the feature vectors derived from areas where the dead trees exist, the second one contains feature vectors from alive trees and the third one contains one feature vector for the area around each column of the voxelised space. The first two are used for training the classifier and the last one for testing. The feature vectors represents the area within either a cuboid or cylinder. The dimensions of those shapes were chosen to be a bit smaller than the estimated average size of the dead trees to reduce the size of the irrelevant information contained within the priors. Figure \ref{fig:DASOSsPriors} depicts the divisions of the datasets and the information about the feature vectors generated. }
+\par The feature vectors generated for each field plot are divided into two categories (processed and raw intensities) and two sub-categories (cylinder and cuboid shape), resulting into four types of feature vectors per plot. For each type, three .csv files are generated. The first one contains the feature vectors derived from areas where the dead trees exist, the second one contains feature vectors from alive trees and the third one contains one feature vector for the area around each column of the voxelised space. The first two are used for training the classifier and the last one for testing. The feature vectors represents the area within either a cuboid or cylinder. The dimensions of those shapes were chosen to be a bit smaller than the estimated average size of the dead trees to reduce the size of the irrelevant information contained within the priors. Figure \ref{fig:DASOSsPriors} depicts the divisions of the datasets and the information about the feature vectors generated. 
 
 
 \begin{figure} [h!]
@@ -326,7 +326,7 @@ The study area (Figure \ref{fig:StudyArea}) is a native River Red Gum (Eucalyptu
 	
 	
 	
-\subsection{{\color{red} **New : }Probabilistic Field derived from Weighted K-Nearest Neighbours Algorithm }
+\subsection{Probabilistic Field derived from Weighted K-Nearest Neighbours Algorithm }
 
 
 \par Once the ten most significant variables are identified using the Random Forest, the $k-$nearest neighbour algorithm is applied to generate a probabilistic field. As mentioned in Section \ref{sec:3DpriorsGeneration}, from DASOS we export training feature vectors of dead and alive trees. There are positive training feature vectors from dead trees and negative feature vectors from alive trees. To reduce bias, the number of dead and alive trees used are the same for each test case. 
@@ -389,9 +389,11 @@ u_i = \frac{1}{d(\boldsymbol{t_i}, \boldsymbol{i})}
 P(\textrm{dead}) =  \frac{\sum_{i=1}^{k}{ \Big(u_i \times \delta \big(1,f(\boldsymbol{v_i})\big)\Big)}}{ \sum_{i=1}^{k}{\Big(u_i \times \delta \big(1,f(\boldsymbol{v_i})\big)\Big)} + \sum_{i=1}^{k}{ \Big(u_i \times \delta \big(0,f(\boldsymbol{v_i})\big)\Big)}}
 \end{equation}
 
-where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ otherwise. 
+{\setlength{\parindent}{0cm}
+ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ otherwise. 
+}
 
-\par For each column of the voxelised FW LiDAR data, a testing data vector $\boldsymbol{x}$ is created and its probability of been dead is calculated. Figure \ref{fig:c1_knn} shows the probability field of each column to belong to the dead trees population. The big circle is the location of the field plot and the small circles are the locations of the dead trees. Please note that the white spots contain no data. Those spots appear either when no LiDAR pulse passes through a column or when the pre-defined height of the shape used to calculate the corresponding feature vector is bigger than the elevation at this point. 
+\par For each column of the voxelised FW LiDAR data, a testing data vector $\boldsymbol{x}$ is created and its probability of been dead is calculated. Figure \ref{fig:c1_knn} shows the probability field that each column belongs to the dead trees population. The big circle is the location of the field plot and the small circles are the locations of the dead trees. Please note that the white spots contain no data. Those spots appear either when no LiDAR pulse passes through a column or when the pre-defined height of the shape used to calculate the corresponding feature vector is bigger than the elevation at this point. 
 
  				\begin{figure} [h!]			
  					\centering
@@ -403,7 +405,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
  
  
   \subsection{Filtering}\label{sec:filtering}
-  As shown in Figure Figure \ref{fig:c1_knn}, there is Salt and Pepper noise. This noise is removed using a median filter which assigns to every empty pixel the median value of its non-empty neighbouring pixels  (Figure \ref{fig:c2_SaltPepper}). A smoothing filter is further applying for further noise reduction (Figure \ref{fig:c3_Smoothed}). 
+  As shown in Figure \ref{fig:c1_knn}, there is Salt and Pepper noise. This noise is removed using a median filter which assigns to every empty pixel the median value of its non-empty neighbouring pixels  (Figure \ref{fig:c2_SaltPepper}). A smoothing filter is further applying for further noise reduction (Figure \ref{fig:c3_Smoothed}). 
 
 	 \begin{figure} [h!]				   
 	   \begin{subfigure}[t]{.49\textwidth}
@@ -418,7 +420,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
 	   \caption{Filtering using a smoothing kernel} 
 	   \label{fig:c3_Smoothed}
 	   \end{subfigure}
-	   \caption{Filtering the results of te K-NN algorithm}  
+	   \caption{Filtering the results of the K-NN algorithm}  
 	   \label{fig:salt_smooth} 
 	\end{figure}
 
@@ -469,7 +471,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
   	\item Position assignment 
   \end{enumerate}
   
-  \par Up to this stage, we have an image of the probabilistic field and the ground has been removed (Figure \ref{fig:c7_groundRemoved}). After that a threshold for separating dead and alive pixels is chosen using the training data and the alive pixels are removed (Figure \ref{fig:c8_deadThres}). The output image contains out-liners; pixels which are classified as dead but have no neigbouring pixels classified as dead. To reduce over-detection of dead trees, these pixels are filtered out (Figure \ref{fig:c9_sharpFilter}). Afterwards, the pixels are grouped into trees relatively to their neighbouring pixels using a seed growth segmentation algorithm (Algorithm \ref{alg:seedGrownth} and Figure \ref{fig:c10_segmentation}). By the end, it is assumed that each segment $S$ is a dead tree and its position is calculated by taking the average geo-spatial location of the pixels that belong to segment $S$ (Figure \ref{fig:c11_results}). 
+  \par Up to this stage, we have an image of the probabilistic field and the ground has been removed (Figure \ref{fig:c7_groundRemoved}). After that a threshold for separating dead and alive pixels is chosen using the training data and the alive pixels are removed (Figure \ref{fig:c8_deadThres}). The output image contains outliers; pixels which are classified as dead but have no neighbouring pixels classified as dead. To reduce over-detection of dead trees, these pixels are filtered out (Figure \ref{fig:c9_sharpFilter}). Afterwards, the pixels are grouped into trees relative to their neighbouring pixels using a seed growth segmentation algorithm (Algorithm \ref{alg:seedGrownth} and Figure \ref{fig:c10_segmentation}). By the end, it is assumed that each segment $S$ is a dead tree and its position is calculated by taking the average geo-spatial location of the pixels that belong to segment $S$ (Figure \ref{fig:c11_results}). 
  
  
 
@@ -517,7 +519,7 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
  		\State $s \gets $ 0 
  		\While { not reached the end of set P}
         \State get next pixel $\boldsymbol{p} \in P$ that is not assigned to a segment
- 		\State  Assign pixel $\boldsymbol{p} $ to segment $s$
+ 		\State  assign pixel $\boldsymbol{p} $ to segment $s$
  		\State  find $K(\boldsymbol{p_1},\dots, \boldsymbol{p_n})$ such that $K \subseteq P$ and every $\boldsymbol{p_i} \in K$ is a neighbour of $\boldsymbol{p}$
  		\State $ \forall \space \boldsymbol{p_i} \in K $, $\boldsymbol{p} \gets \boldsymbol{p_i}$ and repeat from line 5
  		\State all pixels of segment $s$ has been labelled
@@ -534,9 +536,9 @@ where the function $\delta(a,b)$ returns $1$ if $a$ is equal to $b$ and $0$ othe
     
 \par The results are evaluated according to the predicted locations of the dead trees and their distance from the actual dead trees. There are three different test undertaken during evaluation: whether the increased training samples improves dead tree detection or not, what shape (cylinder or cuboid) performs better and whether the predictions are better than a random prediction or not. 
    
-   \par Please note that, the results have been cross-validated using the fieldplots division depicted in Figure \ref{fig:DASOSsPriors}. The 50 field plots are divided into 5 datasets and each dataset uses 10 plots for testing and the rest 40 for evaluation. Additionally, an extra dataset that uses 30 plots for training and 20 for evaluation was created to check whether the increase amount of training samples improves the precision and recall of the results. For each dataset, feature vectors of processed and raw intensities are generated. But Random Forest failed to identify important variables from the feature vectors with the raw intensities due to the irregular shapes of the dead trees. For that reason, results were only obtained from processed voxel intensity values. The feature vectors with raw intensities should be useful in other application where trees/object shapes are similar. Additionally, a random set of results was generated for comparison. This random prediction uses the probability of a squared meter to contain a dead tree or not and the number of random dead trees distributed within each plot is approximately the same as the number of dead trees that actually exist within each field plot.
+   \par Please note that, the results have been cross-validated using the fieldplots division depicted in Figure \ref{fig:DASOSsPriors}. The 50 field plots are divided into 5 datasets and each dataset uses 10 plots for testing and the rest 40 for evaluation. Additionally, an extra dataset that uses 30 plots for training and 20 for evaluation was created to check whether the increase number of training samples improve the precision and recall of the results. For each dataset, feature vectors of processed and raw intensities are generated. But Random Forest failed to identify important variables from the feature vectors with the raw intensities due to the irregular shapes of the dead trees. For that reason, results were only obtained from processed voxel intensity values. The feature vectors with raw intensities should be useful in other application where trees/object shapes are similar. Additionally, a random set of results was generated for comparison. This random prediction uses the probability of a squared meter to contain a dead tree or not and the number of random dead trees distributed within each plot is approximately the same as the number of dead trees that actually exist within each field plot.
    
-   \par Table \ref{tab:CylinderResults} shows the precision and recall percentage achieved using a cylindrical shape to extract features for the likelihood.  The D1, D2, ... , D5 corresponds the five divided datasets in the cross-validation. The D\_1\_2\_3 uses all the training samples from D1, D2 and D3 to train the classifier. As shown in the corresponding charts  of precision (Figure \ref{fig:Precision_Cylinder} and recall \ref{fig:Recall_Cylinder}), the increased amount of training samples do not improve the prediction. On the one hand, the bigger the training sample set is, the shorter the distances to the k nearest neighbours are. On the other hand, as mention in the challenges (Section \ref{sec:ClassficationChallenges}, the field data contain noise and therefore the increased noise compensates the value of the increased samples. A more selective and clean training dataset, that would include trees of similar height and less noise would have definitely improved the results. 
+   \par Table \ref{tab:CylinderResults} shows the precision and recall percentage achieved using a cylindrical shape to extract features for the likelihood.  The D1, D2, ... , D5 corresponds the five divided datasets in the cross-validation. The D\_1\_2\_3 uses all the training samples from D1, D2 and D3 to train the classifier. As shown in the corresponding charts  of precision (Figure \ref{fig:Precision_Cylinder} and recall \ref{fig:Recall_Cylinder}), the increased amount of training samples do not improve the prediction. On the one hand, the bigger the training sample set is, the shorter the distances to the k nearest neighbours are. On the other hand, as mention in the challenges (Section \ref{sec:ClassficationChallenges}), the field data contain noise and therefore the increased noise compensates the value of the increased samples. A more selective and clean training dataset, that would include trees of similar height and less noise would have definitely improved the results. 
    
    
 \begin{table}[h!]
@@ -633,9 +635,12 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
         \end{figure}
         
         \newpage
-        \par The last comparison is in relation to the random. For each field plot, a random dataset is generated with randomly distributed locations of potential dead trees. The sum of these locations is approximately the same as the number of dead trees that exist within the 50 field plots. These random location were evaluated the same way as the as the predicted result. The average results obtained using a cylindrical shape, a cuboid shape and the random dataset are shown in Table \ref{tab:AveRanResults} and Figures \ref{fig:Precision_AveRan} and \ref{fig:Recall_AveRan}. Please note that the dimensions of the shapes used are $7.2m$ diameter or $7.2m$ width for cylinder and cuboid respectively. Therefore, prediction above this distance are above te desire resolution of prediction. From those figures, it is clearly showed that the methodology proposed performs better than the random. This is an important outcome; it is an indication that forest health assessment, including dead trees detection, is possible to be done without tree delineation. Of course, this is a new research direction and many improvements could be done; some of them are mentioned after at the end of the following section. 
+        {\color{red} ** Mike: Please skip this for now. it needs corrections}
+        \par The last comparison is in relation to random. For each field plot, a random dataset is generated with randomly distributed locations of potential dead trees. The sum of these locations is approximately the same as the number of dead trees that exist within the 50 field plots. These random location were evaluated the same way as the as the predicted result. The average results obtained using a cylindrical shape, a cuboid shape and the random dataset are shown in Table \ref{tab:AveRanResults} and Figures \ref{fig:Precision_AveRan} and \ref{fig:Recall_AveRan}. Please note that the dimensions of the shapes used are $7.2m$ diameter or $7.2m$ width for cylinder and cuboid respectively. Therefore, prediction above this distance are above te desire resolution of prediction. From those figures, it is clearly showed that the methodology proposed performs better than random. This is an important outcome; it is an indication that forest health assessment, including dead trees detection, is possible to be done without tree delineation. Of course, this is a new research direction and many improvements could be done; some of them are mentioned after at the end of the following section. 
     
+        \par In comparison to the classification results, the precision of the random significantly increases after the 6m of distance from an actual dead tree. Most probably this occurs because the distribution of the random dataset is more uniform than the classification results. During evaluation a detected tree is considered TP if there is a  Consequently, while the minimum distance to a dead tree   the covered area classified as dead significantly increases while the evaluation distance increases.
         
+                {\color{red} ** Mike: You may continue from here}
 \begin{table}[h!]
 	% increase table row spacing, adjust to taste
 	\renewcommand{\arraystretch}{1.1}
@@ -665,12 +670,14 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
 	\label{tab:AveRanResults}
 \end{table}
 
+
+
 \newpage
 
            \begin{figure} [h!]
            	\centering
            	\includegraphics[width=0.87\textwidth]{img/dead/results/Precision_AveRan}
-           	\caption{}
+           	\caption[The average Recall results and random]{The average recall results obtained using a cuboid and a cylindrical shape within the voxelised FW LiDAR to extract features, as well as the recall of the random dataset. }
            	\label{fig:Precision_AveRan}
            \end{figure}
         
@@ -678,7 +685,8 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
            \begin{figure} [h!]
            	\centering
            	\includegraphics[width=0.87\textwidth]{img/dead/results/Recall_AveRan}
-           	\caption{}
+           	\caption
+           	[Precision results obtained using a cuboid shape]{The average precision results obtained using a cuboid shape within the voxelised FW LiDAR to extract features, as well as the precision of the random dataset}
            	\label{fig:Recall_AveRan}
            \end{figure}
            
@@ -714,7 +722,7 @@ D5	&	4.74	&	4.74	&	5.34	&	11.86	&	16.02	&	16.32	&	21.95	&	23.73	&	27.29	&	31.75	
 	\item Separate trees from field data according to their height. Trees with different heights have different shape properties. In this research, the size of the shapes used to derive the feature vectors was constant.
 	\item Make the size of the object adjustable and derive features that are not height dependant.
 	\item Or categorise the trees according to their size and derive a sets of training feature vectors according to the height of the trees.
-	\item After the application of the seed growth algorithm, check the size and shape of the segments and look into the possibility of merging two segments into a single tree or dividing big segments into multiple dead tree.
+	\item After the application of the seed growth algorithm, check the size and shape of the segments and look into the possibility of merging two segments into a single tree or dividing big segments into multiple dead trees.
 	\item The system is usually confused at the edges of the alive trees. Adding negative samples from ground and edges of alive trees could further improve prediction. 
 \end{itemize}
 
