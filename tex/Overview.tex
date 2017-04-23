@@ -13,8 +13,8 @@
 \newpage
 
 \section {Aims and Objectives}\label{sec:AimsObjectives}
-
-\par This thesis explores visualisation and data-understanding for FW LIDAR systems and the overarching aim is to increase the accessibility FW LiDAR in remote forest surveying. {\color{blue}The objectives are listed in Table \ref{tab:Objectives} and they are associated with the Sections that tackles them.}
+	
+\par This thesis explores visualisation and data-understanding for FW LIDAR systems and the overarching aim is to increase the accessibility FW LiDAR in remote forest surveying. The objectives are listed in Table \ref{tab:Objectives} and they are associated with the Sections that tackle them.
 
 \begin{table}[!htbp]
 	% increase table row spacing, adjust to taste
@@ -52,33 +52,34 @@
 	\label{tab:Objectives}
 \end{table}
 \newpage
-\section{Overview}
+\section{Thesis Overview}\label{PipeLine}
 
 
 \par To address the limitations of existing workflows for using with FW data we developed the open source software DASOS (named after $\delta \alpha \sigma o \varsigma$, which means forest in Greek) and novel algorithms that allow users, without computer science expertise, to work with and visualise large volumes of FW LiDAR data. Our open source software DASOS aims to remove the barriers preventing the use of FW LiDAR. Its contributions, and those of the new representations of the FW LiDAR, are demonstrated in three applications:
 
 \begin{itemize}
-\item Firstly, foresters can exploit their domain expertise to derive a wealth of information by observing the FW LiDAR data. We therefore improve visualisations for deriving information directly from the data, thus reducing travelling time and the associated expenses of getting into the forests. This cost includes appropriate cars and sometimes helicopters depending on the accessibility of the forests. While previous work on FW LiDAR visualisation talks about point cloud visualisation \cite{Isenburg2012Pulsewaves} and transparent voxels \cite{Persson2005}, {\color{blue} DASOS is able to extract a 3D surfaces from the scanned area. This research further introduces new data structures for accelerating the surface extraction processed. }
+\item Firstly, foresters can exploit their domain expertise to derive a wealth of information by observing the FW LiDAR data. We therefore improve visualisations for deriving information directly from the data, thus reducing travelling time and the associated expenses of getting into the forests. This cost includes appropriate cars and sometimes helicopters depending on the accessibility of the forests. While previous work on FW LiDAR visualisation talks about point cloud visualisation \cite{Isenburg2012Pulsewaves} and transparent voxels \cite{Persson2005}, DASOS is able to extract a 3D surfaces from the scanned area. This research further introduces new data structures for accelerating the surface extraction processed. 
 
 \item Secondly, a fast way of aligning the FW LiDAR with Remotely Sensed Images has been developed in DASOS. Subsequently, by generating tree coverage maps, it has been shown that the combination of these datasets confers better remote survey results \cite{Miltiadou2015}.
 
 
-\item {\color{blue} Finally, DASOS allows the generation of feature vectors characterising objects like trees. An example usage of this information is characterising dead standing Eucalyptuses, which as explained at Section \ref{sec:forestMonitoring} are extremely beneficial for managing biodiversity in native Australian forests. }
+\item Finally, DASOS allows the generation of feature vectors characterising objects like trees. An example usage of this information is characterising dead standing Eucalyptuses, which as explained at Section \ref{sec:forestMonitoring} are extremely beneficial for managing biodiversity in native Australian forests. 
 
 \end{itemize}
 
 
 
-\par To sum up, FW LiDAR has great potential to improving automated surveying accuracy and consequently reduce the expensive fieldwork conducted in forestry. This research has already started to have an impact in the FW LiDAR community. {\color{blue} DASOS is now used at Interpine Group Ltd, a world leading Forestry Company in New Zealand, I occasionally receive emails with questions or suggestion about the software and according to github the visitors are slowly increasing; during the last forty days, there were six unique visitors and one cloner (Figure \ref{fig:githupStatistics}).}
+\par To sum up, FW LiDAR has great potential to improving automated surveying accuracy and consequently reduce the expensive fieldwork conducted in forestry. This research has already started to have an impact in the FW LiDAR community. DASOS is now used at Interpine Group Ltd, a world leading Forestry Company in New Zealand, I occasionally receive emails with questions or suggestion about the software and according to github the visitors are slowly increasing; during the last forty days, there were six unique visitors and one cloner (Figure \ref{fig:githupStatistics}).
 
 
  	\begin{figure} [h!]
  		\centering
  		\includegraphics[width=\textwidth]{img/githupStatistics}
- 		\caption{{\color{blue}Github statistics from the 4th of March till the 14th of April}}
+ 		\caption{Github statistics from the 4th of March till the 14th of April}
  		\label{fig:githupStatistics}
  	\end{figure}
  	
 \end{document}
 
-
+\section{Thesis Structure}
+	\par This research is focused on the representation and efficient use of FW LiDAR data and contributes both to forestry visualisations and classifications. Two datasets are used for testing and evaluation: the New Forest and the RedGum dataset. An in-depth explanation of LiDAR systems and the specifications, differences and challenges of the two datasets are given in Section \ref{AcquireData}. {\color{blue} Section \ref{DASOS_Voxelisation} gives an overview of the way the DATA are interpreted within DASOS and its  functionalities. Section \ref{Visualisations} focuses on the reconstruction of polygonal meshes from the FW LiDAR data, while Section \ref{Optimisations} investigates different data structures for efficient reconstruction. Section \ref{Alignment} introduces the hyperspectral data for improving the visual output of the polygonal meshes and the generation of tree coverage maps. Section \ref{Classifications} suggest a new approach of detecting dead standing eucalyptuses without tree delineation. By the end, Section \ref{Conclusions} contains a summary of the thesis and future work. }

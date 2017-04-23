@@ -5,7 +5,7 @@
 	\section{Introduction}	
 	\par In this chapter, the hyperspectral images are introduced to improve the visual output of the polygonal meshes derived from the FW LiDAR data (Chapter \ref{Visualisations}).  The combination of NERC-ARF LiDAR and hyperspectal data from New Forest (Figure \ref{fig:dataInstrumentsRelations}) for generating tree coverage maps is investigated.
 	
-   {\color{blue} Please note that specialised definitions (i.e. bands and level-1) are used in this chapter and if you are not familiar with these terms it is highly recommended to read Section \ref{sec:HyperspectralImages} again, which explains hyperspectral imagery.}
+    Please note that specialised definitions (i.e. bands and level-1) are used in this chapter and if you are not familiar with these terms it is highly recommended to consult Section \ref{sec:HyperspectralImages}, which explains hyperspectral imagery.
 	
 	\section{Previous Work}
 	
@@ -25,7 +25,7 @@
 \section{Spatial Representation of Hyperspectral Pixels for Quick Search}\label{sec:SpatialRepresentation}
 
 
-	\par For the New Forest Dataset (Figure \ref{fig:dataInstrumentsRelations}), there are both FW LiDAR and hyperspectral data. {\color{blue} The data are collected from two independent instruments and, while they are flown together, each instrument has a slightly different view point, a different resolution/sensing mechanism and data collection parameters (e.g. integration time).  Therefore the data collected are not aligned to each other (e.g. for each waveform there is no trivial-correspondence to a spectral measurement).} To integrate the data geo-spatially, alignment of the data is required.  As mentioned at Section \ref{sec:HyperspectralImages}, in order to preserve the highest possible quality and reduce blurring that occurs during geo-rectification, data in the original sensing geometry (level-1) are used.
+	\par For the New Forest Dataset (Figure \ref{fig:dataInstrumentsRelations}), there are both FW LiDAR and hyperspectral data. The data are collected from two independent instruments and, while they are flown together, each instrument has a slightly different view point, a different resolution/sensing mechanism and data collection parameters (e.g. integration time).  Therefore the data collected are not aligned to each other (e.g. for each waveform there is no trivial-correspondence to a spectral measurement). To integrate the data geo-spatially, alignment of the data is required.  As mentioned at Section \ref{sec:HyperspectralImages}, in order to preserve the highest possible quality and reduce blurring that occurs during geo-rectification, data in the original sensing geometry (level-1) are used.
 	
 	\par In Anderson et al. \cite{Anderson2008}, an inverse distance weighted algorithm is used to rasterise the hyperspectral images and the pixel size is constant, 15.8m, while in this study an approach similar to Warren et al. \cite{Warren2014} is used and the resolution is changeable. The main concept of our geo-rectification algorithm is to be able to find the nearest hyperspectral pixel to a point in the fastest possible way. For that reason, a spatial representation of the hyperspectral pixels is created by importing the pixels into a 2D grid, similar to \cite{Warren2014}. The cell size of the grid in meters is constant, but the dimensions of the grid in number of squares $(n_x, n_y)$ can be varied according to the chosen average number of pixels per square $(A_{ps})$: 
 	
@@ -35,7 +35,7 @@
 	
 	\par Where $n_s$ is the number of samples and $n_l$ is the number of lines of the hyperspectral cube (figure \ref{fig:hyperspectralCube}).
 	
-	\par {\color{blue}Furthermore, Warren et al. \cite{Warren2014} uses a tree-like structure, here a structure similar to hash tables is used to spatially represent the pixels and speeding up searching. As shown in Figure \ref{fig:HashTable}, for each cell there is a bucket containing all the points that lie inside it. The hash function takes as input the unique key of the cell and returns the memory location of the corresponding bucket. The key of a cell with coordinates $(x_s,y_s)$ is is equal to $(x_s + y_s *n_x)$ where $n_x$ is the number of pixels in the x-axis.}
+	\par Furthermore, Warren et al. \cite{Warren2014} uses a tree-like structure, here a structure similar to hash tables is used to spatially represent the pixels and speeding up searching. As shown in Figure \ref{fig:HashTable}, for each cell there is a bucket containing all the points that lie inside it. The hash function takes as input the unique key of the cell and returns the memory location of the corresponding bucket. The key of a cell with coordinates $(x_s,y_s)$ is is equal to $(x_s + y_s *n_x)$ where $n_x$ is the number of pixels in the x-axis.
 	
 	 \begin{figure} [h!]
 	 	\centering
@@ -82,7 +82,7 @@
 
 	
 			
-	\par  The (level-1) hyperspectral images look deformed because the pixel size is not consistent. {\color{blue} (Figure \ref{fig:ProjectingHyperspectral} shows that inconsistency).}
+	\par  The (level-1) hyperspectral images look deformed because the pixel size is not consistent (Figure \ref{fig:ProjectingHyperspectral} shows that inconsistency).
 	 DASOS resolves this problem by adjusting the texture coordinates of the polygonal mesh according to the geolocation of the pixels. The texture coordinates $(u, v)$ of each vertex lies inside the range $[0, 1]$ and if they are multiplied by the height/width of the texture, then the position of the corresponding pixel of the texture is given. In order to calculate the texture coordinates of each vertex $(x_v, y_v, z_v)$, the spatial representation of the hyperspectral pixels (explained at Section \ref{sec:SpatialRepresentation}) is used for quickly detecting the pixel $(x_p, y_p )$, whose geolocation is the closest to a vertex. By dividing the pixel position with the number of samples $(n_s)$ and lines $(n_l)$ in the hyperspectral image, the texture coordinates $(u, v)$ of each vertex $v(x_v , y_v)$ are calculated:
 		
 	\begin{eqnarray}
