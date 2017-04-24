@@ -84,13 +84,13 @@
  		
 \begin{abstract}	
    
-   {\color{blue}
-         \par Full-waveform (FW) LiDAR is a particularly useful source of information in forestry since it samples data between tree branches, but compared to discrete LiDAR, there are very few researchers exploiting this due to the increased complexity. DASOS, an open source program, is developed along with this thesis to improve the adoption of FW LiDAR. DASOS uses voxelisation for interpreting the data and this approach is fundamentally different from state-of-art tools. There are three key features of DASOS, reflecting key contributions of this thesis:
-         \par Visualisation of a forest improves field work planning.  Polygonal meshes are generated using DASOS, by extracting an iso-surface from the voxelised data. Additionally, six data structures are tested for optimising iso-surface extraction. The new structure, `Integral Volumes', is the fastest but the best choice depends on the size of the data.
-         \par Furthermore, the FW LiDAR data are efficiently aligned with hyperspectral imagery using a geo-spatial representation stored within a hashed table with buckets of points. The outputs of DASOS are coloured polygonal meshes, which improves the visual output, and aligned metrics from the FW LiDAR and hyperspectral imagery. The metrics are used for generating tree coverage maps and it is demonstrated that the increased amount of information improves classification.
-         \par The last feature is the extraction of feature vectors that characterise objects, such as trees, in 3D. This is used for detecting dead standing eucalyptus trees in a native Australian forest for managing biodiversity without tree delineation.  Random forest, a weighted-distance KNN algorithm and a seed growth algorithm are used to predict positions of dead trees. Improvements in the results from increasing numbers of training samples was prevented due to the noise in the field data. It is nevertheless demonstrated that forest health assessment without tree delineation is possible. Cleaner training samples that are adjustable to tree heights would have improved prediction.
+
+         \par Full-waveform (FW) LiDAR is a particularly useful source of information in forestry since it samples data between tree branches, but compared to discrete LiDAR, there are very few researchers exploiting this due to the increased complexity. DASOS, an open source program, was developed, along with this thesis, to improve the adoption of FW LiDAR. DASOS uses voxelisation for interpreting the data and this approach is fundamentally different from state-of-art tools. There are three key features of DASOS, reflecting the key contributions of this thesis:
+         \par Firstly, visualisation of a forest to improve field work planning.  Polygonal meshes are generated using DASOS, by extracting an iso-surface from the voxelised data. Additionally, six data structures are tested for optimising iso-surface extraction. The new structure, `Integral Volumes', is the fastest but the best choice depends on the size of the data.
+         \par Secondly, the FW LiDAR data are efficiently aligned with hyperspectral imagery using a geo-spatial representation stored within a hashed table with buckets of points. The outputs of DASOS are coloured polygonal meshes, which improves the visual output, and aligned metrics from the FW LiDAR and hyperspectral imagery. The metrics are used for generating tree coverage maps and it is demonstrated that the increased amount of information improves classification.
+         \par The last feature is the extraction of feature vectors that characterise objects, such as trees, in 3D. This is used for detecting dead standing eucalyptus trees in a native Australian forest for managing biodiversity without tree delineation. A random forest classifier, a weighted-distance KNN algorithm and a seed growth algorithm are used to predict positions of dead trees. Improvements in the results from increasing numbers of training samples was prevented due to the noise in the field data. It is nevertheless demonstrated that forest health assessment without tree delineation is possible. Cleaner training samples that are adjustable to tree heights would have improved prediction.
   
-    }
+    
     
      \thispagestyle{empty}
 \end{abstract}
@@ -114,11 +114,11 @@
 	\subfile{tex/Abbreviations.tex}
 	\newpage
 	\section{Publications}
-		\textbf{DASOS-User Guide}, M. Miltiadou, N.D.F Campbell, M. Brown, S.C. Aracil, M.A. Warren, D. Clewley, D.Cosker, and M. Grant, Full-waveform LiDAR workshop at Interpine Group Ltd, Rotorua NZ, 2016\newline
-		\textbf{Improving and Optimising Visualisations of full-waveform LiDAR data}, M. Miltiadou, M. Brown, N.D.F Campbell,  D. Cosker, M. Grant, \textit{EuroGraphics UK, Computer Graphics \& Visual Computing}, 2016 \newline
+		\textbf{DASOS-User Guide}, M. Miltiadou, N.D.F Campbell, M. Brown, S.C. Aracil, M.A. Warren, D. Clewley, D.Cosker, and M. Grant, Full-waveform LiDAR workshop at Interpine Group Ltd, Rotorua NZ, 2016 - (Appendix \ref{DASOS_userGuide})\newline
+		\textbf{Improving and Optimising Visualisations of full-waveform LiDAR data}, M. Miltiadou, M. Brown, N.D.F Campbell,  D. Cosker, M. Grant, \textit{EuroGraphics UK, Computer Graphics \& Visual Computing}, 2016 (Sections \ref{sec:IVopt} and Section \ref{sec:ProjectingHyperspectral}) \newline
 		University of Bath
-		\textbf{Alignment of Hyperspectral Imagery and Full-Waveform LiDAR data for visualisation and classification purposes}, M. Miltiadou, M. A. Warren, M. Grant, and M. Brown, \textit{The International Archives of Photogrammetry, Remote Sensing and Spatial Information Sciences}, vol. 40, no. 7, p. 1257, 2015.\newline
-		\textbf{Reconstruction of a 3D Polygon Representation from Full-Wavefrom LiDAR data}, M. Miltiadou, M. Grant, M. Brown, M. Warren, and E. Carolan,\textit{RSPSoc Annual Conference, New Sensors for a Changing World}, 2014.\newline
+		\textbf{Alignment of Hyperspectral Imagery and Full-Waveform LiDAR data for visualisation and classification purposes}, M. Miltiadou, M. A. Warren, M. Grant, and M. Brown, \textit{The International Archives of Photogrammetry, Remote Sensing and Spatial Information Sciences}, vol. 40, no. 7, p. 1257, 2015 - (Section \ref{Alignment})\newline
+		\textbf{Reconstruction of a 3D Polygon Representation from Full-Wavefrom LiDAR data}, M. Miltiadou, M. Grant, M. Brown, M. Warren, and E. Carolan,\textit{RSPSoc Annual Conference, New Sensors for a Changing World}, 2014 - (Section \ref{Visualisations})\newline
 	 
 	
 	\section{Awards}
@@ -131,7 +131,7 @@
 		\textbf{ForestSAT Conference},2016 , Santiago, Chile - Oral Presentation \newline
 		\textbf{Computer Graphics \& Visual Computing (CGVC)},2016, Bournemouth, United Kingdom - Poster Presentation \newline
 		\textbf{Silvilaser}, 2015, La Grant Motte, France - Oral Presentation \newline
-		\textbf{International Symposium of Remote Sensing of the Environment 	(ISRSE)}, 2015, Berlin, German - Oral Presentation\newline
+		\textbf{International Symposium of Remote Sensing of the Environment 	(ISRSE)}, 2015, Berlin, German - Poster Presentation\newline
 		\textbf{Remote Sensing and Photogrammetry Society (RSPSoc) Conference, New Sensors for a Changing world} , 2014, Aberystwyth, United Kingdom - Oral Presentation \newline
 	
 	 
@@ -140,6 +140,14 @@
 		\textbf{Demonstration of DASOS\_v2 at the practical LiDAR session} at \textit{ the NERC ARF annual workshop}, 2017, Plymouth, United Kingdom \newline
 
 
+    \section{Intended Publications}
+       \textbf{Data structures for Efficient Surface Reconstruction of Non-Manifold Volumetric Data}, M. Miltiadou, N.D.F Campbell, D. Cosker, M. Grant,\textit{IEEE Transactions of Visualisation and Computer Graphics} - (Section \ref{Visualisations})\newline
+       \textbf{Detection of Dead Standing Eucalyptuses without Tree Delineation for Managing Biodiversity in Native Australian Forest},  M. Miltiadou, N.D.F Campbell, S.C. Aracil, T. Brown, M. Grant,\textit{Remote Sensing of the Environment} - (Section \ref{Visualisations})\newline
+       
+       
+  
+       	
+       	
 	\setcounter{secnumdepth}{1}
    	\setcounter{tocdepth}{1}
     \tableofcontents	 
@@ -183,7 +191,7 @@
 	\chapter{Alignment with Hyperspectral Imagery}\label{Alignment}
 		\subfile{tex/Alignment.tex}
 		\newpage		
-	\chapter{Detection of Dead Standing Eucalyptus without Tree Delineation for Managing Biodiversity in Native Australian Forest}\label{Classifications}
+	\chapter{Detection of Dead Standing Eucalyptuses without Tree Delineation for Managing Biodiversity in Native Australian Forest}\label{Classifications}
 		\subfile{tex/Classifications.tex}
 		\newpage
 	\chapter{Summary and Future Work}\label{Conclusions}
@@ -195,13 +203,13 @@
 	    \bibliography{mybib}{}
         \newpage
 
-   \setcounter{secnumdepth}{4}
-   \pagenumbering{roman}
+%   \setcounter{secnumdepth}{4}
+ %  \pagenumbering{roman}
   
    	
-		\newpage
-		\thispagestyle{empty}
-		\newpage
+%		\newpage
+%		\thispagestyle{empty}
+%		\newpage
 				
 				
 	\begin{appendices}
