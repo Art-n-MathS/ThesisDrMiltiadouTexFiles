@@ -4,7 +4,7 @@ Efficient Accumulation, Analysis and Visualisation of Full-Waveform LiDAR in a V
 This repository contains the Latex (.tex) files for the EngD thesis submitted by Milto Miltiadou for the degree of Doctor of Engineering of the University of Bath (Centre for Digital Entertainment, Department of Computer Science) and Plymouth Marine Laboratory (Remote Sensing Group). 
 
 
-Publications derived from this thesis (published during and after viva):
+Publications derived from this thesis (published before and after viva):
 -------------------------------------------------------------------------------
 - Detection of dead standing Eucalyptus camaldulensis without tree delineation for managing biodiversity in native Australian forest. Miltiadou, M., Campbell, N. D., Aracil, S. G., Brown, T., & Grant, M. G. (2018). International journal of applied earth observation and geoinformation, 67, 135-147.
 doi: https://doi.org/10.1016/j.jag.2018.01.008
