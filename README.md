@@ -36,3 +36,12 @@ doi: https://doi.org/10.3390/f12091152
 - Identification of Significative LiDAR Metrics and Comparison of Machine Learning Approaches for Estimating Stand and Diversity Variables in Heterogeneous Brazilian Atlantic Forest. Martins-Neto, R. P., Tommaselli, A. M. G., Imai, N. N., David, H. C., Miltiadou, M., & Honkavaara, E. (2021). Remote Sensing, 13(13), 2444.
 doi: https://doi.org/10.3390/rs13132444
 
+
+Related Courses:
+----------------
+Introduction to LaTeX (free): https://www.geo.university/courses/introduction-to-latex?ref=67f4b2
+
+"Overview of LiDAR; system variations, data interpretation & applications": https://www.geo.university/courses/overview-of-lidar-system-variations-data-interpretation-applications?ref=67f4b2
+
+
+
