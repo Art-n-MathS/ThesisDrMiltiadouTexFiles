@@ -43,5 +43,8 @@ Introduction to LaTeX (free): https://www.geo.university/courses/introduction-to
 
 "Overview of LiDAR; system variations, data interpretation & applications": https://www.geo.university/courses/overview-of-lidar-system-variations-data-interpretation-applications?ref=67f4b2
 
+GeoPremium: provides access to all courses of GeoUniversity: https://www.geo.university/bundles/geo-premium?ref=67f4b2
+
+
 
 
