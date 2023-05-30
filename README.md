@@ -36,6 +36,9 @@ doi: https://doi.org/10.3390/f12091152
 - Identification of Significative LiDAR Metrics and Comparison of Machine Learning Approaches for Estimating Stand and Diversity Variables in Heterogeneous Brazilian Atlantic Forest. Martins-Neto, R. P., Tommaselli, A. M. G., Imai, N. N., David, H. C., Miltiadou, M., & Honkavaara, E. (2021). Remote Sensing, 13(13), 2444.
 doi: https://doi.org/10.3390/rs13132444
 
+- Tree Species Classification in a Complex Brazilian Tropical Forest Using Hyperspectral and LiDAR Data. Pereira Martins-Neto, R., Garcia Tommaselli, A. M., Imai, N. N., Honkavaara, E., Miltiadou, M., Saito Moriya, E. A., & David, H. C. (2023). Forests, 14(5), 945.
+doi: https://doi.org/10.3390/f14050945
+
 
 Related Courses:
 ----------------
